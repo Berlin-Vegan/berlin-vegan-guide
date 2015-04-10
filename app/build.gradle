@@ -1,6 +1,30 @@
 apply plugin: 'com.android.application'
 
 android {
+    def gitTag = {
+        def tagMatchOptions
+        try {
+            tagMatchOptions = '--match ' + tagToBuildFrom
+        } catch (MissingPropertyException) {
+            tagMatchOptions = ''
+        }
+        def exec = 'git describe --exact HEAD ' + tagMatchOptions
+        exec.execute().text.trim()
+    }()
+    def gitHash = 'git rev-parse --short HEAD'.execute().text.trim()
+    def gitBranch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+    def hasModifiedDeletedOrOtherFiles = !'git ls-files -mdo --exclude-standard'.execute().text.trim().isEmpty()
+    def hasStagedFiles = !'git diff-index --no-ext-diff --name-only --cached HEAD'.execute().text.trim().isEmpty()
+    def dirtyWorkingCopy = hasModifiedDeletedOrOtherFiles || hasStagedFiles
+    def gitDescription = dirtyWorkingCopy ? "${gitHash}-dirty" : gitHash
+
+    // Version name: ignore leading non-digits and everything after the first underscore
+    // Version code: take digits after the first underscore
+    // e.g. tag xxx1.2.3.foo-bar_15_baz will yield versionName 1.2.3.foo-bar and versionCode 15
+    def versionMatcher = gitTag =~ /^[^0-9]*([^_]*)(_([0-9]*))?/
+    def versionNameFromTag = versionMatcher[0][1]
+    def versionCodeFromTag = versionMatcher[0][3]?.toInteger()
+
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
@@ -8,8 +32,13 @@ android {
         applicationId "org.berlin_vegan.bvapp_alpha"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 1
-        versionName "0.1"
+        versionCode versionCodeFromTag ?: 1
+        versionName versionNameFromTag ?: gitBranch
+        if (versionName) {
+            buildConfigField "String", "VERSION_GIT_DESCRIPTION", "\"${versionName}-${gitDescription}\""
+        } else {
+            buildConfigField "String", "VERSION_GIT_DESCRIPTION", "\"empty version name\""
+        }
     }
     buildTypes {
         release {
