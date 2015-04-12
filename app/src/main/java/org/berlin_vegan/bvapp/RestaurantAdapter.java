@@ -5,8 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
+
+import static android.view.View.OnClickListener;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
 
@@ -38,16 +41,23 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         return new RestaurantViewHolder(itemView);
     }
 
-    public static class RestaurantViewHolder extends RecyclerView.ViewHolder {
+    public static class RestaurantViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
         protected TextView vTitle;
         protected TextView vName;
         protected TextView vAddress;
 
         public RestaurantViewHolder(View v) {
             super(v);
+            v.setOnClickListener(this);
             vTitle = (TextView) v.findViewById(R.id.title);
             vName = (TextView) v.findViewById(R.id.text_view_name);
             vAddress = (TextView) v.findViewById(R.id.text_view_address);
+        }
+
+        @Override
+        public void onClick(View view) {
+            // TODO: open new view with detailed restaurant description
+            Toast.makeText(view.getContext(), "position = " + getPosition(), Toast.LENGTH_SHORT).show();
         }
     }
 }
