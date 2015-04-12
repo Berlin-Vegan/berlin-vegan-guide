@@ -2,6 +2,7 @@ package org.berlin_vegan.bvapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.ActionBarActivity;
@@ -51,6 +52,10 @@ public class BaseActivity extends ActionBarActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_settings:
+                break;
+            case R.id.action_about:
+                Intent intent = new Intent(this, AboutActivity.class);
+                this.startActivity(intent);
                 break;
             case R.id.action_filter:
                 break;
