@@ -28,7 +28,6 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
     public void onBindViewHolder(GastroLocationViewHolder gastroLocationViewHolder, int i) {
         GastroLocation gastroLocation = gastroLocationList.get(i);
         gastroLocationViewHolder.vTitle.setText(gastroLocation.getName());
-        gastroLocationViewHolder.vName.setText(gastroLocation.getName());
         gastroLocationViewHolder.vStreet.setText(gastroLocation.getStreet());
     }
 
@@ -43,14 +42,12 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
 
     public static class GastroLocationViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
         protected TextView vTitle;
-        protected TextView vName;
         protected TextView vStreet;
 
         public GastroLocationViewHolder(View v) {
             super(v);
             v.setOnClickListener(this);
             vTitle = (TextView) v.findViewById(R.id.title);
-            vName = (TextView) v.findViewById(R.id.text_view_name);
             vStreet = (TextView) v.findViewById(R.id.text_view_street);
         }
 
