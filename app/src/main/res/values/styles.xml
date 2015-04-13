@@ -18,8 +18,6 @@
         <item name="android:textColorSecondary">@color/theme_primary_secondary_text</item>
         <!-- Used to color the overflow menu icon -->
         <item name="actionMenuTextColor">@color/theme_primary_text</item>
-        <!-- Color of the Toolbar -->
-        <item name="android:background">@color/theme_primary</item>
     </style>
 
 </resources>
