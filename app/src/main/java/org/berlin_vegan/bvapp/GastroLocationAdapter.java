@@ -1,11 +1,12 @@
 package org.berlin_vegan.bvapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import static android.view.View.OnClickListener;
 
 public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAdapter.GastroLocationViewHolder> {
 
-    private List<GastroLocation> gastroLocationList;
+    private static List<GastroLocation> gastroLocationList;
 
     public GastroLocationAdapter(List<GastroLocation> gastroLocationList) {
         this.gastroLocationList = gastroLocationList;
@@ -53,8 +54,13 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
 
         @Override
         public void onClick(View view) {
-            // TODO: open new view with detailed gastronomy description
-            Toast.makeText(view.getContext(), "position = " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            Context context = view.getContext();
+            Intent intent = new Intent(context, GastroDescriptionActivity.class);
+            int position = getAdapterPosition();
+            GastroLocation gastroLocation = gastroLocationList.get(position);
+            intent.putExtra("TITLE", gastroLocation.getName());
+            intent.putExtra("DESCRIPTION", gastroLocation.getComment());
+            context.startActivity(intent);
         }
     }
 }
