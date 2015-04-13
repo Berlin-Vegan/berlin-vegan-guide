@@ -20,10 +20,11 @@ public class GastroLocationTest {
     public void testParseLocationsWithGSON() throws Exception {
         final InputStream inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
         final InputStreamReader reader = new InputStreamReader(inputStream);
-        Type listType = new TypeToken<ArrayList<GastroLocation>>(){}.getType();
+        Type listType = new TypeToken<ArrayList<GastroLocation>>() {
+        }.getType();
         final ArrayList<GastroLocation> locationList = new Gson().fromJson(reader, listType);
 
-        assertEquals(3,locationList.size());
-        assertEquals("arleo:",locationList.get(0).getName());
+        assertEquals(3, locationList.size());
+        assertEquals("arleo:", locationList.get(0).getName());
     }
 }
