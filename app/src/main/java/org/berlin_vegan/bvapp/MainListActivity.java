@@ -1,5 +1,9 @@
 package org.berlin_vegan.bvapp;
 
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,8 +32,13 @@ public class MainListActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        GastroLocationAdapter gastroLocationAdapter = new GastroLocationAdapter(createList());
+        List<GastroLocation> gastroLocations = createList();
+        GastroLocationAdapter gastroLocationAdapter = new GastroLocationAdapter(gastroLocations);
         recyclerView.setAdapter(gastroLocationAdapter);
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = new GastroLocationListener(gastroLocations);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
     }
 
     private List<GastroLocation> createList() {
@@ -39,5 +48,48 @@ public class MainListActivity extends BaseActivity {
         }.getType();
         final List<GastroLocation> locationList = new Gson().fromJson(reader, listType);
         return locationList;
+    }
+
+    private class GastroLocationListener implements LocationListener {
+
+        private List<GastroLocation> gastroLocations;
+
+        public GastroLocationListener(List<GastroLocation> gastroLocations) {
+            this.gastroLocations = gastroLocations;
+        }
+
+        @Override
+        public void onLocationChanged(Location location) {
+            Location locationFromList = new Location("");
+            float distanceInMeters;
+            float distanceInKiloMeters;
+            float distanceRoundOnePlace;
+            for (int i = 0; i < gastroLocations.size(); i++) {
+                GastroLocation gastroLocation = gastroLocations.get(i);
+                locationFromList.setLatitude(gastroLocation.getLatCoord());
+                locationFromList.setLongitude(gastroLocation.getLongCoord());
+                distanceInMeters = locationFromList.distanceTo(location);
+                distanceInKiloMeters = distanceInMeters / 1000;
+                // 1. explicit cast to float necessary, otherwise we always get x.0 values
+                // 2. Math.round(1.234 * 10) / 10 = Math.round(12.34) / 10 = 12 / 10 = 1.2
+                distanceRoundOnePlace = (float) Math.round(distanceInKiloMeters * 10) / 10;
+                gastroLocation.setDistToCurLoc(distanceRoundOnePlace);
+            }
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            // TODO: handle onStatusChanged
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            // TODO: handle onProviderEnabled
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            // TODO: handle onProviderDisabled
+        }
     }
 }

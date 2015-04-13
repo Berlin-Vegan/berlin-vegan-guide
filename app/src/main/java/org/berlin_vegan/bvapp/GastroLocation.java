@@ -12,6 +12,7 @@ public class GastroLocation {
     private String district;
     private Double latCoord;
     private Double longCoord;
+    private Float distToCurLoc;
     private String publicTransport;
     private String website;
     private String otMon;
@@ -100,6 +101,14 @@ public class GastroLocation {
 
     public void setLongCoord(Double longCoord) {
         this.longCoord = longCoord;
+    }
+
+    public Float getDistToCurLoc() {
+        return distToCurLoc;
+    }
+
+    public void setDistToCurLoc(Float distToCurLoc) {
+        this.distToCurLoc = distToCurLoc;
     }
 
     public String getPublicTransport() {

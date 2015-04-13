@@ -30,6 +30,8 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
         GastroLocation gastroLocation = gastroLocationList.get(i);
         gastroLocationViewHolder.vTitle.setText(gastroLocation.getName());
         gastroLocationViewHolder.vStreet.setText(gastroLocation.getStreet());
+        // TODO: remove hard-coded 'km' string
+        gastroLocationViewHolder.vDistance.setText(String.valueOf(gastroLocation.getDistToCurLoc()) + " km");
     }
 
     @Override
@@ -44,12 +46,14 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
     public static class GastroLocationViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
         protected TextView vTitle;
         protected TextView vStreet;
+        protected TextView vDistance;
 
         public GastroLocationViewHolder(View v) {
             super(v);
             v.setOnClickListener(this);
             vTitle = (TextView) v.findViewById(R.id.title);
             vStreet = (TextView) v.findViewById(R.id.text_view_street);
+            vDistance = (TextView) v.findViewById(R.id.text_view_distance);
         }
 
         @Override
