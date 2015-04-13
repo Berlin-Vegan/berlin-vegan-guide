@@ -56,8 +56,8 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
 
         @Override
         public void onClick(View view) {
-            // TODO: open new view with detailed restaurant description
-            Toast.makeText(view.getContext(), "position = " + getPosition(), Toast.LENGTH_SHORT).show();
+            // TODO: open new view with detailed gastronomy description
+            Toast.makeText(view.getContext(), "position = " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
         }
     }
 }
