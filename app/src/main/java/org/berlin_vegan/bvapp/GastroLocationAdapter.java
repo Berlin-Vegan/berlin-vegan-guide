@@ -11,42 +11,42 @@ import java.util.List;
 
 import static android.view.View.OnClickListener;
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
+public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAdapter.GastroLocationViewHolder> {
 
-    private List<RestaurantInfo> restaurantInfoList;
+    private List<GastroLocation> gastroLocationList;
 
-    public RestaurantAdapter(List<RestaurantInfo> restaurantInfoList) {
-        this.restaurantInfoList = restaurantInfoList;
+    public GastroLocationAdapter(List<GastroLocation> gastroLocationList) {
+        this.gastroLocationList = gastroLocationList;
     }
 
     @Override
     public int getItemCount() {
-        return restaurantInfoList.size();
+        return gastroLocationList.size();
     }
 
     @Override
-    public void onBindViewHolder(RestaurantViewHolder restaurantViewHolder, int i) {
-        RestaurantInfo restaurantInfo = restaurantInfoList.get(i);
-        restaurantViewHolder.vTitle.setText(restaurantInfo.name);
-        restaurantViewHolder.vName.setText(restaurantInfo.name);
-        restaurantViewHolder.vAddress.setText(restaurantInfo.address);
+    public void onBindViewHolder(GastroLocationViewHolder gastroLocationViewHolder, int i) {
+        GastroLocation gastroLocation = gastroLocationList.get(i);
+        gastroLocationViewHolder.vTitle.setText(gastroLocation.name);
+        gastroLocationViewHolder.vName.setText(gastroLocation.name);
+        gastroLocationViewHolder.vAddress.setText(gastroLocation.street);
     }
 
     @Override
-    public RestaurantViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public GastroLocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.card_view, viewGroup, false);
 
-        return new RestaurantViewHolder(itemView);
+        return new GastroLocationViewHolder(itemView);
     }
 
-    public static class RestaurantViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
+    public static class GastroLocationViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
         protected TextView vTitle;
         protected TextView vName;
         protected TextView vAddress;
 
-        public RestaurantViewHolder(View v) {
+        public GastroLocationViewHolder(View v) {
             super(v);
             v.setOnClickListener(this);
             vTitle = (TextView) v.findViewById(R.id.title);

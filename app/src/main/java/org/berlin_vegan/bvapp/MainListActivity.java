@@ -20,18 +20,18 @@ public class MainListActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        RestaurantAdapter restaurantAdapter = new RestaurantAdapter(createList(30));
-        recyclerView.setAdapter(restaurantAdapter);
+        GastroLocationAdapter gastroLocationAdapter = new GastroLocationAdapter(createList(30));
+        recyclerView.setAdapter(gastroLocationAdapter);
     }
 
     // TODO: remove if actual data is available
-    private List<RestaurantInfo> createList(int size) {
-        List<RestaurantInfo> result = new ArrayList<>();
+    private List<GastroLocation> createList(int size) {
+        List<GastroLocation> result = new ArrayList<>();
         for (int i = 1; i <= size; i++) {
-            RestaurantInfo restaurantInfo = new RestaurantInfo();
-            restaurantInfo.name = RestaurantInfo.NAME_PREFIX + i;
-            restaurantInfo.address = RestaurantInfo.ADDRESS_PREFIX + i;
-            result.add(restaurantInfo);
+            GastroLocation gastroLocation = new GastroLocation();
+            gastroLocation.name = GastroLocation.NAME_PREFIX + i;
+            gastroLocation.street = GastroLocation.ADDRESS_PREFIX + i;
+            result.add(gastroLocation);
         }
         return result;
     }
