@@ -4,11 +4,19 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainListActivity extends BaseActivity {
+
+    private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,19 +28,16 @@ public class MainListActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        GastroLocationAdapter gastroLocationAdapter = new GastroLocationAdapter(createList(30));
+        GastroLocationAdapter gastroLocationAdapter = new GastroLocationAdapter(createList());
         recyclerView.setAdapter(gastroLocationAdapter);
     }
 
-    // TODO: remove if actual data is available
-    private List<GastroLocation> createList(int size) {
-        List<GastroLocation> result = new ArrayList<>();
-        for (int i = 1; i <= size; i++) {
-            GastroLocation gastroLocation = new GastroLocation();
-            gastroLocation.name = GastroLocation.NAME_PREFIX + i;
-            gastroLocation.street = GastroLocation.ADDRESS_PREFIX + i;
-            result.add(gastroLocation);
-        }
-        return result;
+    private List<GastroLocation> createList() {
+        final InputStream inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
+        final InputStreamReader reader = new InputStreamReader(inputStream);
+        Type listType = new TypeToken<ArrayList<GastroLocation>>() {
+        }.getType();
+        final List<GastroLocation> locationList = new Gson().fromJson(reader, listType);
+        return locationList;
     }
 }

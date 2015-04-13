@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GastroLocation {
-    protected static final String NAME_PREFIX = "Restaurant_";
-    protected static final String ADDRESS_PREFIX = "Address_";
-
     private String id;
-    protected String name;
-    protected String street;
+    private String name;
+    private String street;
     private Integer cityCode;
     private String city;
     private String district;
