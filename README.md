@@ -31,11 +31,11 @@ childChair              | number      | child chair available<sup>1</sup>
 catering                | number      | catering available<sup>1</sup>
 delivery                | number      | delivery available<sup>1</sup>
 organic                 | number      | mostly organic food<sup>1</sup>
-seatsOutdoor            | number      | number of seats, -1 = unknow
-seatsIndoor             | number      | number of seats indoor , -1 = unknow
+seatsOutdoor            | number      | number of seats, -1 = unknown
+seatsIndoor             | number      | number of seats indoor , -1 = unknown
 comment                 | string      | description for location
 wlan                    | number      | free wifi available<sup>1</sup>
 glutenFree              | number      | gluten free food available<sup>1</sup>
 tags                    | stringarray | used for type of location: restaurant, imbiss, eiscafe, cafe
 
-<sup>(1)</sup> 1 = yes, 0 = no, -1 = unknow
+<sup>(1)</sup> 1 = yes, 0 = no, -1 = unknown
