@@ -3,4 +3,7 @@
     <string name="action_settings">Einstellungen</string>
     <string name="action_about">Über</string>
     <string name="action_filter">Filter</string>
+
+    <string name="km_string">Km</string>
+    <string name="miles_string">Meilen</string>
 </resources>

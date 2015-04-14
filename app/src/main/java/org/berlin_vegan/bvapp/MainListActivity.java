@@ -16,30 +16,54 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-
 public class MainListActivity extends BaseActivity {
 
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
-
+    private LocationManager locationManager;
+    private LocationListener locationListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_list_activity);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
+        //fast scroll
+
+
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
         List<GastroLocation> gastroLocations = createList();
-        GastroLocationAdapter gastroLocationAdapter = new GastroLocationAdapter(gastroLocations);
+        GastroLocationAdapter gastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(),
+                gastroLocations);
         recyclerView.setAdapter(gastroLocationAdapter);
+        locationListener = new GastroLocationListener(gastroLocations);
 
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locationListener = new GastroLocationListener(gastroLocations);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        requestLocationUpdates();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        removeLocationUpdates();
+    }
+
+    private void requestLocationUpdates() {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+    }
+
+    private void removeLocationUpdates() {
+        if (locationManager != null)
+            locationManager.removeUpdates(locationListener);
     }
 
     private List<GastroLocation> createList() {
@@ -65,6 +89,9 @@ public class MainListActivity extends BaseActivity {
             float distanceInMeters;
             float distanceInKiloMeters;
             float distanceRoundOnePlace;
+            //remove to preserve battery
+            removeLocationUpdates();
+
             for (int i = 0; i < gastroLocations.size(); i++) {
                 GastroLocation gastroLocation = gastroLocations.get(i);
                 locationFromList.setLatitude(gastroLocation.getLatCoord());

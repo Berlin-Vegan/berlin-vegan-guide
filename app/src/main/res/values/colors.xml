@@ -9,6 +9,11 @@
     <color name="theme_primary_secondary_text">#727272</color>
     <color name="theme_primary_divider">#B6B6B6</color>
 
+    <color name="material_dialog_background">#FFFFFF</color>
+    <color name="material_dialog_content">@color/theme_primary_secondary_text</color>
+    <color name="material_dialog_title">@color/theme_primary_secondary_text</color>
+    <color name="material_dialog_buttons">@color/theme_primary</color>
+
     <!-- Green -->
     <!--
     <color name="theme_primary">#4CAF50</color>

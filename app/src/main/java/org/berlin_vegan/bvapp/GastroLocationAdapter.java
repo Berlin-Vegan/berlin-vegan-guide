@@ -15,9 +15,11 @@ import static android.view.View.OnClickListener;
 public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAdapter.GastroLocationViewHolder> {
 
     private static List<GastroLocation> gastroLocationList;
+    private Context mContext;
 
-    public GastroLocationAdapter(List<GastroLocation> gastroLocationList) {
+    public GastroLocationAdapter(Context context, List<GastroLocation> gastroLocationList) {
         this.gastroLocationList = gastroLocationList;
+        mContext = context;
     }
 
     @Override
@@ -30,8 +32,9 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
         GastroLocation gastroLocation = gastroLocationList.get(i);
         gastroLocationViewHolder.vTitle.setText(gastroLocation.getName());
         gastroLocationViewHolder.vStreet.setText(gastroLocation.getStreet());
-        // TODO: remove hard-coded 'km' string
-        gastroLocationViewHolder.vDistance.setText(String.valueOf(gastroLocation.getDistToCurLoc()) + " km");
+        // TODO: change metric to miles under settings
+        gastroLocationViewHolder.vDistance.setText(String.valueOf(gastroLocation.getDistToCurLoc()) +
+                " " + mContext.getString(R.string.km_string));
     }
 
     @Override

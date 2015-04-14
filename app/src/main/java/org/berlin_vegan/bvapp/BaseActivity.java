@@ -2,7 +2,6 @@ package org.berlin_vegan.bvapp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.ActionBarActivity;
@@ -15,13 +14,13 @@ import android.view.MenuItem;
  */
 public class BaseActivity extends ActionBarActivity {
     private final Activity main = (Activity) this;
-    private Context c;
+    private Context mContext;
     private Toolbar mToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        this.c = getApplicationContext();
+
     }
 
     @Override
@@ -29,6 +28,7 @@ public class BaseActivity extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        this.mContext = this;
     }
 
 
@@ -54,8 +54,11 @@ public class BaseActivity extends ActionBarActivity {
             case R.id.action_settings:
                 break;
             case R.id.action_about:
-                Intent intent = new Intent(this, AboutActivity.class);
-                this.startActivity(intent);
+                if (mContext != null) {
+                    UiUtils.showMaterialDialog(mContext, getResources().getString(R.string.app_name),
+                            BuildConfig.VERSION_GIT_DESCRIPTION);
+                }
+
                 break;
             case R.id.action_filter:
                 break;
