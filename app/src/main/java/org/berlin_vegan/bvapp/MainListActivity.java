@@ -16,11 +16,13 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
 public class MainListActivity extends BaseActivity {
 
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
     private LocationManager locationManager;
     private LocationListener locationListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +30,6 @@ public class MainListActivity extends BaseActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         //fast scroll
-
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
