@@ -4,6 +4,6 @@
     <string name="action_about">Über</string>
     <string name="action_filter">Filter</string>
 
-    <string name="km_string">Km</string>
-    <string name="miles_string">Meilen</string>
+    <string name="km_string">km</string>
+    <string name="mi_string">mi</string>
 </resources>
