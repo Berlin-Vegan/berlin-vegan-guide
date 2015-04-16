@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainListActivity extends BaseActivity {
 
@@ -89,6 +90,7 @@ public class MainListActivity extends BaseActivity {
             Location locationFromList = new Location("");
             float distanceInMeters;
             float distanceInKiloMeters;
+            float distanceInMiles;
             float distanceRoundOnePlace;
             //remove to preserve battery
             removeLocationUpdates();
@@ -99,9 +101,14 @@ public class MainListActivity extends BaseActivity {
                 locationFromList.setLongitude(gastroLocation.getLongCoord());
                 distanceInMeters = locationFromList.distanceTo(location);
                 distanceInKiloMeters = distanceInMeters / 1000;
+                distanceInMiles = distanceInKiloMeters * (float) 0.621371192;
                 // 1. explicit cast to float necessary, otherwise we always get x.0 values
                 // 2. Math.round(1.234 * 10) / 10 = Math.round(12.34) / 10 = 12 / 10 = 1.2
-                distanceRoundOnePlace = (float) Math.round(distanceInKiloMeters * 10) / 10;
+                if (Locale.getDefault().getLanguage().equals(Locale.GERMAN.getLanguage())) {
+                    distanceRoundOnePlace = (float) Math.round(distanceInKiloMeters * 10) / 10;
+                } else {
+                    distanceRoundOnePlace = (float) Math.round(distanceInMiles * 10) / 10;
+                }
                 gastroLocation.setDistToCurLoc(distanceRoundOnePlace);
             }
         }

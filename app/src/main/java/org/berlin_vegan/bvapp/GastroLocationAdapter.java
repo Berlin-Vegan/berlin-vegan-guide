@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 import static android.view.View.OnClickListener;
 
@@ -33,8 +34,14 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
         gastroLocationViewHolder.vTitle.setText(gastroLocation.getName());
         gastroLocationViewHolder.vStreet.setText(gastroLocation.getStreet());
         // TODO: change metric to miles under settings
-        gastroLocationViewHolder.vDistance.setText(String.valueOf(gastroLocation.getDistToCurLoc()) +
-                " " + mContext.getString(R.string.km_string));
+        // string for distance unit depends on system-wide language settings
+        String distance = String.valueOf(gastroLocation.getDistToCurLoc()) + " ";
+        if (Locale.getDefault().getLanguage().equals(Locale.GERMAN.getLanguage())) {
+            distance += mContext.getString(R.string.km_string);
+        } else {
+            distance += mContext.getString(R.string.mi_string);
+        }
+        gastroLocationViewHolder.vDistance.setText(distance);
     }
 
     @Override
