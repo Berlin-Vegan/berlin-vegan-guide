@@ -6,4 +6,6 @@
 
     <string name="km_string">km</string>
     <string name="mi_string">mi</string>
+    <string name="please_wait">Bitte warten...</string>
+    <string name="retrieving_gps_data">Empfange GPS-Daten</string>
 </resources>

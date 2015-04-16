@@ -1,5 +1,7 @@
 package org.berlin_vegan.bvapp;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -23,6 +25,8 @@ public class MainListActivity extends BaseActivity {
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private Location locationFromList;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +41,28 @@ public class MainListActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        initLocation();
         List<GastroLocation> gastroLocations = createList();
         GastroLocationAdapter gastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(),
                 gastroLocations);
         recyclerView.setAdapter(gastroLocationAdapter);
         locationListener = new GastroLocationListener(gastroLocations);
+    }
 
+    private void initLocation() {
+        // runnable to determine when the first GPS fix was received.
+        Runnable showWaitDialog = new Runnable() {
+            @Override
+            public void run() {
+                while (locationFromList == null) {
+                    // wait for first GPS fix (do nothing)
+                }
+                dialog.dismiss();
+            }
+        };
+        dialog = ProgressDialog.show(this, getString(R.string.please_wait), getString(R.string.retrieving_gps_data), true);
+        Thread t = new Thread(showWaitDialog);
+        t.start();
     }
 
     @Override
@@ -87,7 +107,7 @@ public class MainListActivity extends BaseActivity {
 
         @Override
         public void onLocationChanged(Location location) {
-            Location locationFromList = new Location("");
+            locationFromList = new Location("");
             float distanceInMeters;
             float distanceInKiloMeters;
             float distanceInMiles;
