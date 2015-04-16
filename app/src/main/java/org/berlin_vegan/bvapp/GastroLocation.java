@@ -12,7 +12,7 @@ public class GastroLocation {
     private String district;
     private Double latCoord;
     private Double longCoord;
-    private Float distToCurLoc;
+    private Float distToCurLoc = -1.0f;
     private String publicTransport;
     private String website;
     private String otMon;

@@ -33,15 +33,18 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
         GastroLocation gastroLocation = gastroLocationList.get(i);
         gastroLocationViewHolder.vTitle.setText(gastroLocation.getName());
         gastroLocationViewHolder.vStreet.setText(gastroLocation.getStreet());
-        // TODO: change metric to miles under settings
-        // string for distance unit depends on system-wide language settings
-        String distance = String.valueOf(gastroLocation.getDistToCurLoc()) + " ";
-        if (Locale.getDefault().getLanguage().equals(Locale.GERMAN.getLanguage())) {
-            distance += mContext.getString(R.string.km_string);
-        } else {
-            distance += mContext.getString(R.string.mi_string);
+        float distToCurLoc = gastroLocation.getDistToCurLoc();
+        if (distToCurLoc > -1.0f) {
+            // TODO: change metric to miles under settings
+            // string for distance unit depends on system-wide language settings
+            String distance = String.valueOf(distToCurLoc) + " ";
+            if (Locale.getDefault().getLanguage().equals(Locale.GERMAN.getLanguage())) {
+                distance += mContext.getString(R.string.km_string);
+            } else {
+                distance += mContext.getString(R.string.mi_string);
+            }
+            gastroLocationViewHolder.vDistance.setText(distance);
         }
-        gastroLocationViewHolder.vDistance.setText(distance);
     }
 
     @Override
