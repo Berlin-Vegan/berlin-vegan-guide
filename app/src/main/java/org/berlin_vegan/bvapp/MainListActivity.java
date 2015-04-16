@@ -23,6 +23,7 @@ import java.util.Locale;
 public class MainListActivity extends BaseActivity {
 
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
+    private GastroLocationAdapter gastroLocationAdapter;
     private LocationManager locationManager;
     private LocationListener locationListener;
     private Location locationFromList;
@@ -43,8 +44,7 @@ public class MainListActivity extends BaseActivity {
 
         initLocation();
         List<GastroLocation> gastroLocations = createList();
-        GastroLocationAdapter gastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(),
-                gastroLocations);
+        gastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(), gastroLocations);
         recyclerView.setAdapter(gastroLocationAdapter);
         locationListener = new GastroLocationListener(gastroLocations);
     }
@@ -131,6 +131,7 @@ public class MainListActivity extends BaseActivity {
                 }
                 gastroLocation.setDistToCurLoc(distanceRoundOnePlace);
             }
+            gastroLocationAdapter.notifyDataSetChanged();
         }
 
         @Override
