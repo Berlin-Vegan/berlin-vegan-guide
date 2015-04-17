@@ -3,7 +3,7 @@ package org.berlin_vegan.bvapp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GastroLocation {
+public class GastroLocation implements Comparable<GastroLocation> {
     private String id;
     private String name;
     private String street;
@@ -293,6 +293,20 @@ public class GastroLocation {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    @Override
+    public int compareTo(GastroLocation other) {
+        if (this.getDistToCurLoc() == null && other.getDistToCurLoc() == null) {
+            return 0;
+        }
+        if (this.getDistToCurLoc() == null) {
+            return 1;
+        }
+        if (this.getDistToCurLoc() == null) {
+            return -1;
+        }
+        return this.getDistToCurLoc().compareTo(other.getDistToCurLoc());
     }
 }
 

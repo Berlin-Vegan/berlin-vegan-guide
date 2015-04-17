@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -131,6 +132,7 @@ public class MainListActivity extends BaseActivity {
                 }
                 gastroLocation.setDistToCurLoc(distanceRoundOnePlace);
             }
+            Collections.sort(gastroLocations);
             gastroLocationAdapter.notifyDataSetChanged();
         }
 
