@@ -3,10 +3,12 @@ package org.berlin_vegan.bvapp;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -19,7 +21,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 public class MainListActivity extends BaseActivity {
 
@@ -47,7 +48,7 @@ public class MainListActivity extends BaseActivity {
         List<GastroLocation> gastroLocations = createList();
         gastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(), gastroLocations);
         recyclerView.setAdapter(gastroLocationAdapter);
-        locationListener = new GastroLocationListener(gastroLocations);
+        locationListener = new GastroLocationListener(this, gastroLocations);
     }
 
     private void initLocation() {
@@ -102,9 +103,13 @@ public class MainListActivity extends BaseActivity {
     private class GastroLocationListener implements LocationListener {
 
         private List<GastroLocation> gastroLocations;
+        private Context context;
+        private SharedPreferences sharedPreferences;
 
-        public GastroLocationListener(List<GastroLocation> gastroLocations) {
+        public GastroLocationListener(Context context, List<GastroLocation> gastroLocations) {
             this.gastroLocations = gastroLocations;
+            this.context = context;
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context);
         }
 
         @Override
@@ -126,7 +131,7 @@ public class MainListActivity extends BaseActivity {
                 distanceInMiles = distanceInKiloMeters * (float) 0.621371192;
                 // 1. explicit cast to float necessary, otherwise we always get x.0 values
                 // 2. Math.round(1.234 * 10) / 10 = Math.round(12.34) / 10 = 12 / 10 = 1.2
-                if (Locale.getDefault().getLanguage().equals(Locale.GERMAN.getLanguage())) {
+                if (sharedPreferences.getBoolean("key_units", true)) {
                     distanceRoundOnePlace = (float) Math.round(distanceInKiloMeters * 10) / 10;
                 } else {
                     distanceRoundOnePlace = (float) Math.round(distanceInMiles * 10) / 10;
