@@ -1,7 +1,6 @@
 package org.berlin_vegan.bvapp;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -53,7 +52,7 @@ public class MainListActivity extends BaseActivity {
 
     private void initLocation() {
         // runnable to determine when the first GPS fix was received.
-        Runnable showWaitDialog = new Runnable() {
+        Runnable showProgressDialog = new Runnable() {
             @Override
             public void run() {
                 while (locationFromList == null) {
@@ -62,8 +61,8 @@ public class MainListActivity extends BaseActivity {
                 dialog.dismiss();
             }
         };
-        dialog = ProgressDialog.show(this, getString(R.string.please_wait), getString(R.string.retrieving_gps_data), true);
-        Thread t = new Thread(showWaitDialog);
+        dialog = UiUtils.showMaterialProgressDialog(this, getString(R.string.please_wait), getString(R.string.retrieving_gps_data));
+        Thread t = new Thread(showProgressDialog);
         t.start();
     }
 

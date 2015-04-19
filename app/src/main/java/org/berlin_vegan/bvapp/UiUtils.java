@@ -23,4 +23,18 @@ public class UiUtils {
                 .build();
         dialog.show();
     }
+
+    public static MaterialDialog showMaterialProgressDialog(Context context, String title, String content) {
+        MaterialDialog dialog = new MaterialDialog.Builder(context)
+                .title(title)
+                .content(content)
+                .autoDismiss(true)
+                .contentColorRes(R.color.material_dialog_content)
+                .titleColorRes(R.color.material_dialog_title)
+                .backgroundColorRes(R.color.material_dialog_background)
+                .progress(true, 0)
+                .build();
+        dialog.show();
+        return dialog;
+    }
 }
