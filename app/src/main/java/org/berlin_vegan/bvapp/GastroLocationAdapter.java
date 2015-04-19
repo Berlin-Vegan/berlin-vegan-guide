@@ -78,8 +78,7 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
             Intent intent = new Intent(context, GastroActivity.class);
             int position = getAdapterPosition();
             GastroLocation gastroLocation = mGastroLocationList.get(position);
-            intent.putExtra("TITLE", gastroLocation.getName());
-            intent.putExtra("DESCRIPTION", gastroLocation.getComment());
+            intent.putExtra("GASTRO_LOCATION", gastroLocation);
             context.startActivity(intent);
         }
     }

@@ -8,7 +8,7 @@ import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 
 public class GastroActivity extends BaseActivity {
 
-    private String mTitle;
+    private GastroLocation mGastroLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,16 +17,14 @@ public class GastroActivity extends BaseActivity {
         // set title
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
-            if (extras == null) {
-                mTitle = "";
-            } else {
-                mTitle = extras.getString("TITLE");
+            if (extras != null) {
+                mGastroLocation = (GastroLocation) extras.getSerializable("GASTRO_LOCATION");
             }
         } else {
-            mTitle = (String) savedInstanceState.getSerializable("TITLE");
+            mGastroLocation = (GastroLocation) savedInstanceState.getSerializable("GASTRO_LOCATION");
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(mTitle);
+        toolbar.setTitle(mGastroLocation.getName());
         // tab handling
         CharSequence[] titles = {getString(R.string.description), getString(R.string.details)};
         int numOfTabs = titles.length;
@@ -46,7 +44,7 @@ public class GastroActivity extends BaseActivity {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putSerializable("TITLE", mTitle);
+        savedInstanceState.putSerializable("GASTRO_LOCATION", mGastroLocation);
         super.onSaveInstanceState(savedInstanceState);
     }
 }

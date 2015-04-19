@@ -1,9 +1,10 @@
 package org.berlin_vegan.bvapp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GastroLocation implements Comparable<GastroLocation> {
+public class GastroLocation implements Comparable<GastroLocation>, Serializable {
     private String id;
     private String name;
     private String street;
