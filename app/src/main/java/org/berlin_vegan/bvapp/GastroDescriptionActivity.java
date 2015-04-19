@@ -8,12 +8,13 @@ import android.widget.TextView;
 
 public class GastroDescriptionActivity extends BaseActivity {
 
+    private String title;
+    private String description;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gastro_description_activity);
-        String title;
-        String description;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
@@ -33,5 +34,12 @@ public class GastroDescriptionActivity extends BaseActivity {
         // the description is html content and fromHtml() returns type Spanned
         vDescription.setText(Html.fromHtml(description), TextView.BufferType.SPANNABLE);
         vDescription.setMovementMethod(new ScrollingMovementMethod());
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable("TITLE", title);
+        savedInstanceState.putSerializable("DESCRIPTION", description);
+        super.onSaveInstanceState(savedInstanceState);
     }
 }
