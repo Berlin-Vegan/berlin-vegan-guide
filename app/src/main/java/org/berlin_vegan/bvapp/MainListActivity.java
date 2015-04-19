@@ -34,6 +34,7 @@ public class MainListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_list_activity);
+        setTitle(getString(R.string.app_name) + " " + getString(R.string.guide));
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         //fast scroll
