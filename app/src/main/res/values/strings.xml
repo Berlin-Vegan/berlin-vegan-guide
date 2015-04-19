@@ -12,4 +12,6 @@
     <string name="units_summaryOn">Use metric system</string>
     <string name="units_summaryOff">Use imperial system</string>
     <string name="guide">Guide</string>
+    <string name="description">Description</string>
+    <string name="details">Details</string>
 </resources>
