@@ -24,11 +24,11 @@ import java.util.List;
 public class MainListActivity extends BaseActivity {
 
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
-    private GastroLocationAdapter gastroLocationAdapter;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
-    private Location locationFromList;
-    private Dialog dialog;
+    private GastroLocationAdapter mGastroLocationAdapter;
+    private LocationManager mLocationManager;
+    private LocationListener mLocationListener;
+    private Location mLocationFromList;
+    private Dialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +46,9 @@ public class MainListActivity extends BaseActivity {
 
         initLocation();
         List<GastroLocation> gastroLocations = createList();
-        gastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(), gastroLocations);
-        recyclerView.setAdapter(gastroLocationAdapter);
-        locationListener = new GastroLocationListener(this, gastroLocations);
+        mGastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(), gastroLocations);
+        recyclerView.setAdapter(mGastroLocationAdapter);
+        mLocationListener = new GastroLocationListener(this, gastroLocations);
     }
 
     private void initLocation() {
@@ -56,13 +56,13 @@ public class MainListActivity extends BaseActivity {
         Runnable showProgressDialog = new Runnable() {
             @Override
             public void run() {
-                while (locationFromList == null) {
+                while (mLocationFromList == null) {
                     // wait for first GPS fix (do nothing)
                 }
-                dialog.dismiss();
+                mDialog.dismiss();
             }
         };
-        dialog = UiUtils.showMaterialProgressDialog(this, getString(R.string.please_wait), getString(R.string.retrieving_gps_data));
+        mDialog = UiUtils.showMaterialProgressDialog(this, getString(R.string.please_wait), getString(R.string.retrieving_gps_data));
         Thread t = new Thread(showProgressDialog);
         t.start();
     }
@@ -80,15 +80,15 @@ public class MainListActivity extends BaseActivity {
     }
 
     private void requestLocationUpdates() {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         // TODO: to save battery set values for minTime and minDistance in requestLocationUpdates(...)
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mLocationListener);
     }
 
     private void removeLocationUpdates() {
-        if (locationManager != null)
-            locationManager.removeUpdates(locationListener);
+        if (mLocationManager != null)
+            mLocationManager.removeUpdates(mLocationListener);
     }
 
     private List<GastroLocation> createList() {
@@ -114,7 +114,7 @@ public class MainListActivity extends BaseActivity {
 
         @Override
         public void onLocationChanged(Location location) {
-            locationFromList = new Location("");
+            mLocationFromList = new Location("");
             float distanceInMeters;
             float distanceInKiloMeters;
             float distanceInMiles;
@@ -124,9 +124,9 @@ public class MainListActivity extends BaseActivity {
 
             for (int i = 0; i < gastroLocations.size(); i++) {
                 GastroLocation gastroLocation = gastroLocations.get(i);
-                locationFromList.setLatitude(gastroLocation.getLatCoord());
-                locationFromList.setLongitude(gastroLocation.getLongCoord());
-                distanceInMeters = locationFromList.distanceTo(location);
+                mLocationFromList.setLatitude(gastroLocation.getLatCoord());
+                mLocationFromList.setLongitude(gastroLocation.getLongCoord());
+                distanceInMeters = mLocationFromList.distanceTo(location);
                 distanceInKiloMeters = distanceInMeters / 1000;
                 distanceInMiles = distanceInKiloMeters * (float) 0.621371192;
                 // 1. explicit cast to float necessary, otherwise we always get x.0 values
@@ -139,7 +139,7 @@ public class MainListActivity extends BaseActivity {
                 gastroLocation.setDistToCurLoc(distanceRoundOnePlace);
             }
             Collections.sort(gastroLocations);
-            gastroLocationAdapter.notifyDataSetChanged();
+            mGastroLocationAdapter.notifyDataSetChanged();
         }
 
         @Override

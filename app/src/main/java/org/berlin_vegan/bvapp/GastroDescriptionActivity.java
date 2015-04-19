@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 public class GastroDescriptionActivity extends BaseActivity {
 
-    private String title;
-    private String description;
+    private String mTitle;
+    private String mDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,28 +18,28 @@ public class GastroDescriptionActivity extends BaseActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
-                title = "";
-                description = "";
+                mTitle = "";
+                mDescription = "";
             } else {
-                title = extras.getString("TITLE");
-                description = extras.getString("DESCRIPTION");
+                mTitle = extras.getString("TITLE");
+                mDescription = extras.getString("DESCRIPTION");
             }
         } else {
-            title = (String) savedInstanceState.getSerializable("TITLE");
-            description = (String) savedInstanceState.getSerializable("DESCRIPTION");
+            mTitle = (String) savedInstanceState.getSerializable("TITLE");
+            mDescription = (String) savedInstanceState.getSerializable("DESCRIPTION");
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(title);
+        toolbar.setTitle(mTitle);
         TextView vDescription = (TextView) findViewById(R.id.text_view_description);
         // the description is html content and fromHtml() returns type Spanned
-        vDescription.setText(Html.fromHtml(description), TextView.BufferType.SPANNABLE);
+        vDescription.setText(Html.fromHtml(mDescription), TextView.BufferType.SPANNABLE);
         vDescription.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putSerializable("TITLE", title);
-        savedInstanceState.putSerializable("DESCRIPTION", description);
+        savedInstanceState.putSerializable("TITLE", mTitle);
+        savedInstanceState.putSerializable("DESCRIPTION", mDescription);
         super.onSaveInstanceState(savedInstanceState);
     }
 }

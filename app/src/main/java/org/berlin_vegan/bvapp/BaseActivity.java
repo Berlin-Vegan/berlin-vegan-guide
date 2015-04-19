@@ -14,7 +14,7 @@ import android.view.MenuItem;
  * Created by georgi on 4/10/15.
  */
 public class BaseActivity extends ActionBarActivity {
-    private final Activity main = (Activity) this;
+    private final Activity mMain = (Activity) this;
     private Context mContext;
     private Toolbar mToolbar;
 
@@ -29,7 +29,7 @@ public class BaseActivity extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        this.mContext = this;
+        mContext = this;
     }
 
 
@@ -38,7 +38,7 @@ public class BaseActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
 
         //change the menu based on the calling activity
-        if (main instanceof MainListActivity) {
+        if (mMain instanceof MainListActivity) {
             getMenuInflater().inflate(R.menu.menu_main_list, menu);
         }
         //else other activities
