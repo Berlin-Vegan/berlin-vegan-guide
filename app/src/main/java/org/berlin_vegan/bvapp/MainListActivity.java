@@ -80,10 +80,15 @@ public class MainListActivity extends BaseActivity {
     }
 
     private void requestLocationUpdates() {
+        final int minTime = 3 * 60 * 1000; // e.g. 5 * 60 * 1000 (5 minutes)
+        final int minDistance = 100;
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        // TODO: to save battery set values for minTime and minDistance in requestLocationUpdates(...)
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
-        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mLocationListener);
+        if (mLocationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER)) {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, mLocationListener);
+        }
+        if (mLocationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, mLocationListener);
+        }
     }
 
     private void removeLocationUpdates() {
