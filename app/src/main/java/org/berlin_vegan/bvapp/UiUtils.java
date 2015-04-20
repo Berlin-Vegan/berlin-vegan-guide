@@ -9,8 +9,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
  */
 public class UiUtils {
 
-    //show master route info dialog
-    public static void showMaterialDialog(Context context, String title, String content) {
+    public static MaterialDialog showMaterialDialog(Context context, String title, String content) {
         MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .title(title)
                 .content(content)
@@ -22,6 +21,7 @@ public class UiUtils {
                 .positiveColorRes(R.color.material_dialog_buttons)
                 .build();
         dialog.show();
+        return dialog;
     }
 
     public static MaterialDialog showMaterialProgressDialog(Context context, String title, String content) {
