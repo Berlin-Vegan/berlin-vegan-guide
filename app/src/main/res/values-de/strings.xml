@@ -14,4 +14,6 @@
     <string name="guide">Guide</string>
     <string name="description">Beschreibung</string>
     <string name="details">Details</string>
+    <string name="error">Fehler</string>
+    <string name="no_gps_data">Keine GPS-Daten empfangen. Die Liste wird in der Standard-Reihenfolge angezeigt.</string>
 </resources>

@@ -56,8 +56,19 @@ public class MainListActivity extends BaseActivity {
         Runnable showProgressDialog = new Runnable() {
             @Override
             public void run() {
+                final long startTimeMillis = System.currentTimeMillis();
+                final int waitTimeMillis = 20 * 1000;
                 while (mLocationFromList == null) {
                     // wait for first GPS fix (do nothing)
+                    if ((System.currentTimeMillis() - startTimeMillis) > waitTimeMillis) {
+                        MainListActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                UiUtils.showMaterialDialog(MainListActivity.this, getString(R.string.error), getString(R.string.no_gps_data));
+                            }
+                        });
+                        break;
+                    }
                 }
                 mDialog.dismiss();
             }
