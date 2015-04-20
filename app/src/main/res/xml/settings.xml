@@ -2,10 +2,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SwitchPreference
-        android:key="key_units"
-        android:title="@string/units"
         android:defaultValue="true"
+        android:key="key_units"
+        android:summaryOff="@string/units_summaryOff"
         android:summaryOn="@string/units_summaryOn"
-        android:summaryOff="@string/units_summaryOff" />
+        android:title="@string/units" />
 
 </PreferenceScreen>
