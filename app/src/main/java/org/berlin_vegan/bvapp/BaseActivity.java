@@ -62,8 +62,6 @@ public class BaseActivity extends ActionBarActivity {
                 }
 
                 break;
-            case R.id.action_filter:
-                break;
         }
 
 
