@@ -58,8 +58,7 @@ public class BaseActivity extends ActionBarActivity {
                 break;
             case R.id.action_about:
                 if (mContext != null) {
-                    UiUtils.showMaterialDialog(mContext, getResources().getString(R.string.app_name),
-                            BuildConfig.VERSION_GIT_DESCRIPTION);
+                    UiUtils.showMaterialAboutDialog(mContext, getResources().getString(R.string.action_about));
                 }
 
                 break;

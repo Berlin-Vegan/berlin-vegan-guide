@@ -16,4 +16,7 @@
     <string name="details">Details</string>
     <string name="error">Error</string>
     <string name="no_gps_data">No GPS data received. Show list in default order.</string>
+
+    <string name="about_body" formatted="false">&lt;b&gt;%s&lt;/b&gt;&lt;br&gt; Version %s</string>
+    <string name="about_licenses">Open Source Licenses</string>
 </resources>
