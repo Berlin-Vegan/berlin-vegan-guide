@@ -19,4 +19,10 @@
 
     <string name="about_body" formatted="false">&lt;b&gt;%s&lt;/b&gt;&lt;br&gt; Version %s</string>
     <string name="about_licenses">Open-Source-Lizenzen</string>
+
+    <string name="gastro_details_contact_title">Kontakt</string>
+    <string name="gastro_details_contact_address_title">Adresse</string>
+    <string name="gastro_details_contact_address">Keine Adresse</string>
+    <string name="gastro_details_contact_telephone_title">Telefon</string>
+    <string name="gastro_details_contact_telephone">Keine Telefonnummer</string>
 </resources>

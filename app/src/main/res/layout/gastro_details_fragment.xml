@@ -3,4 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/gastro_details_contact_title"
+        layout="@layout/gastro_details_contact"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gastro_details_item_height" />
 </RelativeLayout>

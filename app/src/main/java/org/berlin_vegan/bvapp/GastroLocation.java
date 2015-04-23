@@ -15,6 +15,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     private Double longCoord;
     private Float distToCurLoc = -1.0f;
     private String publicTransport;
+    private String telephone;
     private String website;
     private String otMon;
     private String otTue;
@@ -118,6 +119,14 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
 
     public void setPublicTransport(String publicTransport) {
         this.publicTransport = publicTransport;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
     public String getWebsite() {
