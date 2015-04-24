@@ -57,7 +57,7 @@ public class MainListActivity extends BaseActivity {
         //fast scroll
 
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -65,6 +65,12 @@ public class MainListActivity extends BaseActivity {
         List<GastroLocation> gastroLocations = createList();
         mGastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(), gastroLocations);
         recyclerView.setAdapter(mGastroLocationAdapter);
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                mSwipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
+            }
+        });
         mLocationListener = new GastroLocationListener(this, gastroLocations);
     }
 
