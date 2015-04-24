@@ -8,6 +8,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -24,6 +25,7 @@ import java.util.List;
 public class MainListActivity extends BaseActivity {
 
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private GastroLocationAdapter mGastroLocationAdapter;
     private LocationManager mLocationManager;
     private LocationListener mLocationListener;
@@ -35,6 +37,21 @@ public class MainListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_list_activity);
         setTitle(getString(R.string.app_name) + " " + getString(R.string.guide));
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.main_list_activity_swipe_refresh_layout);
+        mSwipeRefreshLayout.setColorSchemeResources(
+                R.color.refresh_progress_1,
+                R.color.refresh_progress_2,
+                R.color.refresh_progress_3);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // very import for the runnable further below
+                mLocationFromList = null;
+                removeLocationUpdates();
+                requestLocationUpdates();
+                initLocation();
+            }
+        });
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         //fast scroll
@@ -71,9 +88,17 @@ public class MainListActivity extends BaseActivity {
                     }
                 }
                 mDialog.dismiss();
+                MainListActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                });
             }
         };
-        mDialog = UiUtils.showMaterialProgressDialog(this, getString(R.string.please_wait), getString(R.string.retrieving_gps_data));
+        if (!mSwipeRefreshLayout.isRefreshing()) {
+            mDialog = UiUtils.showMaterialProgressDialog(this, getString(R.string.please_wait), getString(R.string.retrieving_gps_data));
+        }
         Thread t = new Thread(showProgressDialog);
         t.start();
     }

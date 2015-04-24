@@ -14,6 +14,10 @@
     <color name="material_dialog_title">@color/theme_primary_secondary_text</color>
     <color name="material_dialog_buttons">@color/theme_primary</color>
 
+    <color name="refresh_progress_1">@color/theme_primary_accent</color>
+    <color name="refresh_progress_2">@color/theme_primary_accent</color>
+    <color name="refresh_progress_3">@color/theme_primary</color>
+
     <!-- Green -->
     <!--
     <color name="theme_primary">#4CAF50</color>

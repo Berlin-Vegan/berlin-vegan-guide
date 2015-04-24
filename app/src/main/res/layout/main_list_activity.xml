@@ -6,6 +6,13 @@
 
     <include layout="@layout/toolbar" />
 
-    <include layout="@layout/recycler_view" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/main_list_activity_swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar">
 
+        <include layout="@layout/recycler_view" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>
