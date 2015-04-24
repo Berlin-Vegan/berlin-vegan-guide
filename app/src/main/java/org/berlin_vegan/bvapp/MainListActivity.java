@@ -45,7 +45,7 @@ public class MainListActivity extends BaseActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // very import for the runnable further below
+                // very important for the runnable further below
                 mLocationFromJson = null;
                 removeLocationUpdates();
                 requestLocationUpdates();
