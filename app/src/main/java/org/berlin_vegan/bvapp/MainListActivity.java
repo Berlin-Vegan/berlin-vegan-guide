@@ -29,7 +29,7 @@ public class MainListActivity extends BaseActivity {
     private GastroLocationAdapter mGastroLocationAdapter;
     private LocationManager mLocationManager;
     private LocationListener mLocationListener;
-    private Location mLocationFromList;
+    private Location mLocationFromJson;
     private Dialog mDialog;
 
     @Override
@@ -46,10 +46,10 @@ public class MainListActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 // very import for the runnable further below
-                mLocationFromList = null;
+                mLocationFromJson = null;
                 removeLocationUpdates();
                 requestLocationUpdates();
-                initLocation();
+                receiveCurrentLocation();
             }
         });
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -61,7 +61,7 @@ public class MainListActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        initLocation();
+        receiveCurrentLocation();
         List<GastroLocation> gastroLocations = createList();
         mGastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(), gastroLocations);
         recyclerView.setAdapter(mGastroLocationAdapter);
@@ -74,14 +74,14 @@ public class MainListActivity extends BaseActivity {
         mLocationListener = new GastroLocationListener(this, gastroLocations);
     }
 
-    private void initLocation() {
+    private void receiveCurrentLocation() {
         // runnable to determine when the first GPS fix was received.
-        Runnable showProgressDialog = new Runnable() {
+        Runnable waitForGpsFix = new Runnable() {
             @Override
             public void run() {
                 final long startTimeMillis = System.currentTimeMillis();
                 final int waitTimeMillis = 20 * 1000;
-                while (mLocationFromList == null) {
+                while (mLocationFromJson == null) {
                     // wait for first GPS fix (do nothing)
                     if ((System.currentTimeMillis() - startTimeMillis) > waitTimeMillis) {
                         MainListActivity.this.runOnUiThread(new Runnable() {
@@ -105,7 +105,7 @@ public class MainListActivity extends BaseActivity {
         if (!mSwipeRefreshLayout.isRefreshing()) {
             mDialog = UiUtils.showMaterialProgressDialog(this, getString(R.string.please_wait), getString(R.string.retrieving_gps_data));
         }
-        Thread t = new Thread(showProgressDialog);
+        Thread t = new Thread(waitForGpsFix);
         t.start();
     }
 
@@ -161,7 +161,7 @@ public class MainListActivity extends BaseActivity {
 
         @Override
         public void onLocationChanged(Location location) {
-            mLocationFromList = new Location("");
+            mLocationFromJson = new Location("");
             float distanceInMeters;
             float distanceInKiloMeters;
             float distanceInMiles;
@@ -171,9 +171,9 @@ public class MainListActivity extends BaseActivity {
 
             for (int i = 0; i < gastroLocations.size(); i++) {
                 GastroLocation gastroLocation = gastroLocations.get(i);
-                mLocationFromList.setLatitude(gastroLocation.getLatCoord());
-                mLocationFromList.setLongitude(gastroLocation.getLongCoord());
-                distanceInMeters = mLocationFromList.distanceTo(location);
+                mLocationFromJson.setLatitude(gastroLocation.getLatCoord());
+                mLocationFromJson.setLongitude(gastroLocation.getLongCoord());
+                distanceInMeters = mLocationFromJson.distanceTo(location);
                 distanceInKiloMeters = distanceInMeters / 1000;
                 distanceInMiles = distanceInKiloMeters * (float) 0.621371192;
                 // 1. explicit cast to float necessary, otherwise we always get x.0 values
