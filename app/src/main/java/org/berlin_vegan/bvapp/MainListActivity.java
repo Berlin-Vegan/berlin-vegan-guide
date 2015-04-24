@@ -52,18 +52,17 @@ public class MainListActivity extends BaseActivity {
                 receiveCurrentLocation();
             }
         });
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        //fast scroll
-
-
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
 
         receiveCurrentLocation();
         List<GastroLocation> gastroLocations = createList();
         mGastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(), gastroLocations);
+        mLocationListener = new GastroLocationListener(this, gastroLocations);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(mGastroLocationAdapter);
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -71,7 +70,9 @@ public class MainListActivity extends BaseActivity {
                 mSwipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
             }
         });
-        mLocationListener = new GastroLocationListener(this, gastroLocations);
+        //fast scroll
+
+
     }
 
     private void receiveCurrentLocation() {
