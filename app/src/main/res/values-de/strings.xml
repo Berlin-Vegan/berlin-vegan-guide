@@ -34,4 +34,25 @@
     <string name="gastro_details_opening_hours_content_saturday">Samstag</string>
     <string name="gastro_details_opening_hours_content_sunday">Sonntag</string>
     <string name="gastro_details_opening_hours_content_closed">geschlossen</string>
+    <string name="gastro_details_miscellaneous_title">Sonstiges</string>
+    <string name="gastro_details_miscellaneous_content_catering">Catering</string>
+    <string name="gastro_details_miscellaneous_content_child_chair">Kinderhochstuhl</string>
+    <string name="gastro_details_miscellaneous_content_delivery">Lieferdienst</string>
+    <string name="gastro_details_miscellaneous_content_dog">Hunde erlaubt</string>
+    <string name="gastro_details_miscellaneous_content_gluten_free">Glutenfrei</string>
+    <string name="gastro_details_miscellaneous_content_handicapped_accessible">Behindertengerecht</string>
+    <string name="gastro_details_miscellaneous_content_handicapped_accessible_wc">Behindertengerechtes WC</string>
+    <string name="gastro_details_miscellaneous_content_organic">Bioware</string>
+    <string name="gastro_details_miscellaneous_content_seats_indoor">Stühle im Gebäude</string>
+    <string name="gastro_details_miscellaneous_content_seats_outdoor">Stühle im Freien</string>
+    <string name="gastro_details_miscellaneous_content_vegan">Vegan</string>
+    <string name="gastro_details_miscellaneous_content_wlan">WLAN</string>
+    <string name="gastro_details_miscellaneous_content_yes">ja</string>
+    <string name="gastro_details_miscellaneous_content_no">nein</string>
+    <string name="gastro_details_miscellaneous_content_unknown">unbekannt</string>
+    <string name="gastro_details_miscellaneous_content_omnivore">omnivor</string>
+    <string name="gastro_details_miscellaneous_content_omnivore_vegan_declared">omnivor (vegan deklariert)</string>
+    <string name="gastro_details_miscellaneous_content_vegetarian">vegetarisch</string>
+    <string name="gastro_details_miscellaneous_content_vegetarian_vegan_declared">vegetarisch (vegan deklariert)</string>
+    <string name="gastro_details_miscellaneous_content_completely_vegan">100% vegan</string>
 </resources>

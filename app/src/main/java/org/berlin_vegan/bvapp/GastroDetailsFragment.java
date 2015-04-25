@@ -96,7 +96,68 @@ public class GastroDetailsFragment extends Fragment {
             vOpeningHours.setTextColor(getResources().getColor(R.color.theme_primary_secondary_text));
             gastroDetailsOpeningHoursContent.addView(vOpeningHours);
         }
+        // miscellaneous
+        LinearLayout gastroDetailsMiscellaneousContent = (LinearLayout) v.findViewById(R.id.gastro_details_miscellaneous_content);
+        String[][] miscellaneousData = {
+                {getString(R.string.gastro_details_miscellaneous_content_catering), getMiscellaneousContentString(mGastroLocation.getCatering())},
+                {getString(R.string.gastro_details_miscellaneous_content_child_chair), getMiscellaneousContentString(mGastroLocation.getChildChair())},
+                {getString(R.string.gastro_details_miscellaneous_content_delivery), getMiscellaneousContentString(mGastroLocation.getDelivery())},
+                {getString(R.string.gastro_details_miscellaneous_content_dog), getMiscellaneousContentString(mGastroLocation.getDog())},
+                {getString(R.string.gastro_details_miscellaneous_content_gluten_free), getMiscellaneousContentString(mGastroLocation.getGlutenFree())},
+                {getString(R.string.gastro_details_miscellaneous_content_handicapped_accessible), getMiscellaneousContentString(mGastroLocation.getHandicappedAccessible())},
+                {getString(R.string.gastro_details_miscellaneous_content_handicapped_accessible_wc), getMiscellaneousContentString(mGastroLocation.getHandicappedAccessibleWc())},
+                {getString(R.string.gastro_details_miscellaneous_content_organic), getMiscellaneousContentString(mGastroLocation.getOrganic())},
+                {getString(R.string.gastro_details_miscellaneous_content_seats_indoor), getMiscellaneousContentString(mGastroLocation.getSeatsIndoor())},
+                {getString(R.string.gastro_details_miscellaneous_content_seats_outdoor), getMiscellaneousContentString(mGastroLocation.getSeatsOutdoor())},
+                {getString(R.string.gastro_details_miscellaneous_content_vegan), getVeganContentString(mGastroLocation.getVegan())},
+                {getString(R.string.gastro_details_miscellaneous_content_wlan), getMiscellaneousContentString(mGastroLocation.getWlan())}};
+        for (int i = 0; i < miscellaneousData.length; i++) {
+            // key
+            TextView vMiscellaneousKey = new TextView(getActivity());
+            vMiscellaneousKey.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, getPx(36)));
+            vMiscellaneousKey.setEllipsize(TextUtils.TruncateAt.END);
+            vMiscellaneousKey.setGravity(Gravity.BOTTOM);
+            vMiscellaneousKey.setMaxLines(1);
+            vMiscellaneousKey.setText(miscellaneousData[i][0]);
+            vMiscellaneousKey.setTextColor(getResources().getColor(R.color.theme_primary));
+            gastroDetailsMiscellaneousContent.addView(vMiscellaneousKey);
+            // value
+            TextView vMiscellaneousValue = new TextView(getActivity());
+            vMiscellaneousValue.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            vMiscellaneousValue.setEllipsize(TextUtils.TruncateAt.END);
+            vMiscellaneousValue.setGravity(Gravity.BOTTOM);
+            vMiscellaneousValue.setMaxLines(1);
+            vMiscellaneousValue.setText(miscellaneousData[i][1]);
+            vMiscellaneousValue.setTextColor(getResources().getColor(R.color.theme_primary_secondary_text));
+            gastroDetailsMiscellaneousContent.addView(vMiscellaneousValue);
+        }
         return v;
+    }
+
+    private String getVeganContentString(int i) {
+        if (i == 1) {
+            return getString(R.string.gastro_details_miscellaneous_content_omnivore);
+        } else if (i == 2) {
+            return getString(R.string.gastro_details_miscellaneous_content_omnivore_vegan_declared);
+        } else if (i == 3) {
+            return getString(R.string.gastro_details_miscellaneous_content_vegetarian);
+        } else if (i == 4) {
+            return getString(R.string.gastro_details_miscellaneous_content_vegetarian_vegan_declared);
+        } else if (i == 5) {
+            return getString(R.string.gastro_details_miscellaneous_content_completely_vegan);
+        }
+        return "";
+    }
+
+    private String getMiscellaneousContentString(int i) {
+        if (i == 1) {
+            return getString(R.string.gastro_details_miscellaneous_content_yes);
+        } else if (i == 0) {
+            return getString(R.string.gastro_details_miscellaneous_content_no);
+        } else if (i == -1) {
+            return getString(R.string.gastro_details_miscellaneous_content_unknown);
+        }
+        return "";
     }
 
     private int getPx(int dimensionDp) {

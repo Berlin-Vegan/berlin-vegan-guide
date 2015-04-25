@@ -16,5 +16,9 @@
             android:id="@+id/gastro_details_opening_hours"
             layout="@layout/gastro_details_opening_hours" />
 
+        <include
+            android:id="@+id/gastro_details_miscellaneous"
+            layout="@layout/gastro_details_miscellaneous" />
+
     </LinearLayout>
 </ScrollView>
