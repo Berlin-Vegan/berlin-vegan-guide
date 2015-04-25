@@ -25,4 +25,13 @@
     <string name="gastro_details_contact_address">Keine Adresse</string>
     <string name="gastro_details_contact_telephone_title">Telefon</string>
     <string name="gastro_details_contact_telephone">Keine Telefonnummer</string>
+    <string name="gastro_details_opening_hours_title">Öffnungszeiten</string>
+    <string name="gastro_details_opening_hours_content_monday">Montag</string>
+    <string name="gastro_details_opening_hours_content_tuesday">Dienstag</string>
+    <string name="gastro_details_opening_hours_content_wednesday">Mittwoch</string>
+    <string name="gastro_details_opening_hours_content_thursday">Donnerstag</string>
+    <string name="gastro_details_opening_hours_content_friday">Freitag</string>
+    <string name="gastro_details_opening_hours_content_saturday">Samstag</string>
+    <string name="gastro_details_opening_hours_content_sunday">Sonntag</string>
+    <string name="gastro_details_opening_hours_content_closed">geschlossen</string>
 </resources>
