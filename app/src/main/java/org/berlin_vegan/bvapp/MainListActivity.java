@@ -56,7 +56,8 @@ public class MainListActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         receiveCurrentLocation();
-        List<GastroLocation> gastroLocations = createList();
+        final InputStream inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
+        List<GastroLocation> gastroLocations = createList(inputStream);
         mGastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(), gastroLocations);
         mLocationListener = new GastroLocationListener(this, gastroLocations);
 
@@ -139,8 +140,7 @@ public class MainListActivity extends BaseActivity {
             mLocationManager.removeUpdates(mLocationListener);
     }
 
-    private List<GastroLocation> createList() {
-        final InputStream inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
+    static List<GastroLocation> createList(final InputStream inputStream) {
         final InputStreamReader reader = new InputStreamReader(inputStream);
         Type listType = new TypeToken<ArrayList<GastroLocation>>() {
         }.getType();
