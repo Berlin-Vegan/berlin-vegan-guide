@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="filter_checkboxes">
+        <item>All</item>
+        <item>Vegan only</item>
+        <!--
+        <item>Open now</item>
+        -->
+    </string-array>
+</resources>

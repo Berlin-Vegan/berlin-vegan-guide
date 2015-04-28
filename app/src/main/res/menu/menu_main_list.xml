@@ -16,12 +16,12 @@
         app:showAsAction="never" />
 
     <!-- TODO: implement filters -->
-    <!--
+
     <item
         android:id="@+id/action_filter"
         android:icon="@mipmap/ic_filter_list_white"
         android:orderInCategory="100"
         android:title="@string/action_filter"
         app:showAsAction="always" />
-    -->
+
 </menu>

@@ -14,7 +14,7 @@ public class GastroActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gastro_activity);
-        // set title
+
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
@@ -23,8 +23,7 @@ public class GastroActivity extends BaseActivity {
         } else {
             mGastroLocation = (GastroLocation) savedInstanceState.getSerializable("GASTRO_LOCATION");
         }
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(mGastroLocation.getName());
+
         // tab handling
         CharSequence[] titles = {getString(R.string.description), getString(R.string.details)};
         int numOfTabs = titles.length;
@@ -40,6 +39,19 @@ public class GastroActivity extends BaseActivity {
             }
         });
         tabs.setViewPager(pager);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        Toolbar toolbar = getToolbar();
+
+        if (toolbar != null) {
+            toolbar.setTitle(mGastroLocation.getName());
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
     }
 
     @Override

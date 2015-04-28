@@ -31,6 +31,23 @@ public class UiUtils {
         return dialog;
     }
 
+    public static MaterialDialog showMaterialDialogCheckboxes(Context context, String title,
+                                                              String[] checkBoxItems, int selected,
+                                                              MaterialDialog.ListCallbackSingleChoice checkCallBack) {
+        MaterialDialog dialog = new MaterialDialog.Builder(context)
+                .title(title)
+                .items(checkBoxItems)
+                .itemsCallbackSingleChoice(selected, checkCallBack)
+                .autoDismiss(true)
+                .contentColorRes(R.color.material_dialog_content)
+                .titleColorRes(R.color.material_dialog_title)
+                .backgroundColorRes(R.color.material_dialog_background)
+                .negativeText(android.R.string.cancel)
+                .negativeColorRes(R.color.material_dialog_buttons)
+                .build();
+        dialog.show();
+        return dialog;
+    }
     public static MaterialDialog showMaterialDialog(Context context, String title, SpannableStringBuilder content) {
         MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .title(title)

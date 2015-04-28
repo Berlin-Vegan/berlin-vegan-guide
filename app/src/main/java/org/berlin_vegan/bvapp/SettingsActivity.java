@@ -2,6 +2,7 @@ package org.berlin_vegan.bvapp;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.support.v7.widget.Toolbar;
 
 public class SettingsActivity extends BaseActivity {
 
@@ -11,6 +12,18 @@ public class SettingsActivity extends BaseActivity {
         setContentView(R.layout.settings_activity);
 
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        Toolbar toolbar = getToolbar();
+
+        if (toolbar != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
     }
 
     public static class SettingsFragment extends PreferenceFragment {

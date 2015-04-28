@@ -12,8 +12,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainListActivity"
+
             android:configChanges="orientation"
             android:screenOrientation="portrait">
+            <!--android:configChanges="orientation|screenSize|keyboardHidden" -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,8 +23,13 @@
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/action_settings" />
-        <activity android:name=".GastroActivity" />
+            android:label="@string/action_settings"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:parentActivityName=".MainListActivity" />
+        <activity
+            android:name=".GastroActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:parentActivityName=".MainListActivity" />
     </application>
 
 </manifest>
