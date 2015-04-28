@@ -23,8 +23,8 @@
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/action_settings"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/action_settings"
             android:parentActivityName=".MainListActivity" />
         <activity
             android:name=".GastroActivity"

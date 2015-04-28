@@ -33,6 +33,7 @@ public class MainListActivity extends BaseActivity {
     private static final String TAG = "MainListActivity";
 
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
+    private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private GastroLocationAdapter mGastroLocationAdapter;
     private LocationManager mLocationManager;
@@ -42,12 +43,61 @@ public class MainListActivity extends BaseActivity {
     private Dialog mDialog;
     private SharedPreferences mSharedPreferences;
     private List<GastroLocation> mGastroLocations;
-    RecyclerView mRecyclerView;
+    public final ListCallbackSingleChoice mButtonCallback = new ListCallbackSingleChoice() {
+
+        List<GastroLocation> filteredList = new ArrayList<>();
+
+        @Override
+        public boolean onSelection(MaterialDialog materialDialog, View view, int selected, CharSequence charSequence) {
+            mGastroLocations = getGastroJson();
+            switch (selected) {
+                case 0:
+                    //show all
+                    mGastroLocationAdapter = null;
+                    mGastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(), mGastroLocations);
+                    break;
+                case 1:
+                    if (mGastroLocations != null && mGastroLocations.size() > 0) {
+                        filteredList.clear();
+                        for (GastroLocation gastro : mGastroLocations) {
+                            //vegan declared
+                            if (gastro.getVegan() == 5) {
+                                filteredList.add(gastro);
+                            }
+                        }
+                        if (filteredList.size() > 0) {
+                            mGastroLocations = filteredList;
+                            mGastroLocationAdapter = null;
+                            mGastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(), mGastroLocations);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            mGastroLocationAdapter.notifyDataSetChanged();
+            mRecyclerView.setAdapter(mGastroLocationAdapter);
+            if (mLocationFound != null) {
+                Log.e(TAG, "locationfound");
+                sortGastroLocations();
+            }
+            materialDialog.dismiss();
+            return true;
+        }
+    };
+
+    static List<GastroLocation> createList(final InputStream inputStream) {
+        final InputStreamReader reader = new InputStreamReader(inputStream);
+        Type listType = new TypeToken<ArrayList<GastroLocation>>() {
+        }.getType();
+        final List<GastroLocation> locationList = new Gson().fromJson(reader, listType);
+        return locationList;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         setContentView(R.layout.main_list_activity);
         setTitle(getString(R.string.app_name) + " " + getString(R.string.guide));
@@ -73,7 +123,7 @@ public class MainListActivity extends BaseActivity {
 
         List<GastroLocation> gastroLocations = getGastroJson();
         mGastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(), gastroLocations);
-        mLocationListener = new GastroLocationListener(this, gastroLocations);
+        mLocationListener = new GastroLocationListener(gastroLocations);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -94,6 +144,7 @@ public class MainListActivity extends BaseActivity {
         final InputStream inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
         return createList(inputStream);
     }
+
     private void receiveCurrentLocation() {
         // runnable to determine when the first GPS fix was received.
         Runnable waitForGpsFix = new Runnable() {
@@ -146,6 +197,11 @@ public class MainListActivity extends BaseActivity {
         super.onPause();
         removeLocationUpdates();
     }
+    /*
+    TODO
+    1. Add more filter options
+    2. save state of checkbox - either globally with preference or just for the session and clear preference on app resume
+     */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -158,66 +214,11 @@ public class MainListActivity extends BaseActivity {
         }
     }
 
-    public final ListCallbackSingleChoice mButtonCallback = new ListCallbackSingleChoice() {
-
-        List<GastroLocation> filteredList = new ArrayList<GastroLocation>();
-
-        @Override
-        public boolean onSelection(MaterialDialog materialDialog, View view, int selected, CharSequence charSequence) {
-            mGastroLocations = getGastroJson();
-            switch (selected) {
-
-                case 0:
-                    //show all
-                    mGastroLocationAdapter = null;
-                    mGastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(), mGastroLocations);
-                    break;
-                case 1:
-
-
-                    if (mGastroLocations != null && mGastroLocations.size() > 0) {
-                        filteredList.clear();
-                        for (GastroLocation gastro : mGastroLocations) {
-                            //vegan declared
-                            if (gastro.getVegan() == 5) {
-                                filteredList.add(gastro);
-                            }
-                        }
-                        if (filteredList.size() > 0) {
-                            mGastroLocations = filteredList;
-                            mGastroLocationAdapter = null;
-                            mGastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(), mGastroLocations);
-
-                        }
-                    }
-
-
-                    break;
-                default:
-                    break;
-            }
-
-            mGastroLocationAdapter.notifyDataSetChanged();
-            mRecyclerView.setAdapter(mGastroLocationAdapter);
-            if (mLocationFound != null) {
-                Log.e(TAG, "locationfound");
-                sortGastroLocations();
-            }
-            materialDialog.dismiss();
-            return true;
-        }
-    };
-    /*
-    TODO
-    1. Add more filter options
-    2. save state of checkbox - either globally with preference or just for the session and clear preference on app resume
-     */
-
     private void filterList() {
         UiUtils.showMaterialDialogCheckboxes(MainListActivity.this, getString(R.string.filter_title_dialog),
                 getResources().getStringArray(R.array.filter_checkboxes), -1, mButtonCallback);
-
     }
+
     private void requestLocationUpdates() {
         final int minTime = 3 * 60 * 1000; // e.g. 5 * 60 * 1000 (5 minutes)
         final int minDistance = 100;
@@ -235,14 +236,6 @@ public class MainListActivity extends BaseActivity {
             mLocationManager.removeUpdates(mLocationListener);
     }
 
-    static List<GastroLocation> createList(final InputStream inputStream) {
-        final InputStreamReader reader = new InputStreamReader(inputStream);
-        Type listType = new TypeToken<ArrayList<GastroLocation>>() {
-        }.getType();
-        final List<GastroLocation> locationList = new Gson().fromJson(reader, listType);
-        return locationList;
-    }
-
     public void sortGastroLocations() {
         mLocationFromJson = new Location("");
         float distanceInMeters;
@@ -253,7 +246,6 @@ public class MainListActivity extends BaseActivity {
             GastroLocation gastroLocation = mGastroLocations.get(i);
             mLocationFromJson.setLatitude(gastroLocation.getLatCoord());
             mLocationFromJson.setLongitude(gastroLocation.getLongCoord());
-
             distanceInMeters = mLocationFromJson.distanceTo(mLocationFound);
             distanceInKiloMeters = distanceInMeters / 1000;
             distanceInMiles = distanceInKiloMeters * (float) 0.621371192;
@@ -268,18 +260,15 @@ public class MainListActivity extends BaseActivity {
         }
         Collections.sort(mGastroLocations);
     }
+
     private class GastroLocationListener implements LocationListener {
 
-
-        public GastroLocationListener(Context context, List<GastroLocation> gastroLocations) {
+        public GastroLocationListener(List<GastroLocation> gastroLocations) {
             mGastroLocations = gastroLocations;
-
-
         }
 
         @Override
         public void onLocationChanged(Location location) {
-
             //remove to preserve battery
             removeLocationUpdates();
             mLocationFound = location;

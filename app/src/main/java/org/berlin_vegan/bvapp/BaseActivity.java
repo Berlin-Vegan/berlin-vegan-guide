@@ -1,6 +1,5 @@
 package org.berlin_vegan.bvapp;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,8 +21,6 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-
-
         mContext = this;
     }
 
@@ -33,7 +30,6 @@ public class BaseActivity extends ActionBarActivity {
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-
     }
 
     public Toolbar getToolbar() {

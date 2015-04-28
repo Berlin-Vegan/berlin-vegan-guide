@@ -48,6 +48,7 @@ public class UiUtils {
         dialog.show();
         return dialog;
     }
+
     public static MaterialDialog showMaterialDialog(Context context, String title, SpannableStringBuilder content) {
         MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .title(title)
