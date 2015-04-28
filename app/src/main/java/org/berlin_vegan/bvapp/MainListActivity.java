@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,9 +20,11 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +36,8 @@ public class MainListActivity extends BaseActivity {
     private static final String TAG = "MainListActivity";
 
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
+    private static final String HTTP_GASTRO_LOCATIONS_JSON =
+            "http://www.berlin-vegan.de/app/data/" + GASTRO_LOCATIONS_JSON;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private GastroLocationAdapter mGastroLocationAdapter;
@@ -119,8 +124,12 @@ public class MainListActivity extends BaseActivity {
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
+        // start two threads for 1. retrieving the json from the server and 2. to retrieve the geo location
+        RetrieveGastroLocations retrieveGastroLocations = new RetrieveGastroLocations();
+        retrieveGastroLocations.execute();
         receiveCurrentLocation();
-        List<GastroLocation> gastroLocations = getGastroJson();
+        // set a dummy list, fill it below
+        final List<GastroLocation> gastroLocations = new ArrayList<>();
         mGastroLocationAdapter = new GastroLocationAdapter(this, gastroLocations);
         mGastroLocationListener = new GastroLocationListener(gastroLocations);
 
@@ -142,6 +151,43 @@ public class MainListActivity extends BaseActivity {
     protected List<GastroLocation> getGastroJson() {
         final InputStream inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
         return createList(inputStream);
+    }
+
+    private class RetrieveGastroLocations extends AsyncTask<Void, Void, List<GastroLocation>> {
+        @Override
+        protected List<GastroLocation> doInBackground(Void... params) {
+            // get local json file as fall back
+            boolean useLocalCopy = true;
+            List<GastroLocation> gastroLocations = getGastroJson();
+            try {
+                // fetch json file from server
+                final URL url = new URL(HTTP_GASTRO_LOCATIONS_JSON);
+                InputStream inputStream = url.openStream();
+                useLocalCopy = false;
+                gastroLocations = createList(inputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (useLocalCopy) {
+                Log.i(TAG, "fall back: use local copy of database file");
+            } else {
+                Log.i(TAG, "retrieving database from server successful");
+            }
+            return gastroLocations;
+        }
+
+        @Override
+        protected void onPostExecute(final List<GastroLocation> gastroLocations) {
+            MainListActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // update card view
+                    mGastroLocationListener.setGastroLocations(gastroLocations);
+                    mGastroLocationAdapter.setGastroLocations(gastroLocations);
+                    mGastroLocationAdapter.notifyDataSetChanged();
+                }
+            });
+        }
     }
 
     private void receiveCurrentLocation() {
