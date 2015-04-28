@@ -37,7 +37,7 @@ public class MainListActivity extends BaseActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private GastroLocationAdapter mGastroLocationAdapter;
     private LocationManager mLocationManager;
-    private LocationListener mLocationListener;
+    private GastroLocationListener mGastroLocationListener;
     private Location mLocationFromJson;
     private Location mLocationFound;
     private Dialog mDialog;
@@ -120,10 +120,9 @@ public class MainListActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         receiveCurrentLocation();
-
         List<GastroLocation> gastroLocations = getGastroJson();
-        mGastroLocationAdapter = new GastroLocationAdapter(getApplicationContext(), gastroLocations);
-        mLocationListener = new GastroLocationListener(gastroLocations);
+        mGastroLocationAdapter = new GastroLocationAdapter(this, gastroLocations);
+        mGastroLocationListener = new GastroLocationListener(gastroLocations);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -224,16 +223,16 @@ public class MainListActivity extends BaseActivity {
         final int minDistance = 100;
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (mLocationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER)) {
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, mLocationListener);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, mGastroLocationListener);
         }
         if (mLocationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, mLocationListener);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, mGastroLocationListener);
         }
     }
 
     private void removeLocationUpdates() {
         if (mLocationManager != null)
-            mLocationManager.removeUpdates(mLocationListener);
+            mLocationManager.removeUpdates(mGastroLocationListener);
     }
 
     public void sortGastroLocations() {

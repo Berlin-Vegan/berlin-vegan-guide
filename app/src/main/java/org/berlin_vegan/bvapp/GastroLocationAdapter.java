@@ -16,24 +16,24 @@ import static android.view.View.OnClickListener;
 
 public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAdapter.GastroLocationViewHolder> {
 
-    private static List<GastroLocation> mGastroLocationList;
+    private static List<GastroLocation> mGastroLocations;
     private Context mContext;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences mSharedPreferences;
 
-    public GastroLocationAdapter(Context context, List<GastroLocation> gastroLocationList) {
-        mGastroLocationList = gastroLocationList;
+    public GastroLocationAdapter(Context context, List<GastroLocation> gastroLocations) {
+        mGastroLocations = gastroLocations;
         mContext = context;
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
     }
 
     @Override
     public int getItemCount() {
-        return mGastroLocationList.size();
+        return mGastroLocations.size();
     }
 
     @Override
     public void onBindViewHolder(GastroLocationViewHolder gastroLocationViewHolder, int i) {
-        GastroLocation gastroLocation = mGastroLocationList.get(i);
+        GastroLocation gastroLocation = mGastroLocations.get(i);
         StringBuilder title = new StringBuilder()
                 .append(gastroLocation.getName())
                 .append(" ")
@@ -47,7 +47,7 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
             // TODO: speed up reloading the distances after a settings change
             // string for distance unit depends on settings
             String distance = String.valueOf(distToCurLoc) + " ";
-            if (sharedPreferences.getBoolean("key_units", true)) {
+            if (mSharedPreferences.getBoolean("key_units", true)) {
                 distance += mContext.getString(R.string.km_string);
             } else {
                 distance += mContext.getString(R.string.mi_string);
@@ -83,7 +83,7 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
             Context context = view.getContext();
             Intent intent = new Intent(context, GastroActivity.class);
             int position = getAdapterPosition();
-            GastroLocation gastroLocation = mGastroLocationList.get(position);
+            GastroLocation gastroLocation = mGastroLocations.get(position);
             intent.putExtra("GASTRO_LOCATION", gastroLocation);
             context.startActivity(intent);
         }
