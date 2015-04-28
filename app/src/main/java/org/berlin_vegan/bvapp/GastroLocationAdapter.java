@@ -20,10 +20,18 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
     private Context mContext;
     private SharedPreferences mSharedPreferences;
 
-    public GastroLocationAdapter(Context context, List<GastroLocation> gastroLocations) {
-        mGastroLocations = gastroLocations;
+    public GastroLocationAdapter(Context context) {
         mContext = context;
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+    }
+
+    public GastroLocationAdapter(Context context, List<GastroLocation> gastroLocations) {
+        this(context);
+        setGastroLocations(gastroLocations);
+    }
+
+    public static void setGastroLocations(List<GastroLocation> gastroLocations) {
+        mGastroLocations = gastroLocations;
     }
 
     @Override

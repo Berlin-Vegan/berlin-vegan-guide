@@ -263,6 +263,10 @@ public class MainListActivity extends BaseActivity {
     private class GastroLocationListener implements LocationListener {
 
         public GastroLocationListener(List<GastroLocation> gastroLocations) {
+            setGastroLocations(gastroLocations);
+        }
+
+        public void setGastroLocations(List<GastroLocation> gastroLocations) {
             mGastroLocations = gastroLocations;
         }
 
