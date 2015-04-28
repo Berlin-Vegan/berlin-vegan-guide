@@ -34,7 +34,13 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
     @Override
     public void onBindViewHolder(GastroLocationViewHolder gastroLocationViewHolder, int i) {
         GastroLocation gastroLocation = mGastroLocationList.get(i);
-        gastroLocationViewHolder.vTitle.setText(gastroLocation.getName());
+        StringBuilder title = new StringBuilder()
+                .append(gastroLocation.getName())
+                .append(" ")
+                .append("(")
+                .append(gastroLocation.getDistrict())
+                .append(")");
+        gastroLocationViewHolder.vTitle.setText(title);
         gastroLocationViewHolder.vStreet.setText(gastroLocation.getStreet());
         float distToCurLoc = gastroLocation.getDistToCurLoc();
         if (distToCurLoc > -1.0f) {
