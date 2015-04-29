@@ -7,13 +7,13 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    CharSequence titles[];
-    int numOfTabs;
+    CharSequence mTitles[];
+    int mNumOfTabs;
 
     public ViewPagerAdapter(FragmentManager fragmentManager, Context context) {
         super(fragmentManager);
-        this.titles = new CharSequence[]{context.getString(R.string.details), context.getString(R.string.description)};
-        this.numOfTabs = titles.length;
+        mTitles = new CharSequence[]{context.getString(R.string.details), context.getString(R.string.description)};
+        mNumOfTabs = mTitles.length;
     }
 
     @Override
@@ -29,11 +29,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return titles[position];
+        return mTitles[position];
     }
 
     @Override
     public int getCount() {
-        return numOfTabs;
+        return mNumOfTabs;
     }
 }
