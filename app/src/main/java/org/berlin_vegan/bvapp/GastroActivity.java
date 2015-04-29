@@ -25,7 +25,7 @@ public class GastroActivity extends BaseActivity {
         }
 
         // tab handling
-        CharSequence[] titles = {getString(R.string.description), getString(R.string.details)};
+        CharSequence[] titles = {getString(R.string.details), getString(R.string.description)};
         int numOfTabs = titles.length;
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, numOfTabs);
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
