@@ -47,14 +47,6 @@ public class MainListActivity extends BaseActivity {
     private List<GastroLocation> mGastroLocations = new ArrayList<>();
     private final GastroListCallbackSingleChoice mButtonCallback = new GastroListCallbackSingleChoice(this, mGastroLocations);
 
-    static List<GastroLocation> createList(final InputStream inputStream) {
-        final InputStreamReader reader = new InputStreamReader(inputStream);
-        Type listType = new TypeToken<ArrayList<GastroLocation>>() {
-        }.getType();
-        final List<GastroLocation> locationList = new Gson().fromJson(reader, listType);
-        return locationList;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,14 +108,140 @@ public class MainListActivity extends BaseActivity {
 
     }
 
+    /*
+     * TODO
+     * Save last location - prevent from requestlocationupdates.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        requestLocationUpdates();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        removeLocationUpdates();
+    }
+
+    /*
+     * TODO
+     * 1. Add more filter options
+     * 2. save state of checkbox - either globally with preference or just for the session and clear preference on app resume
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_filter:
+                UiUtils.showMaterialDialogCheckboxes(MainListActivity.this, getString(R.string.filter_title_dialog),
+                        getResources().getStringArray(R.array.filter_checkboxes), -1, mButtonCallback);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     void updateCardView(List<GastroLocation> gastroLocations) {
         sortGastroLocations();
         mGastroLocationAdapter.setGastroLocations(gastroLocations);
         mGastroLocationAdapter.notifyDataSetChanged();
     }
 
+    private void requestLocationUpdates() {
+        final int minTime = 3 * 60 * 1000; // e.g. 5 * 60 * 1000 (5 minutes)
+        final int minDistance = 100;
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (mLocationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER)) {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, mGastroLocationListener);
+        }
+        if (mLocationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, mGastroLocationListener);
+        }
+    }
+
+    void removeLocationUpdates() {
+        if (mLocationManager != null)
+            mLocationManager.removeUpdates(mGastroLocationListener);
+    }
+
+    void sortGastroLocations() {
+        if (mLocationFound == null) {
+            return;
+        }
+
+        mLocationFromJson = new Location("");
+        float distanceInMeters;
+        float distanceInKiloMeters;
+        float distanceInMiles;
+        float distanceRoundOnePlace;
+        for (int i = 0; i < mGastroLocations.size(); i++) {
+            GastroLocation gastroLocation = mGastroLocations.get(i);
+            mLocationFromJson.setLatitude(gastroLocation.getLatCoord());
+            mLocationFromJson.setLongitude(gastroLocation.getLongCoord());
+            distanceInMeters = mLocationFromJson.distanceTo(mLocationFound);
+            distanceInKiloMeters = distanceInMeters / 1000;
+            distanceInMiles = distanceInKiloMeters * (float) 0.621371192;
+            // 1. explicit cast to float necessary, otherwise we always get x.0 values
+            // 2. Math.round(1.234 * 10) / 10 = Math.round(12.34) / 10 = 12 / 10 = 1.2
+            if (mSharedPreferences.getBoolean("key_units", true)) {
+                distanceRoundOnePlace = (float) Math.round(distanceInKiloMeters * 10) / 10;
+            } else {
+                distanceRoundOnePlace = (float) Math.round(distanceInMiles * 10) / 10;
+            }
+            gastroLocation.setDistToCurLoc(distanceRoundOnePlace);
+        }
+        Collections.sort(mGastroLocations);
+    }
+
+    private void receiveCurrentLocation() {
+        final long startTimeMillis = System.currentTimeMillis();
+        final int waitTimeMillis = 20 * 1000;
+        while (mLocationFound == null) {
+            // wait for first GPS fix (do nothing)
+            if ((System.currentTimeMillis() - startTimeMillis) > waitTimeMillis) {
+                MainListActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        UiUtils.showMaterialDialog(MainListActivity.this, getString(R.string.error),
+                                getString(R.string.no_gps_data));
+                    }
+                });
+                break;
+            }
+        }
+        MainListActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mDialog != null) {
+                    mDialog.dismiss();
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    public GastroLocationAdapter getGastroLocationAdapter() {
+        return mGastroLocationAdapter;
+    }
+
+    private void setGastroLocations(List<GastroLocation> gastroLocations) {
+        mGastroLocations = mGastroLocations.isEmpty() ? gastroLocations : throw_();
+    }
+
+    private List<GastroLocation> throw_() {
+        throw new RuntimeException("gastro locations are already set");
+    }
+
     void setLocationFound(Location locationFound) {
         mLocationFound = locationFound;
+    }
+
+    static List<GastroLocation> createList(final InputStream inputStream) {
+        final InputStreamReader reader = new InputStreamReader(inputStream);
+        Type listType = new TypeToken<ArrayList<GastroLocation>>() {
+        }.getType();
+        final List<GastroLocation> locationList = new Gson().fromJson(reader, listType);
+        return locationList;
     }
 
     private class RetrieveGastroLocations extends AsyncTask<Void, Void, List<GastroLocation>> {
@@ -181,123 +299,5 @@ public class MainListActivity extends BaseActivity {
                 }
             });
         }
-    }
-
-    private void receiveCurrentLocation() {
-        final long startTimeMillis = System.currentTimeMillis();
-        final int waitTimeMillis = 20 * 1000;
-        while (mLocationFound == null) {
-            // wait for first GPS fix (do nothing)
-            if ((System.currentTimeMillis() - startTimeMillis) > waitTimeMillis) {
-                MainListActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        UiUtils.showMaterialDialog(MainListActivity.this, getString(R.string.error),
-                                getString(R.string.no_gps_data));
-                    }
-                });
-                break;
-            }
-        }
-        MainListActivity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mDialog != null) {
-                    mDialog.dismiss();
-                }
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
-    }
-
-    /*
-     * TODO
-     * Save last location - prevent from requestlocationupdates.
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        requestLocationUpdates();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        removeLocationUpdates();
-    }
-
-    /*
-     * TODO
-     * 1. Add more filter options
-     * 2. save state of checkbox - either globally with preference or just for the session and clear preference on app resume
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_filter:
-                UiUtils.showMaterialDialogCheckboxes(MainListActivity.this, getString(R.string.filter_title_dialog),
-                        getResources().getStringArray(R.array.filter_checkboxes), -1, mButtonCallback);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void requestLocationUpdates() {
-        final int minTime = 3 * 60 * 1000; // e.g. 5 * 60 * 1000 (5 minutes)
-        final int minDistance = 100;
-        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (mLocationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER)) {
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, mGastroLocationListener);
-        }
-        if (mLocationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, mGastroLocationListener);
-        }
-    }
-
-    void removeLocationUpdates() {
-        if (mLocationManager != null)
-            mLocationManager.removeUpdates(mGastroLocationListener);
-    }
-
-    void sortGastroLocations() {
-        if (mLocationFound == null) {
-            return;
-        }
-
-        mLocationFromJson = new Location("");
-        float distanceInMeters;
-        float distanceInKiloMeters;
-        float distanceInMiles;
-        float distanceRoundOnePlace;
-        for (int i = 0; i < mGastroLocations.size(); i++) {
-            GastroLocation gastroLocation = mGastroLocations.get(i);
-            mLocationFromJson.setLatitude(gastroLocation.getLatCoord());
-            mLocationFromJson.setLongitude(gastroLocation.getLongCoord());
-            distanceInMeters = mLocationFromJson.distanceTo(mLocationFound);
-            distanceInKiloMeters = distanceInMeters / 1000;
-            distanceInMiles = distanceInKiloMeters * (float) 0.621371192;
-            // 1. explicit cast to float necessary, otherwise we always get x.0 values
-            // 2. Math.round(1.234 * 10) / 10 = Math.round(12.34) / 10 = 12 / 10 = 1.2
-            if (mSharedPreferences.getBoolean("key_units", true)) {
-                distanceRoundOnePlace = (float) Math.round(distanceInKiloMeters * 10) / 10;
-            } else {
-                distanceRoundOnePlace = (float) Math.round(distanceInMiles * 10) / 10;
-            }
-            gastroLocation.setDistToCurLoc(distanceRoundOnePlace);
-        }
-        Collections.sort(mGastroLocations);
-    }
-
-    public GastroLocationAdapter getGastroLocationAdapter() {
-        return mGastroLocationAdapter;
-    }
-
-    private void setGastroLocations(List<GastroLocation> gastroLocations) {
-        mGastroLocations = mGastroLocations.isEmpty() ? gastroLocations : throw_();
-    }
-
-    private List<GastroLocation> throw_() {
-        throw new RuntimeException("gastro locations are already set");
     }
 }
