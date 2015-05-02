@@ -70,7 +70,7 @@ public class MainListActivity extends BaseActivity {
                 final Runnable waitForGpsFix = new Runnable() {
                     @Override
                     public void run() {
-                        receiveCurrentLocation();
+                        waitForGpsFix();
                         sortGastroLocations();
                         MainListActivity.this.runOnUiThread(new Runnable() {
                             @Override
@@ -193,7 +193,7 @@ public class MainListActivity extends BaseActivity {
         Collections.sort(mGastroLocations);
     }
 
-    private void receiveCurrentLocation() {
+    private void waitForGpsFix() {
         final long startTimeMillis = System.currentTimeMillis();
         final int waitTimeMillis = 20 * 1000;
         while (mLocationFound == null) {
@@ -286,7 +286,7 @@ public class MainListActivity extends BaseActivity {
             }
             setGastroLocations(gastroLocations);
             mButtonCallback.setAllGastroLocations(gastroLocations);
-            receiveCurrentLocation();
+            waitForGpsFix();
             return gastroLocations;
         }
 
