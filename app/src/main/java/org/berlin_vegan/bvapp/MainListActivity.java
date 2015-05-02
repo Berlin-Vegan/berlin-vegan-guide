@@ -198,16 +198,16 @@ public class MainListActivity extends BaseActivity {
                 });
                 break;
             }
-            MainListActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (mDialog != null) {
-                        mDialog.dismiss();
-                    }
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
-            });
         }
+        MainListActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mDialog != null) {
+                    mDialog.dismiss();
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     /*
