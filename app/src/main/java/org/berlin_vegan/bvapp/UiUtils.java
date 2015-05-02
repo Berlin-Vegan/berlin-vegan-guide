@@ -113,6 +113,7 @@ public class UiUtils {
                 .backgroundColorRes(R.color.material_dialog_background)
                 .progress(true, 0)
                 .build();
+        dialog.setCancelable(false);
         dialog.show();
         return dialog;
     }

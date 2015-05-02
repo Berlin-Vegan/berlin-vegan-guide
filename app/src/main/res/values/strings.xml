@@ -7,7 +7,7 @@
     <string name="km_string">km</string>
     <string name="mi_string">mi</string>
     <string name="please_wait">Please wait...</string>
-    <string name="retrieving_gps_data">Retrieving GPS data.</string>
+    <string name="retrieving_data">Retrieving data.</string>
     <string name="units">Units</string>
     <string name="units_summaryOn">Use metric system.</string>
     <string name="units_summaryOff">Use imperial system.</string>

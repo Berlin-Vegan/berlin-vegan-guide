@@ -40,7 +40,7 @@ public class MainListActivity extends BaseActivity {
     private GastroLocationListener mGastroLocationListener;
     private Location mLocationFromJson;
     private Location mLocationFound;
-    private Dialog mDialog;
+    private Dialog mProgressDialog;
     private SharedPreferences mSharedPreferences;
     // set an empty list. fill it below in a separate thread. network usage is not allowed on ui thread
     private boolean mUseLocalCopy;
@@ -212,8 +212,8 @@ public class MainListActivity extends BaseActivity {
         MainListActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mDialog != null) {
-                    mDialog.dismiss();
+                if (mProgressDialog != null) {
+                    mProgressDialog.dismiss();
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
             }
@@ -257,8 +257,8 @@ public class MainListActivity extends BaseActivity {
                 @Override
                 public void run() {
                     if (!mSwipeRefreshLayout.isRefreshing()) {
-                        mDialog = UiUtils.showMaterialProgressDialog(mMainListActivity, getString(R.string.please_wait),
-                                getString(R.string.retrieving_gps_data));
+                        mProgressDialog = UiUtils.showMaterialProgressDialog(mMainListActivity, getString(R.string.please_wait),
+                                getString(R.string.retrieving_data));
                     }
                 }
             });
