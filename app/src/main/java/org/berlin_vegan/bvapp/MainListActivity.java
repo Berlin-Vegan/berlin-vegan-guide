@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -117,18 +116,13 @@ public class MainListActivity extends BaseActivity {
 
     }
 
-    protected List<GastroLocation> getGastroJson() {
-        final InputStream inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
-        return createList(inputStream);
-    }
-
     void updateCardView(List<GastroLocation> gastroLocations) {
         sortGastroLocations();
         mGastroLocationAdapter.setGastroLocations(gastroLocations);
         mGastroLocationAdapter.notifyDataSetChanged();
     }
 
-    public void setLocationFound(Location locationFound) {
+    void setLocationFound(Location locationFound) {
         mLocationFound = locationFound;
     }
 
@@ -156,11 +150,12 @@ public class MainListActivity extends BaseActivity {
         protected List<GastroLocation> doInBackground(Void... params) {
             // get local json file as fall back
             mUseLocalCopy = true;
-            List<GastroLocation> gastroLocations = getGastroJson();
+            InputStream inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
+            List<GastroLocation> gastroLocations = createList(inputStream);
             try {
                 // fetch json file from server
                 final URL url = new URL(HTTP_GASTRO_LOCATIONS_JSON);
-                InputStream inputStream = url.openStream();
+                inputStream = url.openStream();
                 mUseLocalCopy = false;
                 gastroLocations = createList(inputStream);
             } catch (IOException e) {
@@ -216,8 +211,8 @@ public class MainListActivity extends BaseActivity {
     }
 
     /*
-    TODO
-    Save last location - prevent from requestlocationupdates.
+     * TODO
+     * Save last location - prevent from requestlocationupdates.
      */
     @Override
     protected void onResume() {
@@ -232,24 +227,20 @@ public class MainListActivity extends BaseActivity {
     }
 
     /*
-    TODO
-    1. Add more filter options
-    2. save state of checkbox - either globally with preference or just for the session and clear preference on app resume
+     * TODO
+     * 1. Add more filter options
+     * 2. save state of checkbox - either globally with preference or just for the session and clear preference on app resume
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_filter:
-                filterList();
+                UiUtils.showMaterialDialogCheckboxes(MainListActivity.this, getString(R.string.filter_title_dialog),
+                        getResources().getStringArray(R.array.filter_checkboxes), -1, mButtonCallback);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void filterList() {
-        UiUtils.showMaterialDialogCheckboxes(MainListActivity.this, getString(R.string.filter_title_dialog),
-                getResources().getStringArray(R.array.filter_checkboxes), -1, mButtonCallback);
     }
 
     private void requestLocationUpdates() {
@@ -264,12 +255,12 @@ public class MainListActivity extends BaseActivity {
         }
     }
 
-    private void removeLocationUpdates() {
+    void removeLocationUpdates() {
         if (mLocationManager != null)
             mLocationManager.removeUpdates(mGastroLocationListener);
     }
 
-    public void sortGastroLocations() {
+    void sortGastroLocations() {
         if (mLocationFound == null) {
             return;
         }
@@ -308,46 +299,5 @@ public class MainListActivity extends BaseActivity {
 
     private List<GastroLocation> throw_() {
         throw new RuntimeException("gastro locations are already set");
-    }
-
-    private class GastroLocationListener implements LocationListener {
-
-        private static final String TAG = "GastroLocationListener";
-
-        private MainListActivity mMainListActivity;
-
-        public GastroLocationListener(MainListActivity mainListActivity) {
-            mMainListActivity = mainListActivity;
-        }
-
-        @Override
-        public void onLocationChanged(Location location) {
-            Log.d(TAG, "location found: " + location.toString());
-            //remove to preserve battery
-            mMainListActivity.removeLocationUpdates();
-            mMainListActivity.setLocationFound(location);
-            mMainListActivity.sortGastroLocations();
-            mMainListActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mMainListActivity.getGastroLocationAdapter().notifyDataSetChanged();
-                }
-            });
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            // TODO: handle onStatusChanged
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-            // TODO: handle onProviderEnabled
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-            // TODO: handle onProviderDisabled
-        }
     }
 }
