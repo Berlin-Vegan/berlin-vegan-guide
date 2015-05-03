@@ -277,7 +277,7 @@ public class MainListActivity extends BaseActivity {
                 mUseLocalCopy = false;
                 gastroLocations = createList(inputStream);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, "fetching json file from server failed", e);
             }
             if (mUseLocalCopy) {
                 Log.i(TAG, "fall back: use local copy of database file");
