@@ -33,6 +33,7 @@ public class MainListActivity extends BaseActivity {
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
     private static final String HTTP_GASTRO_LOCATIONS_JSON =
             "http://www.berlin-vegan.de/app/data/" + GASTRO_LOCATIONS_JSON;
+    private static final String KEY_FILTER = "key_filter";
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private GastroLocationAdapter mGastroLocationAdapter;
@@ -124,17 +125,14 @@ public class MainListActivity extends BaseActivity {
         removeLocationUpdates();
     }
 
-    /*
-     * TODO
-     * 1. Add more filter options
-     * 2. save state of checkbox - either globally with preference or just for the session and clear preference on app resume
-     */
+    // TODO: Add more filter options
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_filter:
+                int selected = mSharedPreferences.getInt(KEY_FILTER, 0);
                 UiUtils.showMaterialDialogCheckboxes(MainListActivity.this, getString(R.string.filter_title_dialog),
-                        getResources().getStringArray(R.array.filter_checkboxes), -1, mButtonCallback);
+                        getResources().getStringArray(R.array.filter_checkboxes), selected, mButtonCallback);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -295,7 +293,8 @@ public class MainListActivity extends BaseActivity {
             MainListActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    updateCardView(gastroLocations);
+                    int selected = mSharedPreferences.getInt(KEY_FILTER, 0);
+                    mButtonCallback.updateCardViewForSelection(selected);
                 }
             });
         }
