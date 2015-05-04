@@ -38,12 +38,11 @@ public class UiUtils {
                 .title(title)
                 .items(checkBoxItems)
                 .itemsCallbackSingleChoice(selected, checkCallBack)
-                .autoDismiss(true)
                 .contentColorRes(R.color.material_dialog_content)
                 .titleColorRes(R.color.material_dialog_title)
                 .backgroundColorRes(R.color.material_dialog_background)
-                .negativeText(android.R.string.cancel)
-                .negativeColorRes(R.color.material_dialog_buttons)
+                .positiveText(android.R.string.ok)
+                .positiveColorRes(R.color.material_dialog_buttons)
                 .build();
         dialog.show();
         return dialog;
