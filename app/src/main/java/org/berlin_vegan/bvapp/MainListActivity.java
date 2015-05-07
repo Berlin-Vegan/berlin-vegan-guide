@@ -139,6 +139,14 @@ public class MainListActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.remove(KEY_FILTER);
+        editor.commit();
+    }
+
     void updateCardView(List<GastroLocation> gastroLocations) {
         sortGastroLocations();
         mGastroLocationAdapter.setGastroLocations(gastroLocations);
@@ -293,8 +301,7 @@ public class MainListActivity extends BaseActivity {
             MainListActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    int selected = mSharedPreferences.getInt(KEY_FILTER, 0);
-                    mButtonCallback.updateCardViewForSelection(selected);
+                    updateCardView(gastroLocations);
                 }
             });
         }

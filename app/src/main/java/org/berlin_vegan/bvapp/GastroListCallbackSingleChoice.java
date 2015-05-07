@@ -29,14 +29,6 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
     @Override
     public boolean onSelection(MaterialDialog materialDialog, View view,
                                int selected, CharSequence charSequence) {
-        updateCardViewForSelection(selected);
-        mEditor = PreferenceManager.getDefaultSharedPreferences(mMainListActivity).edit();
-        mEditor.putInt(KEY_FILTER, selected);
-        mEditor.commit();
-        return true;
-    }
-
-    void updateCardViewForSelection(int selected) {
         switch (selected) {
             case SHOW_ALL:
                 mMainListActivity.updateCardView(mAllGastroLocations);
@@ -57,6 +49,10 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
             default:
                 break;
         }
+        mEditor = PreferenceManager.getDefaultSharedPreferences(mMainListActivity).edit();
+        mEditor.putInt(KEY_FILTER, selected);
+        mEditor.commit();
+        return true;
     }
 
     void setAllGastroLocations(List<GastroLocation> allGastroLocations) {
