@@ -18,13 +18,6 @@ android {
     def dirtyWorkingCopy = hasModifiedDeletedOrOtherFiles || hasStagedFiles
     def gitDescription = dirtyWorkingCopy ? "${gitHash}-dirty" : gitHash
 
-    // Version name: ignore leading non-digits and everything after the first underscore
-    // Version code: take digits after the first underscore
-    // e.g. tag xxx1.2.3.foo-bar_15_baz will yield versionName 1.2.3.foo-bar and versionCode 15
-    def versionMatcher = gitTag =~ /^[^0-9]*([^_]*)(_([0-9]*))?/
-    def versionNameFromTag = versionMatcher[0][1]
-    def versionCodeFromTag = versionMatcher[0][3]?.toInteger()
-
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
@@ -32,8 +25,8 @@ android {
         applicationId "org.berlin_vegan.bvapp_alpha"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode versionCodeFromTag ?: 1
-        versionName versionNameFromTag ?: gitBranch
+        versionCode 1
+        versionName gitTag ?: gitBranch
         if (versionName) {
             buildConfigField "String", "VERSION_GIT_DESCRIPTION", "\"${versionName}-${gitDescription}\""
         } else {
