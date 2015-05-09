@@ -8,6 +8,7 @@ mobile app for android
 # release creation
 
 * check out master, if not already happened, and make sure you are up-to-date, e.g. `git fetch --all`, `git pull`, etc.
+* merge branch development `git merge development`
 * set annotated git tag for version, e.g. `TAG=0.1 && git tag -a ${TAG} -m ${TAG}`
 * build the release `./gradlew assembleRelease`
 * sign the release, e.g. `jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore ./app/build/outputs/apk/app-release-unsigned.apk alias_name`
