@@ -28,77 +28,13 @@ public class GastroDetailsFragment extends Fragment {
         } else {
             mGastroLocation = (GastroLocation) savedInstanceState.getSerializable("GASTRO_LOCATION");
         }
-        // contact
-        if (mGastroLocation.getStreet() != null) {
-            StringBuilder address = new StringBuilder()
-                    .append("<a href=\"http://maps.google.com/maps?q=")
-                            // google maps: street, citycode, city
-                    .append(mGastroLocation.getStreet())
-                    .append(", ")
-                    .append(mGastroLocation.getCityCode())
-                    .append(", ")
-                    .append(mGastroLocation.getCity())
-                    .append("\">")
-                            // view: "street\n citycode city-district"
-                    .append(mGastroLocation.getStreet())
-                    .append("<br>")
-                    .append(mGastroLocation.getCityCode())
-                    .append(" ")
-                    .append(mGastroLocation.getCity())
-                    .append("-")
-                    .append(mGastroLocation.getDistrict())
-                    .append("</a>");
-            TextView vGastroDetailsAddress = (TextView) v.findViewById(R.id.gastro_details_address);
-            vGastroDetailsAddress.setText(Html.fromHtml(address.toString()));
-            vGastroDetailsAddress.setMovementMethod(LinkMovementMethod.getInstance());
-        }
-        if (mGastroLocation.getTelephone() != null) {
-            StringBuilder telephone = new StringBuilder()
-                    .append("<a href=\"tel:")
-                    .append(mGastroLocation.getTelephone())
-                    .append("\">")
-                    .append(mGastroLocation.getTelephone())
-                    .append("</a>");
-            TextView vGastroDetailsTelephone = (TextView) v.findViewById(R.id.gastro_details_telephone);
-            vGastroDetailsTelephone.setText(Html.fromHtml(telephone.toString()));
-            vGastroDetailsTelephone.setMovementMethod(LinkMovementMethod.getInstance());
-        }
-        // opening hours
-        LinearLayout gastroDetailsOpeningHoursContent = (LinearLayout) v.findViewById(R.id.gastro_details_opening_hours_content);
-        String[][] openingHoursData = {
-                {getString(R.string.gastro_details_opening_hours_content_monday), mGastroLocation.getOtMon()},
-                {getString(R.string.gastro_details_opening_hours_content_tuesday), mGastroLocation.getOtTue()},
-                {getString(R.string.gastro_details_opening_hours_content_wednesday), mGastroLocation.getOtWed()},
-                {getString(R.string.gastro_details_opening_hours_content_thursday), mGastroLocation.getOtThu()},
-                {getString(R.string.gastro_details_opening_hours_content_friday), mGastroLocation.getOtFri()},
-                {getString(R.string.gastro_details_opening_hours_content_saturday), mGastroLocation.getOtSat()},
-                {getString(R.string.gastro_details_opening_hours_content_sunday), mGastroLocation.getOtSun()}
-        };
-        for (int i = 0; i < openingHoursData.length; i++) {
-            LinearLayout linearLayout = new LinearLayout(getActivity());
-            linearLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-            linearLayout.setPadding(0, 0, 0, 4);
-            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-            // view day of the week
-            TextView vDayOfTheWeek = new TextView(getActivity());
-            vDayOfTheWeek.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.6f));
-            vDayOfTheWeek.setText(openingHoursData[i][0]);
-            vDayOfTheWeek.setTextColor(getResources().getColor(R.color.theme_primary));
-            linearLayout.addView(vDayOfTheWeek);
-            // view opening hours
-            TextView vOpeningHours = new TextView(getActivity());
-            vOpeningHours.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.4f));
-            vOpeningHours.setGravity(Gravity.RIGHT);
-            if (!openingHoursData[i][1].trim().equals("")) {
-                vOpeningHours.setText(openingHoursData[i][1]);
-            } else {
-                vOpeningHours.setText(getString(R.string.gastro_details_opening_hours_content_closed));
-            }
-            vOpeningHours.setTextColor(getResources().getColor(R.color.theme_primary_secondary_text));
-            linearLayout.addView(vOpeningHours);
-            gastroDetailsOpeningHoursContent.addView(linearLayout);
-        }
-        // miscellaneous
+        fillGastroDetailsContactContent(v);
+        fillGastroDetailsOpeningHoursContent(v);
+        fillGastroDetailsMiscellaneousContent(v);
+        return v;
+    }
+
+    private void fillGastroDetailsMiscellaneousContent(View v) {
         LinearLayout gastroDetailsMiscellaneousContent = (LinearLayout) v.findViewById(R.id.gastro_details_miscellaneous_content);
         String[][] miscellaneousData = {
                 {getString(R.string.gastro_details_miscellaneous_content_catering), getMiscellaneousContentString(mGastroLocation.getCatering())},
@@ -133,7 +69,88 @@ public class GastroDetailsFragment extends Fragment {
             linearLayout.addView(vMiscellaneousValue);
             gastroDetailsMiscellaneousContent.addView(linearLayout);
         }
-        return v;
+    }
+
+    private void fillGastroDetailsOpeningHoursContent(View v) {
+        LinearLayout gastroDetailsOpeningHoursContent = (LinearLayout) v.findViewById(R.id.gastro_details_opening_hours_content);
+        String[][] openingHoursData = {
+                {getString(R.string.gastro_details_opening_hours_content_monday), mGastroLocation.getOtMon()},
+                {getString(R.string.gastro_details_opening_hours_content_tuesday), mGastroLocation.getOtTue()},
+                {getString(R.string.gastro_details_opening_hours_content_wednesday), mGastroLocation.getOtWed()},
+                {getString(R.string.gastro_details_opening_hours_content_thursday), mGastroLocation.getOtThu()},
+                {getString(R.string.gastro_details_opening_hours_content_friday), mGastroLocation.getOtFri()},
+                {getString(R.string.gastro_details_opening_hours_content_saturday), mGastroLocation.getOtSat()},
+                {getString(R.string.gastro_details_opening_hours_content_sunday), mGastroLocation.getOtSun()}
+        };
+        for (int i = 0; i < openingHoursData.length; i++) {
+            LinearLayout linearLayout = new LinearLayout(getActivity());
+            linearLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            linearLayout.setPadding(0, 0, 0, 4);
+            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            // view day of the week
+            TextView vDayOfTheWeek = new TextView(getActivity());
+            vDayOfTheWeek.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.6f));
+            vDayOfTheWeek.setText(openingHoursData[i][0]);
+            vDayOfTheWeek.setTextColor(getResources().getColor(R.color.theme_primary));
+            linearLayout.addView(vDayOfTheWeek);
+            // view opening hours
+            TextView vOpeningHours = new TextView(getActivity());
+            vOpeningHours.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.4f));
+            vOpeningHours.setGravity(Gravity.RIGHT);
+            if (!openingHoursData[i][1].trim().equals("")) {
+                vOpeningHours.setText(openingHoursData[i][1]);
+            } else {
+                vOpeningHours.setText(getString(R.string.gastro_details_opening_hours_content_closed));
+            }
+            vOpeningHours.setTextColor(getResources().getColor(R.color.theme_primary_secondary_text));
+            linearLayout.addView(vOpeningHours);
+            gastroDetailsOpeningHoursContent.addView(linearLayout);
+        }
+    }
+
+    private void fillGastroDetailsContactContent(View v) {
+        if (mGastroLocation.getStreet() != null) {
+            fillGastroDetailsAddressView(v);
+        }
+        if (mGastroLocation.getTelephone() != null) {
+            fillGastroDetailsTelephoneView(v);
+        }
+    }
+
+    private void fillGastroDetailsTelephoneView(View v) {
+        StringBuilder telephone = new StringBuilder()
+                .append("<a href=\"tel:")
+                .append(mGastroLocation.getTelephone())
+                .append("\">")
+                .append(mGastroLocation.getTelephone())
+                .append("</a>");
+        TextView vGastroDetailsTelephone = (TextView) v.findViewById(R.id.gastro_details_telephone);
+        vGastroDetailsTelephone.setText(Html.fromHtml(telephone.toString()));
+        vGastroDetailsTelephone.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void fillGastroDetailsAddressView(View v) {
+        StringBuilder address = new StringBuilder()
+                .append("<a href=\"http://maps.google.com/maps?q=")
+                        // google maps: street, citycode, city
+                .append(mGastroLocation.getStreet())
+                .append(", ")
+                .append(mGastroLocation.getCityCode())
+                .append(", ")
+                .append(mGastroLocation.getCity())
+                .append("\">")
+                        // view: "street\n citycode city-district"
+                .append(mGastroLocation.getStreet())
+                .append("<br>")
+                .append(mGastroLocation.getCityCode())
+                .append(" ")
+                .append(mGastroLocation.getCity())
+                .append("-")
+                .append(mGastroLocation.getDistrict())
+                .append("</a>");
+        TextView vGastroDetailsAddress = (TextView) v.findViewById(R.id.gastro_details_address);
+        vGastroDetailsAddress.setText(Html.fromHtml(address.toString()));
+        vGastroDetailsAddress.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private String getVeganContentString(int i) {
