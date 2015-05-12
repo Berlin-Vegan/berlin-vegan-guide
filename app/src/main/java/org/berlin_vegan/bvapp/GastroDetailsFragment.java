@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 public class GastroDetailsFragment extends Fragment {
@@ -76,22 +76,19 @@ public class GastroDetailsFragment extends Fragment {
         };
         for (int i = 0; i < openingHoursData.length; i++) {
             LinearLayout linearLayout = new LinearLayout(getActivity());
-            linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            linearLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            linearLayout.setPadding(0, 0, 0, 4);
             linearLayout.setOrientation(LinearLayout.HORIZONTAL);
             // view day of the week
             TextView vDayOfTheWeek = new TextView(getActivity());
-            vDayOfTheWeek.setLayoutParams(new LinearLayout.LayoutParams(0, getPx(36), 0.6f));
-            vDayOfTheWeek.setEllipsize(TextUtils.TruncateAt.END);
-            vDayOfTheWeek.setGravity(Gravity.BOTTOM);
-            vDayOfTheWeek.setMaxLines(1);
+            vDayOfTheWeek.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.6f));
             vDayOfTheWeek.setText(openingHoursData[i][0]);
             vDayOfTheWeek.setTextColor(getResources().getColor(R.color.theme_primary));
             linearLayout.addView(vDayOfTheWeek);
             // view opening hours
             TextView vOpeningHours = new TextView(getActivity());
-            vOpeningHours.setLayoutParams(new LinearLayout.LayoutParams(0, getPx(36), 0.4f));
+            vOpeningHours.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.4f));
             vOpeningHours.setGravity(Gravity.RIGHT);
-            vOpeningHours.setMaxLines(1);
             if (!openingHoursData[i][1].trim().equals("")) {
                 vOpeningHours.setText(openingHoursData[i][1]);
             } else {
@@ -118,23 +115,19 @@ public class GastroDetailsFragment extends Fragment {
                 {getString(R.string.gastro_details_miscellaneous_content_wlan), getMiscellaneousContentString(mGastroLocation.getWlan())}};
         for (int i = 0; i < miscellaneousData.length; i++) {
             LinearLayout linearLayout = new LinearLayout(getActivity());
-            linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            linearLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            linearLayout.setPadding(0, 0, 0, 4);
             linearLayout.setOrientation(LinearLayout.HORIZONTAL);
             // key
             TextView vMiscellaneousKey = new TextView(getActivity());
-            vMiscellaneousKey.setLayoutParams(new LinearLayout.LayoutParams(0, getPx(36), 0.6f));
-            vMiscellaneousKey.setEllipsize(TextUtils.TruncateAt.END);
-            vMiscellaneousKey.setGravity(Gravity.BOTTOM);
-            vMiscellaneousKey.setMaxLines(1);
+            vMiscellaneousKey.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.6f));
             vMiscellaneousKey.setText(miscellaneousData[i][0]);
             vMiscellaneousKey.setTextColor(getResources().getColor(R.color.theme_primary));
             linearLayout.addView(vMiscellaneousKey);
             // value
             TextView vMiscellaneousValue = new TextView(getActivity());
-            vMiscellaneousKey.setLayoutParams(new LinearLayout.LayoutParams(0, getPx(36), 0.4f));
-            vMiscellaneousValue.setEllipsize(TextUtils.TruncateAt.END);
+            vMiscellaneousKey.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.4f));
             vMiscellaneousValue.setGravity(Gravity.RIGHT);
-            vMiscellaneousValue.setMaxLines(1);
             vMiscellaneousValue.setText(miscellaneousData[i][1]);
             vMiscellaneousValue.setTextColor(getResources().getColor(R.color.theme_primary_secondary_text));
             linearLayout.addView(vMiscellaneousValue);
@@ -165,11 +158,6 @@ public class GastroDetailsFragment extends Fragment {
             return getString(R.string.gastro_details_miscellaneous_content_no);
         }
         return getString(R.string.gastro_details_miscellaneous_content_unknown);
-    }
-
-    private int getPx(int dimensionDp) {
-        float density = getResources().getDisplayMetrics().density;
-        return (int) (dimensionDp * density + 0.5f);
     }
 
     @Override
