@@ -15,6 +15,7 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
 
     private static final int SHOW_ALL = 0;
     private static final int COMPLETELY_VEGAN = 1;
+    private static final int VEGAN_VEGETARIAN = 2;
 
     private MainListActivity mMainListActivity;
     private SharedPreferences.Editor mEditor;
@@ -34,17 +35,10 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
                 mMainListActivity.updateCardView(mAllGastroLocations);
                 break;
             case COMPLETELY_VEGAN:
-                if (mAllGastroLocations != null && mAllGastroLocations.size() > 0) {
-                    mFilteredList.clear();
-                    for (GastroLocation gastro : mAllGastroLocations) {
-                        if (gastro.getVegan() == 5) {
-                            mFilteredList.add(gastro);
-                        }
-                    }
-                    if (mFilteredList.size() > 0) {
-                        mMainListActivity.updateCardView(mFilteredList);
-                    }
-                }
+                showFiltersResult(GastroDetailsFragment.VEGAN);
+                break;
+            case VEGAN_VEGETARIAN:
+                showFiltersResult(GastroDetailsFragment.VEGETARIAN, GastroDetailsFragment.VEGETARIAN_VEGAN, GastroDetailsFragment.VEGAN);
                 break;
             default:
                 break;
@@ -57,5 +51,28 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
 
     void setAllGastroLocations(List<GastroLocation> allGastroLocations) {
         mAllGastroLocations = allGastroLocations;
+    }
+
+    void showFiltersResult(int... type) {
+        if (mAllGastroLocations != null && mAllGastroLocations.size() > 0) {
+            mFilteredList.clear();
+            for (GastroLocation gastro : mAllGastroLocations) {
+
+                if (type.length > 1) {
+                    for (int t : type) {
+                        if (gastro.getVegan() == t) {
+                            mFilteredList.add(gastro);
+                        }
+                    }
+                } else {
+                    if (gastro.getVegan() == type[0]) {
+                        mFilteredList.add(gastro);
+                    }
+                }
+            }
+            if (mFilteredList.size() > 0) {
+                mMainListActivity.updateCardView(mFilteredList);
+            }
+        }
     }
 }

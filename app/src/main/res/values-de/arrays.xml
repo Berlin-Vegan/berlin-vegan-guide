@@ -3,6 +3,7 @@
     <string-array name="filter_checkboxes">
         <item>Alle</item>
         <item>Vegan</item>
+        <item>Vegetarisch</item>
         <!--
         <item>Noch geöffnet</item>
         -->

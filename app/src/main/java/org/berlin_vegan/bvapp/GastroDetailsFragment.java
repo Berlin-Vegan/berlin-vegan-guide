@@ -17,6 +17,12 @@ public class GastroDetailsFragment extends Fragment {
 
     private GastroLocation mGastroLocation;
 
+    final public static int OMNIVORE = 1;
+    final public static int OMNIVORE_VEG = 2;
+    final public static int VEGETARIAN = 3;
+    final public static int VEGETARIAN_VEGAN = 4;
+    final public static int VEGAN = 5;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.gastro_details_fragment, container, false);
@@ -154,15 +160,15 @@ public class GastroDetailsFragment extends Fragment {
     }
 
     private String getVeganContentString(int i) {
-        if (i == 1) {
+        if (i == OMNIVORE) {
             return getString(R.string.gastro_details_miscellaneous_content_omnivore);
-        } else if (i == 2) {
+        } else if (i == OMNIVORE_VEG) {
             return getString(R.string.gastro_details_miscellaneous_content_omnivore_vegan_declared);
-        } else if (i == 3) {
+        } else if (i == VEGETARIAN) {
             return getString(R.string.gastro_details_miscellaneous_content_vegetarian);
-        } else if (i == 4) {
+        } else if (i == VEGETARIAN_VEGAN) {
             return getString(R.string.gastro_details_miscellaneous_content_vegetarian_vegan_declared);
-        } else if (i == 5) {
+        } else if (i == VEGAN) {
             return getString(R.string.gastro_details_miscellaneous_content_completely_vegan);
         }
         return getString(R.string.gastro_details_miscellaneous_content_unknown);
