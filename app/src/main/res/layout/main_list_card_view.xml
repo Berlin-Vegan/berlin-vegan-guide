@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/text_view_title"
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:background="@color/theme_primary_dark"
@@ -26,7 +26,7 @@
             android:id="@+id/text_view_street"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/title"
+            android:layout_below="@id/text_view_title"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"

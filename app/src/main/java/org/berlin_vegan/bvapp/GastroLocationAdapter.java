@@ -81,7 +81,7 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
         public GastroLocationViewHolder(View v) {
             super(v);
             v.setOnClickListener(this);
-            vTitle = (TextView) v.findViewById(R.id.title);
+            vTitle = (TextView) v.findViewById(R.id.text_view_title);
             vStreet = (TextView) v.findViewById(R.id.text_view_street);
             vDistance = (TextView) v.findViewById(R.id.text_view_distance);
         }
