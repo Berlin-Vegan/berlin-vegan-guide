@@ -26,8 +26,15 @@ public class GastroDescriptionFragment extends Fragment {
             mGastroLocation = (GastroLocation) savedInstanceState.getSerializable("GASTRO_LOCATION");
         }
         TextView vDescription = (TextView) v.findViewById(R.id.text_view_description);
+        String description = mGastroLocation.getComment();
+        // unfortunately soft hyphen (&shy;) is only partially working with fromHtml(): the word gets
+        // split at the correct place, but the hyphen (dash) is not shown. this might be very annoying
+        // to the user, because it just does not look right. as a workaround we do not split words at
+        // all.
+        // a web view solves the hyphen problem, but does not integrate into our current layout very well
+        description = description.replace("&shy;", "");
         // the description is html content and fromHtml() returns type Spanned
-        vDescription.setText(Html.fromHtml(mGastroLocation.getComment()), TextView.BufferType.SPANNABLE);
+        vDescription.setText(Html.fromHtml(description), TextView.BufferType.SPANNABLE);
         vDescription.setMovementMethod(new ScrollingMovementMethod());
         return v;
     }
