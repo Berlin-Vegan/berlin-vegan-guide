@@ -68,7 +68,7 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
     public GastroLocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.card_view, viewGroup, false);
+                inflate(R.layout.main_list_card_view, viewGroup, false);
 
         return new GastroLocationViewHolder(itemView);
     }

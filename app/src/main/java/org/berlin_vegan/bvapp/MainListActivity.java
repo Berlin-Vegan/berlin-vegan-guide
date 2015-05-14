@@ -95,7 +95,7 @@ public class MainListActivity extends BaseActivity {
         mGastroLocationAdapter = new GastroLocationAdapter(this, mGastroLocations);
         mGastroLocationListener = new GastroLocationListener(this);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mRecyclerView = (RecyclerView) findViewById(R.id.main_list_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setAdapter(mGastroLocationAdapter);
