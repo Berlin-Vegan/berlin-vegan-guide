@@ -3,6 +3,7 @@
     <string name="action_settings">Einstellungen</string>
     <string name="action_about">Über</string>
     <string name="action_filter">Filter</string>
+    <string name="action_report_error">Fehler mitteilen</string>
 
     <string name="km_string">km</string>
     <string name="mi_string">mi</string>
@@ -16,6 +17,7 @@
     <string name="details">Details</string>
     <string name="error">Fehler</string>
     <string name="no_gps_data">Keine GPS-Daten empfangen. Die Liste wird in der Standard-Reihenfolge angezeigt.</string>
+    <string name="insert_error_report">Bitte trage hier die Fehlerbeschreibung ein:</string>
 
     <string name="about_body" formatted="false">&lt;b&gt;%s&lt;/b&gt;&lt;br&gt; Version %s</string>
     <string name="about_licenses">Open-Source-Lizenzen</string>
