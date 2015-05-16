@@ -2,6 +2,7 @@ package org.berlin_vegan.bvapp;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
@@ -12,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.gson.Gson;
@@ -34,6 +36,7 @@ public class MainListActivity extends BaseActivity {
     private static final String HTTP_GASTRO_LOCATIONS_JSON =
             "http://www.berlin-vegan.de/app/data/" + GASTRO_LOCATIONS_JSON;
     private static final String KEY_FILTER = "key_filter";
+    private Context mContext;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private GastroLocationAdapter mGastroLocationAdapter;
@@ -52,6 +55,7 @@ public class MainListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         setContentView(R.layout.main_list_activity);
         setTitle(getString(R.string.app_name) + " " + getString(R.string.guide));
@@ -110,6 +114,12 @@ public class MainListActivity extends BaseActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main_list_activity, menu);
+        return true;
+    }
+
     /*
      * TODO
      * Save last location - prevent from requestlocationupdates.
@@ -134,10 +144,20 @@ public class MainListActivity extends BaseActivity {
                 int selected = mSharedPreferences.getInt(KEY_FILTER, 0);
                 UiUtils.showMaterialDialogCheckboxes(MainListActivity.this, getString(R.string.filter_title_dialog),
                         getResources().getStringArray(R.array.filter_checkboxes), selected, mButtonCallback);
-                return true;
+                break;
+            case R.id.action_settings:
+                final Intent settings = new Intent(this, SettingsActivity.class);
+                this.startActivity(settings);
+                break;
+            case R.id.action_about:
+                if (mContext != null) {
+                    UiUtils.showMaterialAboutDialog(mContext, getResources().getString(R.string.action_about));
+                }
+                break;
             default:
-                return super.onOptionsItemSelected(item);
+                break;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
