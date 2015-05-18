@@ -18,7 +18,6 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
     private static final int VEGAN_ONLY = 2;
 
     private MainListActivity mMainListActivity;
-    private SharedPreferences.Editor mEditor;
     private List<GastroLocation> mAllGastroLocations;
     private List<GastroLocation> mFilteredList = new ArrayList<>();
 
@@ -43,9 +42,9 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
             default:
                 break;
         }
-        mEditor = PreferenceManager.getDefaultSharedPreferences(mMainListActivity).edit();
-        mEditor.putInt(KEY_FILTER, selected);
-        mEditor.commit();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mMainListActivity).edit();
+        editor.putInt(KEY_FILTER, selected);
+        editor.commit();
         return true;
     }
 
