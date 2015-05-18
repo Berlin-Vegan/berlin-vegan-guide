@@ -38,7 +38,7 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
                 showFiltersResult(GastroDetailsFragment.VEGAN);
                 break;
             case VEGAN_VEGETARIAN:
-                showFiltersResult(GastroDetailsFragment.VEGETARIAN, GastroDetailsFragment.VEGETARIAN_VEGAN, GastroDetailsFragment.VEGAN);
+                showFiltersResult(GastroDetailsFragment.VEGETARIAN, GastroDetailsFragment.VEGETARIAN_VEGAN_DECLARED, GastroDetailsFragment.VEGAN);
                 break;
             default:
                 break;

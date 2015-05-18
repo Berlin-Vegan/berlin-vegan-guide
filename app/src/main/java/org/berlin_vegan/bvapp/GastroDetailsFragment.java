@@ -18,9 +18,9 @@ public class GastroDetailsFragment extends Fragment {
     private GastroLocation mGastroLocation;
 
     final public static int OMNIVORE = 1;
-    final public static int OMNIVORE_VEG = 2;
+    final public static int OMNIVORE_VEGAN_DECLARED = 2;
     final public static int VEGETARIAN = 3;
-    final public static int VEGETARIAN_VEGAN = 4;
+    final public static int VEGETARIAN_VEGAN_DECLARED = 4;
     final public static int VEGAN = 5;
 
     @Override
@@ -162,11 +162,11 @@ public class GastroDetailsFragment extends Fragment {
     private String getVeganContentString(int i) {
         if (i == OMNIVORE) {
             return getString(R.string.gastro_details_miscellaneous_content_omnivore);
-        } else if (i == OMNIVORE_VEG) {
+        } else if (i == OMNIVORE_VEGAN_DECLARED) {
             return getString(R.string.gastro_details_miscellaneous_content_omnivore_vegan_declared);
         } else if (i == VEGETARIAN) {
             return getString(R.string.gastro_details_miscellaneous_content_vegetarian);
-        } else if (i == VEGETARIAN_VEGAN) {
+        } else if (i == VEGETARIAN_VEGAN_DECLARED) {
             return getString(R.string.gastro_details_miscellaneous_content_vegetarian_vegan_declared);
         } else if (i == VEGAN) {
             return getString(R.string.gastro_details_miscellaneous_content_completely_vegan);
