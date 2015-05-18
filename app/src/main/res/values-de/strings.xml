@@ -58,5 +58,6 @@
     <string name="gastro_details_miscellaneous_content_vegetarian_vegan_declared">vegetarisch (vegan deklariert)</string>
     <string name="gastro_details_miscellaneous_content_completely_vegan">100% vegan</string>
 
-    <string name="filter_title_dialog">Filter</string>
+    <string name="filter_title_dialog">Filter Lokalitäten</string>
+    <string name="filter_content_dialog">Alle Lokalitäten deklarieren vegan. Zeige:</string>
 </resources>

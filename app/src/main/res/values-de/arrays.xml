@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="filter_checkboxes">
-        <item>Alle</item>
-        <item>Vegan</item>
-        <item>Vegetarisch</item>
+        <item>Omnivore, vegetarische und vegane</item>
+        <item>Vegetarische und vegane</item>
+        <item>Nur vegane</item>
         <!--
         <item>Noch geöffnet</item>
         -->

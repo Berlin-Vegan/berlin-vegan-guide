@@ -143,6 +143,7 @@ public class MainListActivity extends BaseActivity {
             case R.id.action_filter:
                 int selected = mSharedPreferences.getInt(KEY_FILTER, 0);
                 UiUtils.showMaterialDialogCheckboxes(MainListActivity.this, getString(R.string.filter_title_dialog),
+                        getString(R.string.filter_content_dialog),
                         getResources().getStringArray(R.array.filter_checkboxes), selected, mButtonCallback);
                 break;
             case R.id.action_settings:

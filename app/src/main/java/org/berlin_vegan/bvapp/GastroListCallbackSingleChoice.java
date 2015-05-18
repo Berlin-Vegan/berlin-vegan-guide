@@ -13,9 +13,9 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
 
     private static final String KEY_FILTER = "key_filter";
 
-    private static final int SHOW_ALL = 0;
-    private static final int COMPLETELY_VEGAN = 1;
-    private static final int VEGAN_VEGETARIAN = 2;
+    private static final int OMNIVORE_VEGETARIAN_VEGAN = 0;
+    private static final int VEGETARIAN_VEGAN = 1;
+    private static final int VEGAN_ONLY = 2;
 
     private MainListActivity mMainListActivity;
     private SharedPreferences.Editor mEditor;
@@ -31,14 +31,14 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
     public boolean onSelection(MaterialDialog materialDialog, View view,
                                int selected, CharSequence charSequence) {
         switch (selected) {
-            case SHOW_ALL:
-                mMainListActivity.updateCardView(mAllGastroLocations);
+            case OMNIVORE_VEGETARIAN_VEGAN:
+                showFiltersResult(GastroDetailsFragment.OMNIVORE_VEGAN_DECLARED, GastroDetailsFragment.VEGETARIAN_VEGAN_DECLARED, GastroDetailsFragment.VEGAN);
                 break;
-            case COMPLETELY_VEGAN:
+            case VEGETARIAN_VEGAN:
+                showFiltersResult(GastroDetailsFragment.VEGETARIAN_VEGAN_DECLARED, GastroDetailsFragment.VEGAN);
+                break;
+            case VEGAN_ONLY:
                 showFiltersResult(GastroDetailsFragment.VEGAN);
-                break;
-            case VEGAN_VEGETARIAN:
-                showFiltersResult(GastroDetailsFragment.VEGETARIAN, GastroDetailsFragment.VEGETARIAN_VEGAN_DECLARED, GastroDetailsFragment.VEGAN);
                 break;
             default:
                 break;
@@ -53,19 +53,14 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
         mAllGastroLocations = allGastroLocations;
     }
 
-    void showFiltersResult(int... type) {
+    void showFiltersResult(int... types) {
         if (mAllGastroLocations != null && mAllGastroLocations.size() > 0) {
             mFilteredList.clear();
             for (GastroLocation gastro : mAllGastroLocations) {
-
-                if (type.length > 1) {
-                    for (int t : type) {
-                        if (gastro.getVegan() == t) {
-                            mFilteredList.add(gastro);
-                        }
-                    }
-                } else {
-                    if (gastro.getVegan() == type[0]) {
+                // e.g. omnivore, vegetarian and vegan, which at least declare vegan, are locations
+                // with type 2, 4, and 5
+                for (int type : types) {
+                    if (gastro.getVegan() == type) {
                         mFilteredList.add(gastro);
                     }
                 }

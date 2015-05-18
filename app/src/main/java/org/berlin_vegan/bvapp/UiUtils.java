@@ -31,11 +31,12 @@ public class UiUtils {
         return dialog;
     }
 
-    public static MaterialDialog showMaterialDialogCheckboxes(Context context, String title,
+    public static MaterialDialog showMaterialDialogCheckboxes(Context context, String title, CharSequence content,
                                                               String[] checkBoxItems, int selected,
                                                               MaterialDialog.ListCallbackSingleChoice checkCallBack) {
         MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .title(title)
+                .content(content)
                 .items(checkBoxItems)
                 .itemsCallbackSingleChoice(selected, checkCallBack)
                 .contentColorRes(R.color.material_dialog_content)
