@@ -3,6 +3,7 @@
     <string name="action_settings">Einstellungen</string>
     <string name="action_about">Über</string>
     <string name="action_filter">Filter</string>
+    <string name="action_menu_search">Suche</string>
     <string name="action_report_error">Fehler mitteilen</string>
 
     <string name="km_string">km</string>

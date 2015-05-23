@@ -20,6 +20,7 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
     private MainListActivity mMainListActivity;
     private List<GastroLocation> mAllGastroLocations;
     private List<GastroLocation> mFilteredList = new ArrayList<>();
+    private String mQueryFilter;
 
     public GastroListCallbackSingleChoice(MainListActivity mainListActivity) {
         mMainListActivity = mainListActivity;
@@ -51,6 +52,10 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
         mAllGastroLocations = allGastroLocations;
     }
 
+    void initializeFilterList() {
+        showFiltersResult(GastroDetailsFragment.OMNIVORE_VEGAN_DECLARED, GastroDetailsFragment.VEGETARIAN_VEGAN_DECLARED, GastroDetailsFragment.VEGAN);
+    }
+
     void showFiltersResult(int... types) {
         if (mAllGastroLocations != null && mAllGastroLocations.size() > 0) {
             mFilteredList.clear();
@@ -67,5 +72,23 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
                 mMainListActivity.updateCardView(mFilteredList);
             }
         }
+    }
+
+    public void processQueryFilter(String query) {
+        mQueryFilter = query;
+        List<GastroLocation> queryFilterList = new ArrayList<>();
+        for (GastroLocation gastro : mFilteredList) {
+            final String gastroName = gastro.getName().toUpperCase();
+            final String gastroComment = gastro.getCommentWithoutSoftHyphens().toUpperCase();
+            final String queryFilter = mQueryFilter.toUpperCase();
+            if (gastroName.contains(queryFilter) || gastroComment.contains(queryFilter)) {
+                queryFilterList.add(gastro);
+            }
+        }
+        mMainListActivity.updateCardView(queryFilterList);
+    }
+
+    public void resetQueryFilter() {
+        mQueryFilter = "";
     }
 }

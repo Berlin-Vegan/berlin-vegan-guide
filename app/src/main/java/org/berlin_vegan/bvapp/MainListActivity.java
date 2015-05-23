@@ -9,11 +9,14 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.google.gson.Gson;
@@ -133,6 +136,53 @@ public class MainListActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         removeLocationUpdates();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuInflater inflater = this.getMenuInflater();
+        menu.clear();
+
+        inflater.inflate(R.menu.menu_main_list_activity, menu);
+        MenuItem menuItem = menu.findItem(R.id.menu_search);
+        initializeSearch(menuItem);
+
+        super.onPrepareOptionsMenu(menu);
+        return true;
+    }
+
+    private void initializeSearch(MenuItem searchViewItem) {
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (mButtonCallback != null) {
+                    mButtonCallback.processQueryFilter(query);
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return onQueryTextSubmit(newText);
+            }
+        });
+
+        MenuItemCompat.setOnActionExpandListener(searchViewItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                if (mButtonCallback != null) {
+                    mButtonCallback.resetQueryFilter();
+                }
+                return true;
+            }
+        });
     }
 
     // TODO: Add more filter options
@@ -312,7 +362,6 @@ public class MainListActivity extends BaseActivity {
                 Log.i(TAG, "retrieving database from server successful");
             }
             setGastroLocations(gastroLocations);
-            mButtonCallback.setAllGastroLocations(gastroLocations);
             waitForGpsFix();
             return gastroLocations;
         }
@@ -323,6 +372,8 @@ public class MainListActivity extends BaseActivity {
                 @Override
                 public void run() {
                     updateCardView(gastroLocations);
+                    mButtonCallback.setAllGastroLocations(gastroLocations);
+                    mButtonCallback.initializeFilterList();
                 }
             });
         }
