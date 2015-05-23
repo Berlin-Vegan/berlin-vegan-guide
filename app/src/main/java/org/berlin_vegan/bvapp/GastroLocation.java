@@ -314,6 +314,42 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
         this.tags = tags;
     }
 
+    // --------------------------------------------------------------------
+    // implement comparable interface
+
+    // idea for equals(...) and hashCode() are taken from:
+    // http://java67.blogspot.de/2013/04/example-of-overriding-equals-hashcode-compareTo-java-method.html
+    //
+    // note: not all member variables are taken into account for calculation. adapt, if needed!
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || (this.getClass() != object.getClass())) {
+            return false;
+        }
+        GastroLocation other = (GastroLocation) object;
+        return (id == other.id) &&
+                (name != null && name.equals(other.name)) &&
+                (street != null && street.equals(other.street)) &&
+                (cityCode != null && cityCode.equals(other.cityCode)) &&
+                (latCoord != null && latCoord.equals(other.latCoord)) &&
+                (longCoord != null && longCoord.equals(other.longCoord));
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 0;
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (street != null ? street.hashCode() : 0);
+        result = 31 * result + (cityCode != null ? cityCode.hashCode() : 0);
+        result = 31 * result + (latCoord != null ? latCoord.hashCode() : 0);
+        result = 31 * result + (longCoord != null ? longCoord.hashCode() : 0);
+        return result;
+    }
+
     @Override
     public int compareTo(GastroLocation other) {
         if (this.getDistToCurLoc() == null && other.getDistToCurLoc() == null) {

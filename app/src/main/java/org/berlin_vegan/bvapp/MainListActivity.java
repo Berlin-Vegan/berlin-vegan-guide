@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -314,7 +315,7 @@ public class MainListActivity extends BaseActivity {
     }
 
     static List<GastroLocation> createList(final InputStream inputStream) {
-        final InputStreamReader reader = new InputStreamReader(inputStream);
+        final InputStreamReader reader = new InputStreamReader(inputStream, Charset.defaultCharset());
         Type listType = new TypeToken<ArrayList<GastroLocation>>() {
         }.getType();
         final List<GastroLocation> locationList = new Gson().fromJson(reader, listType);

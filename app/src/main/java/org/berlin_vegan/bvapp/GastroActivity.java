@@ -101,9 +101,9 @@ public class GastroActivity extends BaseActivity {
     }
 
     private String getMessageBody() {
-        String stars = "";
+        StringBuilder stars = new StringBuilder();
         for (int i = 0; i < NUM_STARS; i++) {
-            stars += "*";
+            stars.append("*");
         }
         final StringBuilder body = new StringBuilder()
                 .append(stars)

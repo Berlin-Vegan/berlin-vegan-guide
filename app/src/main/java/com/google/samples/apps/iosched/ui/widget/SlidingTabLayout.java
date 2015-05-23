@@ -198,9 +198,11 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 lp.weight = 1;
             }
 
-            tabTitleView.setText(adapter.getPageTitle(i));
-            tabTitleView.setTextColor(getResources().getColorStateList(R.color.selector));
-            tabTitleView.setTextSize(14);
+            if (tabTitleView != null) {
+                tabTitleView.setText(adapter.getPageTitle(i));
+                tabTitleView.setTextColor(getResources().getColorStateList(R.color.selector));
+                tabTitleView.setTextSize(14);
+            }
             tabView.setOnClickListener(tabClickListener);
             String desc = mContentDescriptions.get(i, null);
             if (desc != null) {
