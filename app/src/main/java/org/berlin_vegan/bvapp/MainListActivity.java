@@ -141,7 +141,7 @@ public class MainListActivity extends BaseActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuInflater inflater = this.getMenuInflater();
+        MenuInflater inflater = getMenuInflater();
         menu.clear();
 
         inflater.inflate(R.menu.menu_main_list_activity, menu);
@@ -198,7 +198,7 @@ public class MainListActivity extends BaseActivity {
                 break;
             case R.id.action_settings:
                 final Intent settings = new Intent(this, SettingsActivity.class);
-                this.startActivity(settings);
+                startActivity(settings);
                 break;
             case R.id.action_about:
                 if (mContext != null) {

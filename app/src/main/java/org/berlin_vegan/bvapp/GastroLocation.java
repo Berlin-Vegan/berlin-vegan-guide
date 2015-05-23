@@ -326,7 +326,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
         if (this == object) {
             return true;
         }
-        if (object == null || (this.getClass() != object.getClass())) {
+        if (object == null || (getClass() != object.getClass())) {
             return false;
         }
         GastroLocation other = (GastroLocation) object;
@@ -352,16 +352,16 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
 
     @Override
     public int compareTo(GastroLocation other) {
-        if (this.getDistToCurLoc() == null && other.getDistToCurLoc() == null) {
+        if (getDistToCurLoc() == null && other.getDistToCurLoc() == null) {
             return 0;
         }
-        if (this.getDistToCurLoc() == null) {
+        if (getDistToCurLoc() == null) {
             return 1;
         }
-        if (this.getDistToCurLoc() == null) {
+        if (getDistToCurLoc() == null) {
             return -1;
         }
-        return this.getDistToCurLoc().compareTo(other.getDistToCurLoc());
+        return getDistToCurLoc().compareTo(other.getDistToCurLoc());
     }
 }
 
