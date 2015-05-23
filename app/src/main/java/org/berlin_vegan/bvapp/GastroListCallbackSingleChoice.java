@@ -21,9 +21,8 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
     private List<GastroLocation> mAllGastroLocations;
     private List<GastroLocation> mFilteredList = new ArrayList<>();
 
-    public GastroListCallbackSingleChoice(MainListActivity mainListActivity, List<GastroLocation> allGastroLocations) {
+    public GastroListCallbackSingleChoice(MainListActivity mainListActivity) {
         mMainListActivity = mainListActivity;
-        setAllGastroLocations(allGastroLocations);
     }
 
     @Override

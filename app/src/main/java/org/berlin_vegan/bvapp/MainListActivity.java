@@ -49,8 +49,7 @@ public class MainListActivity extends BaseActivity {
     // set an empty list. fill it below in a separate thread. network usage is not allowed on ui thread
     private boolean mUseLocalCopy;
     private List<GastroLocation> mGastroLocations = new ArrayList<>();
-    private final GastroListCallbackSingleChoice mButtonCallback =
-            new GastroListCallbackSingleChoice(this, mGastroLocations);
+    private final GastroListCallbackSingleChoice mButtonCallback = new GastroListCallbackSingleChoice(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
