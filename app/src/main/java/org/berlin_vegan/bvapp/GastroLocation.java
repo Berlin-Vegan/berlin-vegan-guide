@@ -277,6 +277,15 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
         return comment;
     }
 
+    public String getCommentWithoutSoftHyphens() {
+        // unfortunately soft hyphen (&shy;) is only partially working with fromHtml(): the word gets
+        // split at the correct place, but the hyphen (dash) is not shown. this might be very annoying
+        // to the user, because it just does not look right. as a workaround we do not split words at
+        // all.
+        // a web view solves the hyphen problem, but does not integrate into our current layout very well
+        return getComment().replace("&shy;", "");
+    }
+
     public void setComment(String comment) {
         this.comment = comment;
     }
