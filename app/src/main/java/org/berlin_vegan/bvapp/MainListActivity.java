@@ -296,10 +296,8 @@ public class MainListActivity extends BaseActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            // get local json file as fall back
-            mUseLocalCopy = true;
-            InputStream inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
-            List<GastroLocation> gastroLocations = createList(inputStream);
+            InputStream inputStream;
+            List<GastroLocation> gastroLocations = null;
             try {
                 // fetch json file from server
                 final URL url = new URL(HTTP_GASTRO_LOCATIONS_JSON);
@@ -308,6 +306,12 @@ public class MainListActivity extends BaseActivity {
                 gastroLocations = createList(inputStream);
             } catch (IOException e) {
                 Log.e(TAG, "fetching json file from server failed", e);
+            }
+            if (gastroLocations == null) {
+                // get local json file as fall back
+                mUseLocalCopy = true;
+                inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
+                gastroLocations = createList(inputStream);
             }
             if (mUseLocalCopy) {
                 Log.i(TAG, "fall back: use local copy of database file");
