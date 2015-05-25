@@ -10,38 +10,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import static android.view.View.OnClickListener;
 
 public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAdapter.GastroLocationViewHolder> {
 
-    private static List<GastroLocation> mGastroLocations;
-    private Context mContext;
+    private MainListActivity mMainListActivity;
     private SharedPreferences mSharedPreferences;
 
-    public GastroLocationAdapter(Context context) {
-        mContext = context;
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-    }
-
-    public GastroLocationAdapter(Context context, List<GastroLocation> gastroLocations) {
-        this(context);
-        setGastroLocations(gastroLocations);
-    }
-
-    public static void setGastroLocations(List<GastroLocation> gastroLocations) {
-        mGastroLocations = gastroLocations;
+    public GastroLocationAdapter(MainListActivity mainListActivity) {
+        mMainListActivity = mainListActivity;
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mMainListActivity);
     }
 
     @Override
     public int getItemCount() {
-        return mGastroLocations.size();
+        return mMainListActivity.getGastroLocations().size();
     }
 
     @Override
     public void onBindViewHolder(GastroLocationViewHolder gastroLocationViewHolder, int i) {
-        GastroLocation gastroLocation = mGastroLocations.get(i);
+        GastroLocation gastroLocation = mMainListActivity.getGastroLocations().get(i);
         StringBuilder title = new StringBuilder()
                 .append(gastroLocation.getName())
                 .append(" ")
@@ -56,9 +44,9 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
             // string for distance unit depends on settings
             String distance = String.valueOf(distToCurLoc) + " ";
             if (mSharedPreferences.getBoolean("key_units", true)) {
-                distance += mContext.getString(R.string.km_string);
+                distance += mMainListActivity.getString(R.string.km_string);
             } else {
-                distance += mContext.getString(R.string.mi_string);
+                distance += mMainListActivity.getString(R.string.mi_string);
             }
             gastroLocationViewHolder.vDistance.setText(distance);
         }
@@ -70,17 +58,19 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
                 from(viewGroup.getContext()).
                 inflate(R.layout.main_list_card_view, viewGroup, false);
 
-        return new GastroLocationViewHolder(itemView);
+        return new GastroLocationViewHolder(itemView, mMainListActivity);
     }
 
     public static class GastroLocationViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
+        private MainListActivity mMainListActivity;
         protected TextView vTitle;
         protected TextView vStreet;
         protected TextView vDistance;
 
-        public GastroLocationViewHolder(View v) {
+        public GastroLocationViewHolder(View v, MainListActivity mainListActivity) {
             super(v);
             v.setOnClickListener(this);
+            mMainListActivity = mainListActivity;
             vTitle = (TextView) v.findViewById(R.id.text_view_title);
             vStreet = (TextView) v.findViewById(R.id.text_view_street);
             vDistance = (TextView) v.findViewById(R.id.text_view_distance);
@@ -91,7 +81,7 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
             Context context = view.getContext();
             Intent intent = new Intent(context, GastroActivity.class);
             int position = getAdapterPosition();
-            GastroLocation gastroLocation = mGastroLocations.get(position);
+            GastroLocation gastroLocation = mMainListActivity.getGastroLocations().get(position);
             intent.putExtra("GASTRO_LOCATION", gastroLocation);
             context.startActivity(intent);
         }

@@ -10,9 +10,11 @@ class GastroLocationListener implements LocationListener {
     private static final String TAG = "GastroLocationListener";
 
     private MainListActivity mMainListActivity;
+    private GastroLocations mGastroLocations;
 
-    public GastroLocationListener(MainListActivity mainListActivity) {
+    public GastroLocationListener(MainListActivity mainListActivity, GastroLocations gastroLocations) {
         mMainListActivity = mainListActivity;
+        mGastroLocations = gastroLocations;
     }
 
     @Override
@@ -21,13 +23,7 @@ class GastroLocationListener implements LocationListener {
         //remove to preserve battery
         mMainListActivity.removeLocationUpdates();
         mMainListActivity.setLocationFound(location);
-        mMainListActivity.sortGastroLocations();
-        mMainListActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mMainListActivity.getGastroLocationAdapter().notifyDataSetChanged();
-            }
-        });
+        mGastroLocations.updateLocationAdapter(location);
     }
 
     @Override

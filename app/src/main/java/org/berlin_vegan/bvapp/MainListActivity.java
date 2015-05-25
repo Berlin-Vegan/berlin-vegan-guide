@@ -29,7 +29,6 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MainListActivity extends BaseActivity {
@@ -46,13 +45,11 @@ public class MainListActivity extends BaseActivity {
     private GastroLocationAdapter mGastroLocationAdapter;
     private LocationManager mLocationManager;
     private GastroLocationListener mGastroLocationListener;
-    private Location mLocationFromJson;
     private Location mLocationFound;
     private Dialog mProgressDialog;
     private SharedPreferences mSharedPreferences;
-    // set an empty list. fill it below in a separate thread. network usage is not allowed on ui thread
     private boolean mUseLocalCopy;
-    private List<GastroLocation> mGastroLocations = new ArrayList<>();
+    private final GastroLocations mGastroLocations = new GastroLocations(this);
     private final GastroListCallbackSingleChoice mButtonCallback = new GastroListCallbackSingleChoice(this);
 
     @Override
@@ -80,13 +77,7 @@ public class MainListActivity extends BaseActivity {
                     @Override
                     public void run() {
                         waitForGpsFix();
-                        sortGastroLocations();
-                        MainListActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mGastroLocationAdapter.notifyDataSetChanged();
-                            }
-                        });
+                        mGastroLocations.updateLocationAdapter(mLocationFound);
                     }
                 };
                 Thread t = new Thread(waitForGpsFix);
@@ -99,8 +90,8 @@ public class MainListActivity extends BaseActivity {
         // start a thread to retrieve the json from the server and to wait for the geo location
         RetrieveGastroLocations retrieveGastroLocations = new RetrieveGastroLocations(this);
         retrieveGastroLocations.execute();
-        mGastroLocationAdapter = new GastroLocationAdapter(this, mGastroLocations);
-        mGastroLocationListener = new GastroLocationListener(this);
+        mGastroLocationAdapter = new GastroLocationAdapter(this);
+        mGastroLocationListener = new GastroLocationListener(this, mGastroLocations);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.main_list_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -157,8 +148,8 @@ public class MainListActivity extends BaseActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (mButtonCallback != null) {
-                    mButtonCallback.processQueryFilter(query);
+                if (mGastroLocations != null) {
+                    mGastroLocations.processQueryFilter(query);
                     return true;
                 }
                 return false;
@@ -178,8 +169,8 @@ public class MainListActivity extends BaseActivity {
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
-                if (mButtonCallback != null) {
-                    mButtonCallback.resetQueryFilter();
+                if (mGastroLocations != null) {
+                    mGastroLocations.resetQueryFilter();
                 }
                 return true;
             }
@@ -219,12 +210,6 @@ public class MainListActivity extends BaseActivity {
         editor.commit();
     }
 
-    void updateCardView(List<GastroLocation> gastroLocations) {
-        sortGastroLocations();
-        mGastroLocationAdapter.setGastroLocations(gastroLocations);
-        mGastroLocationAdapter.notifyDataSetChanged();
-    }
-
     private void requestLocationUpdates() {
         final int minTime = 3 * 60 * 1000; // e.g. 5 * 60 * 1000 (5 minutes)
         final int minDistance = 100;
@@ -240,35 +225,6 @@ public class MainListActivity extends BaseActivity {
     void removeLocationUpdates() {
         if (mLocationManager != null)
             mLocationManager.removeUpdates(mGastroLocationListener);
-    }
-
-    void sortGastroLocations() {
-        if (mLocationFound == null) {
-            return;
-        }
-
-        mLocationFromJson = new Location("");
-        float distanceInMeters;
-        float distanceInKiloMeters;
-        float distanceInMiles;
-        float distanceRoundOnePlace;
-        for (int i = 0; i < mGastroLocations.size(); i++) {
-            GastroLocation gastroLocation = mGastroLocations.get(i);
-            mLocationFromJson.setLatitude(gastroLocation.getLatCoord());
-            mLocationFromJson.setLongitude(gastroLocation.getLongCoord());
-            distanceInMeters = mLocationFromJson.distanceTo(mLocationFound);
-            distanceInKiloMeters = distanceInMeters / 1000;
-            distanceInMiles = distanceInKiloMeters * (float) 0.621371192;
-            // 1. explicit cast to float necessary, otherwise we always get x.0 values
-            // 2. Math.round(1.234 * 10) / 10 = Math.round(12.34) / 10 = 12 / 10 = 1.2
-            if (mSharedPreferences.getBoolean("key_units", true)) {
-                distanceRoundOnePlace = (float) Math.round(distanceInKiloMeters * 10) / 10;
-            } else {
-                distanceRoundOnePlace = (float) Math.round(distanceInMiles * 10) / 10;
-            }
-            gastroLocation.setDistToCurLoc(distanceRoundOnePlace);
-        }
-        Collections.sort(mGastroLocations);
     }
 
     private void waitForGpsFix() {
@@ -298,16 +254,12 @@ public class MainListActivity extends BaseActivity {
         });
     }
 
+    public GastroLocations getGastroLocations() {
+        return mGastroLocations;
+    }
+
     public GastroLocationAdapter getGastroLocationAdapter() {
         return mGastroLocationAdapter;
-    }
-
-    private void setGastroLocations(List<GastroLocation> gastroLocations) {
-        mGastroLocations = mGastroLocations.isEmpty() ? gastroLocations : throw_();
-    }
-
-    private List<GastroLocation> throw_() {
-        throw new RuntimeException("gastro locations are already set");
     }
 
     void setLocationFound(Location locationFound) {
@@ -322,7 +274,7 @@ public class MainListActivity extends BaseActivity {
         return locationList;
     }
 
-    private class RetrieveGastroLocations extends AsyncTask<Void, Void, List<GastroLocation>> {
+    private class RetrieveGastroLocations extends AsyncTask<Void, Void, Void> {
         private MainListActivity mMainListActivity;
 
         public RetrieveGastroLocations(MainListActivity mainListActivity) {
@@ -343,7 +295,7 @@ public class MainListActivity extends BaseActivity {
         }
 
         @Override
-        protected List<GastroLocation> doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
             // get local json file as fall back
             mUseLocalCopy = true;
             InputStream inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
@@ -362,21 +314,15 @@ public class MainListActivity extends BaseActivity {
             } else {
                 Log.i(TAG, "retrieving database from server successful");
             }
-            setGastroLocations(gastroLocations);
+            Log.d(TAG, "read " + gastroLocations.size() + " entries");
+            mGastroLocations.set(gastroLocations);
             waitForGpsFix();
-            return gastroLocations;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(final List<GastroLocation> gastroLocations) {
-            MainListActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    updateCardView(gastroLocations);
-                    mButtonCallback.setAllGastroLocations(gastroLocations);
-                    mButtonCallback.initializeFilterList();
-                }
-            });
+        protected void onPostExecute(Void param) {
+            mGastroLocations.updateLocationAdapter();
         }
     }
 }
