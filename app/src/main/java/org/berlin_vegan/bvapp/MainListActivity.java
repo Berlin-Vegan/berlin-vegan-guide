@@ -177,7 +177,6 @@ public class MainListActivity extends BaseActivity {
         });
     }
 
-    // TODO: Add more filter options
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

@@ -28,16 +28,16 @@ class GastroLocationListener implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO: handle onStatusChanged
+        // nothing to do
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        // TODO: handle onProviderEnabled
+        // nothing to do
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        // TODO: handle onProviderDisabled
+        // nothing to do
     }
 }
