@@ -1,11 +1,13 @@
-package com.example.app
+package org.berlin_vegan.bvapp;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.acra.ReportField;
 import org.acra.collector.CrashReportData;
 import org.acra.sender.ReportSender;
 import org.acra.sender.ReportSenderException;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -13,6 +15,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -25,8 +29,9 @@ import java.util.UUID;
 
 
 public class ACRAPostSender implements ReportSender {
-    private final static String BASE_URL = "http://example.com/acra.php?email=crashreport@example.com";
-    private final static String SHARED_SECRET = "my_shared_secret";
+    private final static String TAG = "ACRAPostSender";
+    private final static String BASE_URL = "http://www.berlin-vegan.de/cgi-bin/acra.php?email=bv-app@berlin-vegan.de";
+    private final static String SHARED_SECRET = "aehiePh2Aew8atui";
     private Map<String, String> custom_data = null;
 
     ACRAPostSender() {
@@ -52,13 +57,13 @@ public class ACRAPostSender implements ReportSender {
     public void send(Context context, CrashReportData report) throws ReportSenderException {
 
         String url = getUrl();
-        Log.e("xenim", url);
+        Log.d(TAG, url);
 
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);
 
-            List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+            List<NameValuePair> parameters = new ArrayList<>();
 
             if (custom_data != null) {
                 for (Map.Entry<String, String> entry : custom_data.entrySet()) {
@@ -103,11 +108,13 @@ public class ACRAPostSender implements ReportSender {
             parameters.add(new BasicNameValuePair("APPLICATION_LOG", report.get(ReportField.APPLICATION_LOG)));
             parameters.add(new BasicNameValuePair("MEDIA_CODEC_LIST", report.get(ReportField.MEDIA_CODEC_LIST)));
             parameters.add(new BasicNameValuePair("THREAD_DETAILS", report.get(ReportField.THREAD_DETAILS)));
-
             httpPost.setEntity(new UrlEncodedFormEntity(parameters, HTTP.UTF_8));
-            httpClient.execute(httpPost);
-        } catch (Exception e) {
-            e.printStackTrace();
+            HttpResponse httpResponse = httpClient.execute(httpPost);
+            Log.d(TAG, "HTTP response code: " + httpResponse.getStatusLine().getStatusCode());
+        } catch (UnsupportedEncodingException e) {
+            Log.e(TAG, "Unsupported encoding", e);
+        } catch (IOException e) {
+            Log.e(TAG, "IO exception", e);
         }
     }
 

@@ -20,6 +20,7 @@
     <string name="error">Error</string>
     <string name="no_gps_data">No GPS data received. Show list in default order.</string>
     <string name="insert_error_report">Please insert error report here:</string>
+    <string name="something_went_wrong">Something went wrong. But no worries, a report has been sent to help fix the issue.</string>
 
     <string name="about_body" formatted="false">&lt;b&gt;%s&lt;/b&gt;&lt;br&gt; Version %s</string>
     <string name="about_licenses">Open Source Licenses</string>

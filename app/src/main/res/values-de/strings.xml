@@ -20,6 +20,7 @@
     <string name="error">Fehler</string>
     <string name="no_gps_data">Keine GPS-Daten empfangen. Die Liste wird in der Standard-Reihenfolge angezeigt.</string>
     <string name="insert_error_report">Bitte trage hier die Fehlerbeschreibung ein:</string>
+    <string name="something_went_wrong">Etwas ist schiefgelaufen. Aber keine Sorge, ein Fehlerbericht wurde verschickt um das Problem zu beheben.</string>
 
     <string name="about_body" formatted="false">&lt;b&gt;%s&lt;/b&gt;&lt;br&gt; Version %s</string>
     <string name="about_licenses">Open-Source-Lizenzen</string>
