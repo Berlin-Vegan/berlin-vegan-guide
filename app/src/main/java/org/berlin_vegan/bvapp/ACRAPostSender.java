@@ -49,7 +49,7 @@ public class ACRAPostSender implements ReportSender {
     }
 
     @Override
-    public void send(CrashReportData report) throws ReportSenderException {
+    public void send(Context context, CrashReportData report) throws ReportSenderException {
 
         String url = getUrl();
         Log.e("xenim", url);
