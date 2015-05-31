@@ -55,10 +55,12 @@ public class MainListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = this;
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         setContentView(R.layout.main_list_activity);
         setTitle(getString(R.string.app_name) + " " + getString(R.string.guide));
+
+        mContext = this;
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.main_list_activity_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeResources(
                 R.color.refresh_progress_1,
@@ -84,12 +86,14 @@ public class MainListActivity extends BaseActivity {
                 t.start();
             }
         });
+
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         // start a thread to retrieve the json from the server and to wait for the geo location
         RetrieveGastroLocations retrieveGastroLocations = new RetrieveGastroLocations(this);
         retrieveGastroLocations.execute();
+
         mGastroLocationAdapter = new GastroLocationAdapter(this);
         mGastroLocations = new GastroLocations(this);
         mGastroLocationListener = new GastroLocationListener(this, mGastroLocations);
