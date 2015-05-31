@@ -49,7 +49,7 @@ public class MainListActivity extends BaseActivity {
     private Dialog mProgressDialog;
     private SharedPreferences mSharedPreferences;
     private boolean mUseLocalCopy;
-    private final GastroLocations mGastroLocations = new GastroLocations(this);
+    private GastroLocations mGastroLocations;
     private final GastroListCallbackSingleChoice mButtonCallback = new GastroListCallbackSingleChoice(this);
 
     @Override
@@ -91,6 +91,7 @@ public class MainListActivity extends BaseActivity {
         RetrieveGastroLocations retrieveGastroLocations = new RetrieveGastroLocations(this);
         retrieveGastroLocations.execute();
         mGastroLocationAdapter = new GastroLocationAdapter(this);
+        mGastroLocations = new GastroLocations(this);
         mGastroLocationListener = new GastroLocationListener(this, mGastroLocations);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.main_list_recycler_view);

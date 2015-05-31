@@ -5,6 +5,7 @@
     <string name="action_filter">Filter</string>
     <string name="action_menu_search">Search</string>
     <string name="action_report_error">Report error</string>
+    <string name="action_add_favorite">Add favorite</string>
 
     <string name="km_string">km</string>
     <string name="mi_string">mi</string>

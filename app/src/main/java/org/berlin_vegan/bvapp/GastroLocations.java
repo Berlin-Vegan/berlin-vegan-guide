@@ -6,14 +6,19 @@ import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * class, that holds an object of all gastro locations, filtered gastro locations, and the gastro locations,
  * which are currently presented to the user. Latter includes searching through the gastro locations lists.
  */
 public class GastroLocations {
+    private static final String KEY_FAVORITES = "key_favorites";
+
     private MainListActivity mMainListActivity;
+    private static SharedPreferences mSharedPreferences;
     private Location mLocationFound;
     /**
      * holds all locations. used to create the filtered lists
@@ -24,6 +29,11 @@ public class GastroLocations {
      */
     private List<GastroLocation> mFiltered = new ArrayList<>();
     /**
+     * holds favorite locations
+     */
+    private List<GastroLocation> mFavorites = new ArrayList<>();
+    private static Set<String> mFavoriteIDs = new HashSet<>();
+    /**
      * holds the locations, that are presented to the user in {@code MainListActivity}
      */
     private List<GastroLocation> mShown = new ArrayList<>();
@@ -31,6 +41,8 @@ public class GastroLocations {
 
     public GastroLocations(MainListActivity mainListActivity) {
         mMainListActivity = mainListActivity;
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mMainListActivity);
+        mFavoriteIDs = mSharedPreferences.getStringSet(KEY_FAVORITES, new HashSet<String>());
     }
 
     private void sortByDistance() {
@@ -81,6 +93,43 @@ public class GastroLocations {
         }
     }
 
+    // --------------------------------------------------------------------
+    // favorites
+
+    public static boolean containsFavorite(String id) {
+        return mFavoriteIDs.contains(id);
+    }
+
+    public static void addFavorite(String id) {
+        mFavoriteIDs.add(id);
+        commitFavoritesPreferences();
+    }
+
+    public static void removeFavorite(String id) {
+        mFavoriteIDs.remove(id);
+        commitFavoritesPreferences();
+    }
+
+    private static void commitFavoritesPreferences() {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putStringSet(KEY_FAVORITES, mFavoriteIDs);
+        editor.commit();
+    }
+
+    public void showFavorites() {
+        mFavorites.clear();
+        for (GastroLocation gastro : mAll) {
+            if (mFavoriteIDs.contains(gastro.getId())) {
+                mFavorites.add(gastro);
+            }
+        }
+        mShown = new ArrayList<>(mFavorites);
+        updateLocationAdapter();
+    }
+
+    // --------------------------------------------------------------------
+    // query
+
     void processQueryFilter(String query) {
         mQueryFilter = query;
         final List<GastroLocation> queryFilteredList = new ArrayList<>();
@@ -100,6 +149,9 @@ public class GastroLocations {
         mQueryFilter = "";
     }
 
+    // --------------------------------------------------------------------
+    // updating
+
     void updateLocationAdapter() {
         sortByDistance();
         mMainListActivity.runOnUiThread(new Runnable() {
@@ -114,6 +166,9 @@ public class GastroLocations {
         mLocationFound = locationFound;
         updateLocationAdapter();
     }
+
+    // --------------------------------------------------------------------
+    // getters & setters
 
     void set(List<GastroLocation> gastroLocations) {
         mAll = mAll.isEmpty() ? gastroLocations : throw_();

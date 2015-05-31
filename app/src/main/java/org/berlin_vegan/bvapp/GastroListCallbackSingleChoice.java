@@ -13,6 +13,7 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
     private static final int OMNIVORE_VEGETARIAN_VEGAN = 0;
     private static final int VEGETARIAN_VEGAN = 1;
     private static final int VEGAN_ONLY = 2;
+    private static final int FAVORITES = 3;
 
     private MainListActivity mMainListActivity;
 
@@ -39,6 +40,9 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
             case VEGAN_ONLY:
                 gastroLocations.showFiltersResult(
                         GastroDetailsFragment.VEGAN);
+                break;
+            case FAVORITES:
+                gastroLocations.showFavorites();
                 break;
             default:
                 break;
