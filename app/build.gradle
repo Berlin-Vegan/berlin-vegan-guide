@@ -18,13 +18,13 @@ android {
     def dirtyWorkingCopy = hasModifiedDeletedOrOtherFiles || hasStagedFiles
     def gitDescription = dirtyWorkingCopy ? "${gitHash}-dirty" : gitHash
 
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "org.berlin_vegan.bvapp_alpha"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 3
         versionName gitTag ?: gitBranch
         if (versionName) {
