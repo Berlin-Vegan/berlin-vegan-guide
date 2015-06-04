@@ -52,6 +52,9 @@ public class MainListActivity extends BaseActivity {
     private GastroLocations mGastroLocations;
     private final GastroListCallbackSingleChoice mButtonCallback = new GastroListCallbackSingleChoice(this);
 
+    // --------------------------------------------------------------------
+    // life cycle
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,16 +117,6 @@ public class MainListActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main_list_activity, menu);
-        return true;
-    }
-
-    /*
-     * TODO
-     * Save last location - prevent from requestlocationupdates.
-     */
-    @Override
     protected void onResume() {
         super.onResume();
         requestLocationUpdates();
@@ -133,6 +126,23 @@ public class MainListActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         removeLocationUpdates();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.remove(KEY_FILTER);
+        editor.commit();
+    }
+
+    // --------------------------------------------------------------------
+    // menu
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main_list_activity, menu);
+        return true;
     }
 
     @Override
@@ -206,13 +216,8 @@ public class MainListActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.remove(KEY_FILTER);
-        editor.commit();
-    }
+    // --------------------------------------------------------------------
+    // location handling
 
     private void requestLocationUpdates() {
         final int minTime = 3 * 60 * 1000; // e.g. 5 * 60 * 1000 (5 minutes)
