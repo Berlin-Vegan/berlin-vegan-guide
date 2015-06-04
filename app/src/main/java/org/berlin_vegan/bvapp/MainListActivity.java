@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -310,7 +311,10 @@ public class MainListActivity extends BaseActivity {
             try {
                 // fetch json file from server
                 final URL url = new URL(HTTP_GASTRO_LOCATIONS_JSON);
-                inputStream = url.openStream();
+                final URLConnection urlConnection = url.openConnection();
+                urlConnection.setConnectTimeout(5 * 1000);
+                urlConnection.setReadTimeout(5 * 1000);
+                inputStream = urlConnection.getInputStream();
                 mUseLocalCopy = false;
                 gastroLocations = createList(inputStream);
             } catch (IOException e) {
