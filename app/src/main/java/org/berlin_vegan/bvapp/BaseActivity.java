@@ -2,13 +2,13 @@ package org.berlin_vegan.bvapp;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 /**
  * Created by georgi on 4/10/15.
  */
-public class BaseActivity extends ActionBarActivity {
+public class BaseActivity extends AppCompatActivity {
     private Toolbar mToolbar;
 
     @Override
