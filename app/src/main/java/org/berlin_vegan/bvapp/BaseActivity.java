@@ -5,9 +5,6 @@ import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-/**
- * Created by georgi on 4/10/15.
- */
 public class BaseActivity extends AppCompatActivity {
     private Toolbar mToolbar;
 

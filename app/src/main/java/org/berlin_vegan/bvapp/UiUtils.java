@@ -19,9 +19,6 @@ import android.webkit.WebView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-/**
- * Created by georgi on 4/14/15.
- */
 public class UiUtils {
 
     public static MaterialDialog showMaterialDialog(Context context, String title, String content) {
