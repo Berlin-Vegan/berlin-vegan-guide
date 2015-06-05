@@ -104,7 +104,7 @@ public class MainListActivity extends BaseActivity {
         super.onDestroy();
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         editor.remove(GastroLocations.KEY_FILTER);
-        editor.commit();
+        editor.apply();
     }
 
     // --------------------------------------------------------------------

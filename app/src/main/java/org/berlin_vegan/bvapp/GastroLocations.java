@@ -115,7 +115,7 @@ public class GastroLocations {
     private static void commitFavoritesPreferences() {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putStringSet(KEY_FAVORITES, mFavoriteIDs);
-        editor.commit();
+        editor.apply();
     }
 
     public void showFavorites() {

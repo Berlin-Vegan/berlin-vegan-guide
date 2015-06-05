@@ -47,7 +47,7 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
         }
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mMainListActivity).edit();
         editor.putInt(GastroLocations.KEY_FILTER, selected);
-        editor.commit();
+        editor.apply();
         return true;
     }
 }
