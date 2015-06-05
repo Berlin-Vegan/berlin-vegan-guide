@@ -66,30 +66,9 @@ public class MainListActivity extends BaseActivity {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.main_list_activity_swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorSchemeResources(
-                R.color.refresh_progress_1,
-                R.color.refresh_progress_2,
-                R.color.refresh_progress_3);
-        // refreshes the gps fix. re-sorts the card view
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // very important for the runnable further below
-                mLocationFound = null;
-                removeLocationUpdates();
-                requestLocationUpdates();
-                // runnable to determine when the first GPS fix was received.
-                final Runnable waitForGpsFix = new Runnable() {
-                    @Override
-                    public void run() {
-                        waitForGpsFix();
-                        mGastroLocations.updateLocationAdapter(mLocationFound);
-                    }
-                };
-                Thread t = new Thread(waitForGpsFix);
-                t.start();
-            }
-        });
+        if (mSwipeRefreshLayout != null) {
+            setupSwipeRefresh();
+        }
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -103,18 +82,9 @@ public class MainListActivity extends BaseActivity {
         mGastroLocationListener = new GastroLocationListener(this, mGastroLocations);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.main_list_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setAdapter(mGastroLocationAdapter);
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                mSwipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
-            }
-        });
-        //fast scroll
-
-
+        if (mRecyclerView != null) {
+            setupRecyclerView(linearLayoutManager);
+        }
     }
 
     @Override
@@ -215,6 +185,49 @@ public class MainListActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // --------------------------------------------------------------------
+    // setups
+
+    private void setupRecyclerView(final LinearLayoutManager linearLayoutManager) {
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setAdapter(mGastroLocationAdapter);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                mSwipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
+            }
+        });
+        // TODO: fast scroll
+    }
+
+    private void setupSwipeRefresh() {
+        mSwipeRefreshLayout.setColorSchemeResources(
+                R.color.refresh_progress_1,
+                R.color.refresh_progress_2,
+                R.color.refresh_progress_3);
+        // refreshes the gps fix. re-sorts the card view
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // very important for the runnable further below
+                mLocationFound = null;
+                removeLocationUpdates();
+                requestLocationUpdates();
+                // runnable to determine when the first GPS fix was received.
+                final Runnable waitForGpsFix = new Runnable() {
+                    @Override
+                    public void run() {
+                        waitForGpsFix();
+                        mGastroLocations.updateLocationAdapter(mLocationFound);
+                    }
+                };
+                Thread t = new Thread(waitForGpsFix);
+                t.start();
+            }
+        });
     }
 
     // --------------------------------------------------------------------
