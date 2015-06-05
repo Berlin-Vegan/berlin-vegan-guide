@@ -16,6 +16,8 @@ import java.util.Set;
  */
 public class GastroLocations {
     private static final String KEY_FAVORITES = "key_favorites";
+    static final String KEY_UNITS = "key_units";
+    static final String KEY_FILTER = "key_filter";
 
     private MainListActivity mMainListActivity;
     private static SharedPreferences mSharedPreferences;
@@ -64,7 +66,7 @@ public class GastroLocations {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mMainListActivity);
             // 1. explicit cast to float necessary, otherwise we always get x.0 values
             // 2. Math.round(1.234 * 10) / 10 = Math.round(12.34) / 10 = 12 / 10 = 1.2
-            if (sharedPreferences.getBoolean("key_units", true)) {
+            if (sharedPreferences.getBoolean(KEY_UNITS, true)) {
                 distanceRoundOnePlace = (float) Math.round(distanceInKiloMeters * 10) / 10;
             } else {
                 distanceRoundOnePlace = (float) Math.round(distanceInMiles * 10) / 10;

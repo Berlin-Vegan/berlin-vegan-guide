@@ -8,8 +8,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingleChoice {
 
-    private static final String KEY_FILTER = "key_filter";
-
     private static final int OMNIVORE_VEGETARIAN_VEGAN = 0;
     private static final int VEGETARIAN_VEGAN = 1;
     private static final int VEGAN_ONLY = 2;
@@ -48,7 +46,7 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
                 break;
         }
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mMainListActivity).edit();
-        editor.putInt(KEY_FILTER, selected);
+        editor.putInt(GastroLocations.KEY_FILTER, selected);
         editor.commit();
         return true;
     }

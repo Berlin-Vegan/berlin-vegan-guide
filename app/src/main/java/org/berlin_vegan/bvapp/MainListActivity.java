@@ -39,7 +39,7 @@ public class MainListActivity extends BaseActivity {
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
     private static final String HTTP_GASTRO_LOCATIONS_JSON =
             "http://www.berlin-vegan.de/app/data/" + GASTRO_LOCATIONS_JSON;
-    private static final String KEY_FILTER = "key_filter";
+
     private Context mContext;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -103,7 +103,7 @@ public class MainListActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.remove(KEY_FILTER);
+        editor.remove(GastroLocations.KEY_FILTER);
         editor.commit();
     }
 
@@ -167,7 +167,7 @@ public class MainListActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_filter:
-                int selected = mSharedPreferences.getInt(KEY_FILTER, 0);
+                int selected = mSharedPreferences.getInt(GastroLocations.KEY_FILTER, 0);
                 UiUtils.showMaterialDialogCheckboxes(MainListActivity.this, getString(R.string.filter_title_dialog),
                         getString(R.string.filter_content_dialog),
                         getResources().getStringArray(R.array.filter_checkboxes), selected, mButtonCallback);

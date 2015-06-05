@@ -43,7 +43,7 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
             // TODO: speed up reloading the distances after a settings change
             // string for distance unit depends on settings
             String distance = String.valueOf(distToCurLoc) + " ";
-            if (mSharedPreferences.getBoolean("key_units", true)) {
+            if (mSharedPreferences.getBoolean(GastroLocations.KEY_UNITS, true)) {
                 distance += mMainListActivity.getString(R.string.km_string);
             } else {
                 distance += mMainListActivity.getString(R.string.mi_string);
