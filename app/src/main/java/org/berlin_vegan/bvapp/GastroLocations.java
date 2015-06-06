@@ -20,7 +20,7 @@ public class GastroLocations {
     static final String KEY_FILTER = "key_filter";
 
     private MainListActivity mMainListActivity;
-    private static SharedPreferences mSharedPreferences;
+    private static SharedPreferences sSharedPreferences;
     private Location mLocationFound;
     /**
      * holds all locations. used to create the filtered lists
@@ -34,7 +34,7 @@ public class GastroLocations {
      * holds favorite locations
      */
     private List<GastroLocation> mFavorites = new ArrayList<>();
-    private static Set<String> mFavoriteIDs = new HashSet<>();
+    private static Set<String> sFavoriteIDs = new HashSet<>();
     private boolean mFavoritesCurrentlyShown;
     /**
      * holds the locations, that are presented to the user in {@code MainListActivity}
@@ -44,8 +44,8 @@ public class GastroLocations {
 
     public GastroLocations(MainListActivity mainListActivity) {
         mMainListActivity = mainListActivity;
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mMainListActivity);
-        mFavoriteIDs = mSharedPreferences.getStringSet(KEY_FAVORITES, new HashSet<String>());
+        sSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mMainListActivity);
+        sFavoriteIDs = sSharedPreferences.getStringSet(KEY_FAVORITES, new HashSet<String>());
     }
 
     private void sortByDistance() {
@@ -101,22 +101,22 @@ public class GastroLocations {
     // favorites
 
     public static boolean containsFavorite(String id) {
-        return mFavoriteIDs.contains(id);
+        return sFavoriteIDs.contains(id);
     }
 
     public static void addFavorite(String id) {
-        mFavoriteIDs.add(id);
+        sFavoriteIDs.add(id);
         commitFavoritesPreferences();
     }
 
     public static void removeFavorite(String id) {
-        mFavoriteIDs.remove(id);
+        sFavoriteIDs.remove(id);
         commitFavoritesPreferences();
     }
 
     private static void commitFavoritesPreferences() {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putStringSet(KEY_FAVORITES, mFavoriteIDs);
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+        editor.putStringSet(KEY_FAVORITES, sFavoriteIDs);
         editor.apply();
     }
 
@@ -124,7 +124,7 @@ public class GastroLocations {
         mFavoritesCurrentlyShown = true;
         mFavorites.clear();
         for (GastroLocation gastro : mAll) {
-            if (mFavoriteIDs.contains(gastro.getId())) {
+            if (sFavoriteIDs.contains(gastro.getId())) {
                 mFavorites.add(gastro);
             }
         }
