@@ -91,6 +91,10 @@ public class MainListActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         requestLocationUpdates();
+        if (mGastroLocations.isFavoritesCurrentlyShown()) {
+            // update the list, because the user may have added or removed a favorite in {@code GastroActivity}
+            mGastroLocations.showFavorites();
+        }
     }
 
     @Override

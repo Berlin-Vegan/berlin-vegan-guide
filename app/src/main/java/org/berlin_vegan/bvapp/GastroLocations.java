@@ -35,6 +35,7 @@ public class GastroLocations {
      */
     private List<GastroLocation> mFavorites = new ArrayList<>();
     private static Set<String> mFavoriteIDs = new HashSet<>();
+    private boolean mFavoritesCurrentlyShown;
     /**
      * holds the locations, that are presented to the user in {@code MainListActivity}
      */
@@ -77,6 +78,7 @@ public class GastroLocations {
     }
 
     void showFiltersResult(int... types) {
+        mFavoritesCurrentlyShown = false;
         if (mAll != null && !mAll.isEmpty()) {
             mFiltered.clear();
             for (GastroLocation gastro : mAll) {
@@ -119,6 +121,7 @@ public class GastroLocations {
     }
 
     public void showFavorites() {
+        mFavoritesCurrentlyShown = true;
         mFavorites.clear();
         for (GastroLocation gastro : mAll) {
             if (mFavoriteIDs.contains(gastro.getId())) {
@@ -133,6 +136,7 @@ public class GastroLocations {
     // query
 
     void processQueryFilter(String query) {
+        mFavoritesCurrentlyShown = false;
         mQueryFilter = query;
         final List<GastroLocation> queryFilteredList = new ArrayList<>();
         for (GastroLocation gastro : mFiltered) {
@@ -190,5 +194,9 @@ public class GastroLocations {
 
     GastroLocation get(int i) {
         return mShown.get(i);
+    }
+
+    public boolean isFavoritesCurrentlyShown() {
+        return mFavoritesCurrentlyShown;
     }
 }
