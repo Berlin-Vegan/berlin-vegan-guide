@@ -10,7 +10,7 @@ mobile app for android
 * check out master, if not already happened, and make sure you are up-to-date, e.g. `git fetch --all`, `git pull`, etc.
 * merge branch development `git merge development`
 * set annotated git tag for version, e.g. `TAG=0.1 && git tag -a ${TAG} -m ${TAG}`
-* build the release `./gradlew assembleRelease`
+* build the release `./gradlew assembleRelease -PsharedSecret=<acra_shared_secret>`
 * sign the release, e.g. `jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore ./app/build/outputs/apk/app-release-unsigned.apk alias_name`
 * give the app a better name, e.g. `mv ./app/build/outputs/apk/app-release-unsigned.apk ./app/build/outputs/apk/org.berlin_vegan.app_alpha.apk`
 * install the release `adb install -r ./app/build/outputs/apk/org.berlin_vegan.app_alpha.apk`

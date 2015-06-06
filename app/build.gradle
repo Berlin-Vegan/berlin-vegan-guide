@@ -32,6 +32,11 @@ android {
         } else {
             buildConfigField "String", "VERSION_GIT_DESCRIPTION", "\"empty version name\""
         }
+        if (project.hasProperty("sharedSecret")) {
+            buildConfigField "String", "SHARED_SECRET", "\"${sharedSecret}\""
+        } else {
+            buildConfigField "String", "SHARED_SECRET", "\"\""
+        }
     }
     buildTypes {
         release {

@@ -31,7 +31,6 @@ import java.util.UUID;
 public class ACRAPostSender implements ReportSender {
     private final static String TAG = "ACRAPostSender";
     private final static String BASE_URL = "http://www.berlin-vegan.de/cgi-bin/acra.php?email=bv-app@berlin-vegan.de";
-    private final static String SHARED_SECRET = "aehiePh2Aew8atui";
     private Map<String, String> custom_data = null;
 
     ACRAPostSender() {
@@ -125,7 +124,7 @@ public class ACRAPostSender implements ReportSender {
     }
 
     private String getKey(String token) {
-        return md5(String.format("%s+%s", SHARED_SECRET, token));
+        return md5(String.format("%s+%s", BuildConfig.SHARED_SECRET, token));
     }
 
     private String getToken() {
