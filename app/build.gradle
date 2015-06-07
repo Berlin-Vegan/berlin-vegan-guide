@@ -38,6 +38,16 @@ android {
             buildConfigField "String", "SHARED_SECRET", "\"\""
         }
     }
+    applicationVariants.all { variant ->
+        if (variant.buildType.name == "release") {
+            // TODO: find a way to bail out at the beginning of the build process
+            variant.assemble.doLast {
+                if (!project.hasProperty("sharedSecret")) {
+                    throw new InvalidUserDataException("Parameter 'sharedSecret' is mandatory in release builds")
+                }
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
