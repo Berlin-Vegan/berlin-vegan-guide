@@ -10,7 +10,7 @@ mobile app for android
 * check out master, if not already happened, and make sure you are up-to-date, e.g. `git fetch --all`, `git pull`, etc.
 * merge branch development:
 ```
-git merge development
+git merge --ff-only origin/development
 ```
 * set annotated git tag for version, e.g.
 ```
