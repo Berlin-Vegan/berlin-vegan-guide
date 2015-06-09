@@ -60,3 +60,6 @@ out/
 
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+#script to build automatic build, contains passwords so don't commit it to github
+release.sh
