@@ -55,9 +55,9 @@ public class GastroActivity extends BaseActivity {
         MenuItem item = menu.findItem(R.id.action_add_favorite);
         boolean isFavorite = GastroLocations.containsFavorite(mGastroLocation.getId());
         if (isFavorite) {
-            item.setIcon(getResources().getDrawable(R.mipmap.ic_star_white_24dp, null));
+            item.setIcon(getResources().getDrawable(R.mipmap.ic_star_white_24dp));
         } else {
-            item.setIcon(getResources().getDrawable(R.mipmap.ic_star_outline_white_24dp, null));
+            item.setIcon(getResources().getDrawable(R.mipmap.ic_star_outline_white_24dp));
         }
         return true;
     }
@@ -68,10 +68,10 @@ public class GastroActivity extends BaseActivity {
             case R.id.action_add_favorite:
                 boolean isFavorite = GastroLocations.containsFavorite(mGastroLocation.getId());
                 if (!isFavorite) {
-                    item.setIcon(getResources().getDrawable(R.mipmap.ic_star_white_24dp, null));
+                    item.setIcon(getResources().getDrawable(R.mipmap.ic_star_white_24dp));
                     GastroLocations.addFavorite(mGastroLocation.getId());
                 } else {
-                    item.setIcon(getResources().getDrawable(R.mipmap.ic_star_outline_white_24dp, null));
+                    item.setIcon(getResources().getDrawable(R.mipmap.ic_star_outline_white_24dp));
                     GastroLocations.removeFavorite(mGastroLocation.getId());
                 }
                 break;
