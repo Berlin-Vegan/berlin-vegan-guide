@@ -39,13 +39,7 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
     @Override
     public void onBindViewHolder(GastroLocationViewHolder gastroLocationViewHolder, int i) {
         GastroLocation gastroLocation = mMainListActivity.getGastroLocations().get(i);
-        StringBuilder title = new StringBuilder()
-                .append(gastroLocation.getName())
-                .append(" ")
-                .append("(")
-                .append(gastroLocation.getDistrict())
-                .append(")");
-        gastroLocationViewHolder.vTitle.setText(title);
+        gastroLocationViewHolder.vTitle.setText(gastroLocation.getName());
         gastroLocationViewHolder.vStreet.setText(gastroLocation.getStreet());
         float distToCurLoc = gastroLocation.getDistToCurLoc();
         if (distToCurLoc > -1.0f) {
@@ -65,7 +59,7 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
     public GastroLocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.main_list_card_view, viewGroup, false);
+                inflate(R.layout.main_list_item, viewGroup, false);
 
         return new GastroLocationViewHolder(itemView, mMainListActivity);
     }

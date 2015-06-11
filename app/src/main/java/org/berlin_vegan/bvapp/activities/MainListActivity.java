@@ -26,6 +26,7 @@ import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.adapters.GastroLocationAdapter;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.GastroLocations;
+import org.berlin_vegan.bvapp.helpers.DividerItemDecoration;
 import org.berlin_vegan.bvapp.listeners.GastroLocationListener;
 import org.berlin_vegan.bvapp.helpers.GastroListCallbackSingleChoice;
 import org.berlin_vegan.bvapp.helpers.UiUtils;
@@ -209,6 +210,9 @@ public class MainListActivity extends BaseActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setAdapter(mGastroLocationAdapter);
+        RecyclerView.ItemDecoration itemDecoration =
+                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
+        mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
