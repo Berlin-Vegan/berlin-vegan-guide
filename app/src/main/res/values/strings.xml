@@ -22,7 +22,7 @@
     <string name="insert_error_report">Please insert error report here:</string>
     <string name="something_went_wrong">Something went wrong. But no worries, a report has been sent to help fix the issue.</string>
 
-    <string name="about_body" formatted="false">&lt;b&gt;%s&lt;/b&gt;&lt;br&gt; Version %s</string>
+    <string name="about_body">&lt;b>%1$s&lt;/b>&lt;br>Version %2$s</string>
     <string name="about_licenses">Open Source Licenses</string>
 
     <string name="gastro_details_contact_title">Contact</string>
