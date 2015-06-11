@@ -2,7 +2,9 @@ package org.berlin_vegan.bvapp;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 public class SettingsActivity extends BaseActivity {
 
@@ -24,6 +26,17 @@ public class SettingsActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // respond to the action bar's up button
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public static class SettingsFragment extends PreferenceFragment {

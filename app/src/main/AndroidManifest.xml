@@ -26,12 +26,20 @@
         <activity
             android:name=".SettingsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="@string/action_settings"
-            android:parentActivityName=".MainListActivity" />
+            android:label="@string/action_settings">
+            <!-- Parent activity meta-data to support API level 4+ -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.berlin_vegan.bvapp.MainListActivity" />
+        </activity>
         <activity
             android:name=".GastroActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:parentActivityName=".MainListActivity" />
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <!-- Parent activity meta-data to support API level 4+ -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.berlin_vegan.bvapp.MainListActivity" />
+        </activity>
     </application>
 
 </manifest>

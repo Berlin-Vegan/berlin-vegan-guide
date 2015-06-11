@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -65,6 +66,10 @@ public class GastroActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                // respond to the action bar's up button
+                NavUtils.navigateUpFromSameTask(this);
+                break;
             case R.id.action_add_favorite:
                 boolean isFavorite = GastroLocations.containsFavorite(mGastroLocation.getId());
                 if (!isFavorite) {
