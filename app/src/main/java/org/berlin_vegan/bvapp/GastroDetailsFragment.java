@@ -69,7 +69,7 @@ public class GastroDetailsFragment extends Fragment {
             // value
             TextView vMiscellaneousValue = new TextView(getActivity());
             vMiscellaneousKey.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.4f));
-            vMiscellaneousValue.setGravity(Gravity.RIGHT);
+            vMiscellaneousValue.setGravity(Gravity.END);
             vMiscellaneousValue.setText(miscellaneousData[i][1]);
             vMiscellaneousValue.setTextColor(getResources().getColor(R.color.theme_primary_secondary_text));
             linearLayout.addView(vMiscellaneousValue);
@@ -102,7 +102,7 @@ public class GastroDetailsFragment extends Fragment {
             // view opening hours
             TextView vOpeningHours = new TextView(getActivity());
             vOpeningHours.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.4f));
-            vOpeningHours.setGravity(Gravity.RIGHT);
+            vOpeningHours.setGravity(Gravity.END);
             if (!openingHoursData[i][1].trim().equals("")) {
                 vOpeningHours.setText(openingHoursData[i][1]);
             } else {
