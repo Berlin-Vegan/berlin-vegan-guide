@@ -82,14 +82,11 @@ public class GastroActivity extends BaseActivity {
                 break;
             case R.id.action_report_error:
                 final Intent report = new Intent(Intent.ACTION_SENDTO);
-                final StringBuilder uriText = new StringBuilder()
-                        .append("mailto:")
-                        .append(Uri.encode("bvapp@berlin-vegan.org"))
-                        .append("?subject=")
-                        .append(Uri.encode(getMessageSubject()))
-                        .append("&body=")
-                        .append(Uri.encode(getMessageBody()));
-                final Uri uri = Uri.parse(uriText.toString());
+                final String uriText = ""
+                        + "mailto:" + Uri.encode("bvapp@berlin-vegan.org")
+                        + "?subject=" + Uri.encode(getMessageSubject())
+                        + "&body=" + Uri.encode(getMessageBody());
+                final Uri uri = Uri.parse(uriText);
                 report.setData(uri);
                 startActivity(Intent.createChooser(report, getString(R.string.action_report_error)));
                 break;
@@ -106,13 +103,9 @@ public class GastroActivity extends BaseActivity {
     }
 
     private String getMessageSubject() {
-        StringBuilder subject = new StringBuilder()
-                .append(getString(R.string.error))
-                .append(": ")
-                .append(mGastroLocation.getName())
-                .append(", ")
-                .append(mGastroLocation.getStreet());
-        return subject.toString();
+        return getString(R.string.error) + ": "
+                + mGastroLocation.getName() + ", "
+                + mGastroLocation.getStreet();
     }
 
     private String getMessageBody() {
@@ -120,20 +113,13 @@ public class GastroActivity extends BaseActivity {
         for (int i = 0; i < NUM_STARS; i++) {
             stars.append("*");
         }
-        final StringBuilder body = new StringBuilder()
-                .append(stars)
-                .append("\nApp Version: ")
-                .append(BuildConfig.VERSION_GIT_DESCRIPTION)
-                .append("\nDevice Name: ")
-                .append(Build.MODEL)
-                .append("\nPlatform: Android")
-                .append("\nDevice Version: ")
-                .append(Build.VERSION.RELEASE)
-                .append("\n")
-                .append(stars)
-                .append("\n\n")
-                .append(getString(R.string.insert_error_report))
-                .append("\n\n");
-        return body.toString();
+        return stars
+                + "\nApp Version: " + BuildConfig.VERSION_GIT_DESCRIPTION
+                + "\nDevice Name: " + Build.MODEL
+                + "\nPlatform: Android"
+                + "\nDevice Version: " + Build.VERSION.RELEASE
+                + "\n" + stars
+                + "\n\n" + getString(R.string.insert_error_report)
+                + "\n\n";
     }
 }

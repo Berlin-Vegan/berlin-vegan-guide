@@ -124,38 +124,29 @@ public class GastroDetailsFragment extends Fragment {
     }
 
     private void fillGastroDetailsTelephoneView(View v) {
-        StringBuilder telephone = new StringBuilder()
-                .append("<a href=\"tel:")
-                .append(mGastroLocation.getTelephone())
-                .append("\">")
-                .append(mGastroLocation.getTelephone())
-                .append("</a>");
+        String telephone = ""
+                + "<a href=\"tel:"
+                + mGastroLocation.getTelephone() + "\">"
+                + mGastroLocation.getTelephone() + "</a>";
         TextView vGastroDetailsTelephone = (TextView) v.findViewById(R.id.gastro_details_telephone);
-        vGastroDetailsTelephone.setText(Html.fromHtml(telephone.toString()));
+        vGastroDetailsTelephone.setText(Html.fromHtml(telephone));
         vGastroDetailsTelephone.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void fillGastroDetailsAddressView(View v) {
-        StringBuilder address = new StringBuilder()
-                .append("<a href=\"http://maps.google.com/maps?q=")
-                        // google maps: street, citycode, city
-                .append(mGastroLocation.getStreet())
-                .append(", ")
-                .append(mGastroLocation.getCityCode())
-                .append(", ")
-                .append(mGastroLocation.getCity())
-                .append("\">")
-                        // view: "street\n citycode city-district"
-                .append(mGastroLocation.getStreet())
-                .append("<br>")
-                .append(mGastroLocation.getCityCode())
-                .append(" ")
-                .append(mGastroLocation.getCity())
-                .append("-")
-                .append(mGastroLocation.getDistrict())
-                .append("</a>");
+        String address = ""
+                + "<a href=\"http://maps.google.com/maps?q="
+                // google maps: street, citycode, city
+                + mGastroLocation.getStreet() + ", "
+                + mGastroLocation.getCityCode() + ", "
+                + mGastroLocation.getCity() + "\">"
+                // view: "street\n citycode city-district"
+                + mGastroLocation.getStreet() + "<br>"
+                + mGastroLocation.getCityCode() + " "
+                + mGastroLocation.getCity() + "-"
+                + mGastroLocation.getDistrict() + "</a>";
         TextView vGastroDetailsAddress = (TextView) v.findViewById(R.id.gastro_details_address);
-        vGastroDetailsAddress.setText(Html.fromHtml(address.toString()));
+        vGastroDetailsAddress.setText(Html.fromHtml(address));
         vGastroDetailsAddress.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
