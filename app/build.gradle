@@ -1,16 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    def gitTag = {
-        def tagMatchOptions
-        try {
-            tagMatchOptions = '--match ' + tagToBuildFrom
-        } catch (MissingPropertyException) {
-            tagMatchOptions = ''
-        }
-        def exec = 'git describe --exact HEAD ' + tagMatchOptions
-        exec.execute().text.trim()
-    }()
+    def gitTag = 'git describe --exact HEAD'.execute().text.trim()
     def gitHash = 'git rev-parse --short HEAD'.execute().text.trim()
     def gitBranch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
     def hasModifiedDeletedOrOtherFiles = !'git ls-files -mdo --exclude-standard'.execute().text.trim().isEmpty()
