@@ -14,8 +14,8 @@ import static android.view.View.OnClickListener;
 
 public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAdapter.GastroLocationViewHolder> {
 
-    private MainListActivity mMainListActivity;
-    private SharedPreferences mSharedPreferences;
+    private final MainListActivity mMainListActivity;
+    private final SharedPreferences mSharedPreferences;
 
     public GastroLocationAdapter(MainListActivity mainListActivity) {
         mMainListActivity = mainListActivity;
@@ -62,10 +62,10 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
     }
 
     public static class GastroLocationViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-        private MainListActivity mMainListActivity;
-        TextView vTitle;
-        TextView vStreet;
-        TextView vDistance;
+        private final MainListActivity mMainListActivity;
+        final TextView vTitle;
+        final TextView vStreet;
+        final TextView vDistance;
 
         public GastroLocationViewHolder(View v, MainListActivity mainListActivity) {
             super(v);

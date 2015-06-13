@@ -301,7 +301,7 @@ public class MainListActivity extends BaseActivity {
     }
 
     private class RetrieveGastroLocations extends AsyncTask<Void, Void, Void> {
-        private MainListActivity mMainListActivity;
+        private final MainListActivity mMainListActivity;
 
         public RetrieveGastroLocations(MainListActivity mainListActivity) {
             mMainListActivity = mainListActivity;

@@ -13,7 +13,7 @@ class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingl
     private static final int VEGAN_ONLY = 2;
     private static final int FAVORITES = 3;
 
-    private MainListActivity mMainListActivity;
+    private final MainListActivity mMainListActivity;
 
     public GastroListCallbackSingleChoice(MainListActivity mainListActivity) {
         mMainListActivity = mainListActivity;

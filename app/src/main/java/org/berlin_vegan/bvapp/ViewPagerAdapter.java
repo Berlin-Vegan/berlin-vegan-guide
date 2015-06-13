@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private CharSequence mTitles[];
-    private int mNumOfTabs;
+    private final CharSequence mTitles[];
+    private final int mNumOfTabs;
 
     public ViewPagerAdapter(FragmentManager fragmentManager, Context context) {
         super(fragmentManager);

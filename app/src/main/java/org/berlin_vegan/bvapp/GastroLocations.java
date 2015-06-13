@@ -19,7 +19,7 @@ public class GastroLocations {
     static final String KEY_UNITS = "key_units";
     static final String KEY_FILTER = "key_filter";
 
-    private MainListActivity mMainListActivity;
+    private final MainListActivity mMainListActivity;
     private static SharedPreferences sSharedPreferences;
     private Location mLocationFound;
     /**
@@ -33,7 +33,7 @@ public class GastroLocations {
     /**
      * holds favorite locations
      */
-    private List<GastroLocation> mFavorites = new ArrayList<>();
+    private final List<GastroLocation> mFavorites = new ArrayList<>();
     private static Set<String> sFavoriteIDs = new HashSet<>();
     private boolean mFavoritesCurrentlyShown;
     /**

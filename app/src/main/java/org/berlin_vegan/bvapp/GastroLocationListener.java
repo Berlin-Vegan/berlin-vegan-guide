@@ -9,8 +9,8 @@ class GastroLocationListener implements LocationListener {
 
     private static final String TAG = "GastroLocationListener";
 
-    private MainListActivity mMainListActivity;
-    private GastroLocations mGastroLocations;
+    private final MainListActivity mMainListActivity;
+    private final GastroLocations mGastroLocations;
 
     public GastroLocationListener(MainListActivity mainListActivity, GastroLocations gastroLocations) {
         mMainListActivity = mainListActivity;
