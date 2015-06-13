@@ -55,7 +55,7 @@ public class GastroDetailsFragment extends Fragment {
                 {getString(R.string.gastro_details_miscellaneous_content_seats_outdoor), getMiscellaneousContentString(mGastroLocation.getSeatsOutdoor())},
                 {getString(R.string.gastro_details_miscellaneous_content_vegan), getVeganContentString(mGastroLocation.getVegan())},
                 {getString(R.string.gastro_details_miscellaneous_content_wlan), getMiscellaneousContentString(mGastroLocation.getWlan())}};
-        for (int i = 0; i < miscellaneousData.length; i++) {
+        for (String[] data : miscellaneousData) {
             LinearLayout linearLayout = new LinearLayout(getActivity());
             linearLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
             linearLayout.setPadding(0, 0, 0, 4);
@@ -63,14 +63,14 @@ public class GastroDetailsFragment extends Fragment {
             // key
             TextView vMiscellaneousKey = new TextView(getActivity());
             vMiscellaneousKey.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.6f));
-            vMiscellaneousKey.setText(miscellaneousData[i][0]);
+            vMiscellaneousKey.setText(data[0]);
             vMiscellaneousKey.setTextColor(getResources().getColor(R.color.theme_primary));
             linearLayout.addView(vMiscellaneousKey);
             // value
             TextView vMiscellaneousValue = new TextView(getActivity());
             vMiscellaneousKey.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.4f));
             vMiscellaneousValue.setGravity(Gravity.END);
-            vMiscellaneousValue.setText(miscellaneousData[i][1]);
+            vMiscellaneousValue.setText(data[1]);
             vMiscellaneousValue.setTextColor(getResources().getColor(R.color.theme_primary_secondary_text));
             linearLayout.addView(vMiscellaneousValue);
             gastroDetailsMiscellaneousContent.addView(linearLayout);
@@ -88,7 +88,7 @@ public class GastroDetailsFragment extends Fragment {
                 {getString(R.string.gastro_details_opening_hours_content_saturday), mGastroLocation.getOtSat()},
                 {getString(R.string.gastro_details_opening_hours_content_sunday), mGastroLocation.getOtSun()}
         };
-        for (int i = 0; i < openingHoursData.length; i++) {
+        for (String[] data : openingHoursData) {
             LinearLayout linearLayout = new LinearLayout(getActivity());
             linearLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
             linearLayout.setPadding(0, 0, 0, 4);
@@ -96,15 +96,15 @@ public class GastroDetailsFragment extends Fragment {
             // view day of the week
             TextView vDayOfTheWeek = new TextView(getActivity());
             vDayOfTheWeek.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.6f));
-            vDayOfTheWeek.setText(openingHoursData[i][0]);
+            vDayOfTheWeek.setText(data[0]);
             vDayOfTheWeek.setTextColor(getResources().getColor(R.color.theme_primary));
             linearLayout.addView(vDayOfTheWeek);
             // view opening hours
             TextView vOpeningHours = new TextView(getActivity());
             vOpeningHours.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.4f));
             vOpeningHours.setGravity(Gravity.END);
-            if (!openingHoursData[i][1].trim().equals("")) {
-                vOpeningHours.setText(openingHoursData[i][1]);
+            if (!data[1].trim().equals("")) {
+                vOpeningHours.setText(data[1]);
             } else {
                 vOpeningHours.setText(getString(R.string.gastro_details_opening_hours_content_closed));
             }
