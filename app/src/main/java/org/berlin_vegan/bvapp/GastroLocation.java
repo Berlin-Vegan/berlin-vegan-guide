@@ -37,7 +37,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     private String comment;
     private Integer wlan;
     private Integer glutenFree;
-    private List<String> tags = new ArrayList<String>();
+    private List<String> tags = new ArrayList<>();
 
 
     // getter & setter
