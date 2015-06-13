@@ -358,7 +358,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
         if (getDistToCurLoc() == null) {
             return 1;
         }
-        if (getDistToCurLoc() == null) {
+        if (other.getDistToCurLoc() == null) {
             return -1;
         }
         return getDistToCurLoc().compareTo(other.getDistToCurLoc());
