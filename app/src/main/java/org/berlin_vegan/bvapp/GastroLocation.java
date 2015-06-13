@@ -330,7 +330,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
             return false;
         }
         GastroLocation other = (GastroLocation) object;
-        return (id == other.id) &&
+        return (id != null && id.equals(other.id)) &&
                 (name != null && name.equals(other.name)) &&
                 (street != null && street.equals(other.street)) &&
                 (cityCode != null && cityCode.equals(other.cityCode)) &&
