@@ -48,8 +48,7 @@ public class ACRAPostSender implements ReportSender {
             e.printStackTrace();
         }
         m.update(s.getBytes(), 0, s.length());
-        String hash = new BigInteger(1, m.digest()).toString(16);
-        return hash;
+        return new BigInteger(1, m.digest()).toString(16);
     }
 
     @Override

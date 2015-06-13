@@ -19,11 +19,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            GastroDetailsFragment gastroDetailsFragment = new GastroDetailsFragment();
-            return gastroDetailsFragment;
+            return new GastroDetailsFragment();
         } else {
-            GastroDescriptionFragment gastroDescriptionFragment = new GastroDescriptionFragment();
-            return gastroDescriptionFragment;
+            return new GastroDescriptionFragment();
         }
     }
 

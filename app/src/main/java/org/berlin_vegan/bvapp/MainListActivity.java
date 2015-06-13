@@ -297,8 +297,7 @@ public class MainListActivity extends BaseActivity {
         final InputStreamReader reader = new InputStreamReader(inputStream, Charset.defaultCharset());
         Type listType = new TypeToken<ArrayList<GastroLocation>>() {
         }.getType();
-        final List<GastroLocation> locationList = new Gson().fromJson(reader, listType);
-        return locationList;
+        return new Gson().fromJson(reader, listType);
     }
 
     private class RetrieveGastroLocations extends AsyncTask<Void, Void, Void> {
