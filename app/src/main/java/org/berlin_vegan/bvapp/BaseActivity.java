@@ -8,12 +8,6 @@ abstract class BaseActivity extends AppCompatActivity {
     private Toolbar mToolbar;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-
-    }
-
-    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
