@@ -19,7 +19,7 @@ import android.webkit.WebView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-public class UiUtils {
+class UiUtils {
 
     public static MaterialDialog showMaterialDialog(Context context, String title, String content) {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(content);
@@ -46,7 +46,7 @@ public class UiUtils {
         return dialog;
     }
 
-    public static MaterialDialog showMaterialDialog(Context context, String title, SpannableStringBuilder content) {
+    private static MaterialDialog showMaterialDialog(Context context, String title, SpannableStringBuilder content) {
         MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .title(title)
                 .content(content)
@@ -82,7 +82,7 @@ public class UiUtils {
         return aboutBody;
     }
 
-    public static void showOpenSourceLicenses(Activity activity) {
+    private static void showOpenSourceLicenses(Activity activity) {
         FragmentManager fragmentManager = activity.getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment prev = fragmentManager.findFragmentByTag("dialog_licenses");

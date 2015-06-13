@@ -63,9 +63,9 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
 
     public static class GastroLocationViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
         private MainListActivity mMainListActivity;
-        protected TextView vTitle;
-        protected TextView vStreet;
-        protected TextView vDistance;
+        TextView vTitle;
+        TextView vStreet;
+        TextView vDistance;
 
         public GastroLocationViewHolder(View v, MainListActivity mainListActivity) {
             super(v);

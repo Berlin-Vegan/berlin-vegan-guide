@@ -17,9 +17,9 @@ public class GastroDetailsFragment extends Fragment {
 
     private GastroLocation mGastroLocation;
 
-    final public static int OMNIVORE = 1;
+    final private static int OMNIVORE = 1;
     final public static int OMNIVORE_VEGAN_DECLARED = 2;
-    final public static int VEGETARIAN = 3;
+    final private static int VEGETARIAN = 3;
     final public static int VEGETARIAN_VEGAN_DECLARED = 4;
     final public static int VEGAN = 5;
 

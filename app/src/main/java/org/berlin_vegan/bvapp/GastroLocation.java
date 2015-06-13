@@ -273,7 +273,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
         this.seatsIndoor = seatsIndoor;
     }
 
-    public String getComment() {
+    private String getComment() {
         return comment;
     }
 

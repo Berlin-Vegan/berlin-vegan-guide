@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.UUID;
 
 
-public class ACRAPostSender implements ReportSender {
+class ACRAPostSender implements ReportSender {
     private final static String TAG = "ACRAPostSender";
     private final static String BASE_URL = "http://www.berlin-vegan.de/cgi-bin/acra.php?email=bv-app@berlin-vegan.de";
     private Map<String, String> custom_data = null;
@@ -40,7 +40,7 @@ public class ACRAPostSender implements ReportSender {
         this.custom_data = custom_data;
     }
 
-    public static String md5(String s) {
+    private static String md5(String s) {
         MessageDigest m = null;
         try {
             m = MessageDigest.getInstance("MD5");
