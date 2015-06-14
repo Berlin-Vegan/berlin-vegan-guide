@@ -18,5 +18,11 @@ public class GastroLocationTest {
 
         assertEquals(3, locationList.size());
         assertEquals("arleo:", locationList.get(0).getName());
+
+        final GastroLocation location = locationList.get(1);// attis
+        final List<GastroLocationPicture> pictures = location.getPictures();
+        assertEquals(2,pictures.size()); // 2 pictures
+        System.out.println(pictures.get(0).getUrl());
+        System.out.println(pictures.get(0).getWidth());
     }
 }

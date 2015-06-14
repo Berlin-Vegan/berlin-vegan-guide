@@ -38,6 +38,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     private Integer wlan;
     private Integer glutenFree;
     private List<String> tags = new ArrayList<>();
+    private List<GastroLocationPicture> pictures;
 
 
     // getter & setter
@@ -314,6 +315,13 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
         this.tags = tags;
     }
 
+    public List<GastroLocationPicture> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<GastroLocationPicture> pictures) {
+        this.pictures = pictures;
+    }
     // --------------------------------------------------------------------
     // implement comparable interface
 
@@ -363,5 +371,6 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
         }
         return getDistToCurLoc().compareTo(other.getDistToCurLoc());
     }
+
 }
 

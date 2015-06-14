@@ -70,5 +70,6 @@ comment                 | string      | description for location
 wlan                    | number      | free wifi available<sup>1</sup>
 glutenFree              | number      | gluten free food available<sup>1</sup>
 tags                    | stringarray | used for type of location: restaurant, imbiss, eiscafe, cafe
+pictures                | array       | an array of pictures, every picture contains url, width and height
 
 <sup>(1)</sup> 1 = yes, 0 = no, -1 = unknown
