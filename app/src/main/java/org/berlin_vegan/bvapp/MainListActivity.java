@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -322,7 +323,7 @@ public class MainListActivity extends BaseActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            InputStream inputStream;
+            InputStream inputStream = null;
             List<GastroLocation> gastroLocations = null;
             try {
                 // fetch json file from server
@@ -338,12 +339,15 @@ public class MainListActivity extends BaseActivity {
             } catch (RuntimeException e) {
                 Log.e(TAG, "parsing the json file failed", e);
                 gastroLocations = null;
+            } finally {
+                closeStream(inputStream);
             }
             if (gastroLocations == null) {
                 // get local json file as fall back
                 mUseLocalCopy = true;
                 inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
                 gastroLocations = createList(inputStream);
+                closeStream(inputStream);
             }
             if (mUseLocalCopy) {
                 Log.i(TAG, "fall back: use local copy of database file");
@@ -359,6 +363,16 @@ public class MainListActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Void param) {
             mGastroLocations.updateLocationAdapter();
+        }
+
+        private void closeStream(Closeable closeable) {
+            try {
+                if (closeable != null) {
+                    closeable.close();
+                }
+            } catch (IOException e) {
+                Log.e(TAG, "closing stream failed", e);
+            }
         }
     }
 }
