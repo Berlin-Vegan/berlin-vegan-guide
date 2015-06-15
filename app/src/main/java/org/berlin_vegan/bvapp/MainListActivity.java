@@ -50,7 +50,6 @@ public class MainListActivity extends BaseActivity {
     private Location mLocationFound;
     private Dialog mProgressDialog;
     private SharedPreferences mSharedPreferences;
-    private boolean mUseLocalCopy;
     private GastroLocations mGastroLocations;
     private final GastroListCallbackSingleChoice mButtonCallback = new GastroListCallbackSingleChoice(this);
 
@@ -325,6 +324,7 @@ public class MainListActivity extends BaseActivity {
         protected Void doInBackground(Void... params) {
             InputStream inputStream = null;
             List<GastroLocation> gastroLocations = null;
+            boolean useLocalCopy = false;
             try {
                 // fetch json file from server
                 final URL url = new URL(HTTP_GASTRO_LOCATIONS_JSON);
@@ -332,7 +332,6 @@ public class MainListActivity extends BaseActivity {
                 urlConnection.setConnectTimeout(5 * 1000);
                 urlConnection.setReadTimeout(5 * 1000);
                 inputStream = urlConnection.getInputStream();
-                mUseLocalCopy = false;
                 gastroLocations = createList(inputStream);
             } catch (IOException e) {
                 Log.e(TAG, "fetching json file from server failed", e);
@@ -344,12 +343,12 @@ public class MainListActivity extends BaseActivity {
             }
             if (gastroLocations == null) {
                 // get local json file as fall back
-                mUseLocalCopy = true;
+                useLocalCopy = true;
                 inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
                 gastroLocations = createList(inputStream);
                 closeStream(inputStream);
             }
-            if (mUseLocalCopy) {
+            if (useLocalCopy) {
                 Log.i(TAG, "fall back: use local copy of database file");
             } else {
                 Log.i(TAG, "retrieving database from server successful");
