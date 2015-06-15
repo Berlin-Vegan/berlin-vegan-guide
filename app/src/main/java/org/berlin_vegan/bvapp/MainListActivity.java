@@ -335,6 +335,9 @@ public class MainListActivity extends BaseActivity {
                 gastroLocations = createList(inputStream);
             } catch (IOException e) {
                 Log.e(TAG, "fetching json file from server failed", e);
+            } catch (RuntimeException e) {
+                Log.e(TAG, "parsing the json file failed", e);
+                gastroLocations = null;
             }
             if (gastroLocations == null) {
                 // get local json file as fall back
