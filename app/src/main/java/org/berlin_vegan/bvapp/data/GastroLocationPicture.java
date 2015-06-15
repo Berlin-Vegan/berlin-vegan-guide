@@ -1,4 +1,4 @@
-package org.berlin_vegan.bvapp;
+package org.berlin_vegan.bvapp.data;
 
 import java.io.Serializable;
 

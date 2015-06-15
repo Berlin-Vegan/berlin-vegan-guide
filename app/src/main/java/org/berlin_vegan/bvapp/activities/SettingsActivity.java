@@ -1,10 +1,12 @@
-package org.berlin_vegan.bvapp;
+package org.berlin_vegan.bvapp.activities;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import org.berlin_vegan.bvapp.R;
 
 public class SettingsActivity extends BaseActivity {
 

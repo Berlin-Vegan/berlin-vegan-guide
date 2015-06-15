@@ -1,4 +1,4 @@
-package org.berlin_vegan.bvapp;
+package org.berlin_vegan.bvapp.helpers;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -6,7 +6,11 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
-class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingleChoice {
+import org.berlin_vegan.bvapp.activities.MainListActivity;
+import org.berlin_vegan.bvapp.data.GastroLocations;
+import org.berlin_vegan.bvapp.fragments.GastroDetailsFragment;
+
+public class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingleChoice {
 
     private static final int OMNIVORE_VEGETARIAN_VEGAN = 0;
     private static final int VEGETARIAN_VEGAN = 1;

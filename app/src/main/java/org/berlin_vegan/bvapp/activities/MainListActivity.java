@@ -1,4 +1,4 @@
-package org.berlin_vegan.bvapp;
+package org.berlin_vegan.bvapp.activities;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -21,6 +21,14 @@ import android.view.MenuItem;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.berlin_vegan.bvapp.R;
+import org.berlin_vegan.bvapp.adapters.GastroLocationAdapter;
+import org.berlin_vegan.bvapp.data.GastroLocation;
+import org.berlin_vegan.bvapp.data.GastroLocations;
+import org.berlin_vegan.bvapp.listeners.GastroLocationListener;
+import org.berlin_vegan.bvapp.helpers.GastroListCallbackSingleChoice;
+import org.berlin_vegan.bvapp.helpers.UiUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -240,7 +248,7 @@ public class MainListActivity extends BaseActivity {
     private void requestLocationUpdates() {
         final int minTime = 3 * 60 * 1000; // e.g. 5 * 60 * 1000 (5 minutes)
         final int minDistance = 100;
-        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (mLocationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER)) {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, mGastroLocationListener);
         }
@@ -249,7 +257,7 @@ public class MainListActivity extends BaseActivity {
         }
     }
 
-    void removeLocationUpdates() {
+    public void removeLocationUpdates() {
         if (mLocationManager != null)
             mLocationManager.removeUpdates(mGastroLocationListener);
     }
@@ -289,7 +297,7 @@ public class MainListActivity extends BaseActivity {
         return mGastroLocationAdapter;
     }
 
-    void setLocationFound(Location locationFound) {
+    public void setLocationFound(Location locationFound) {
         mLocationFound = locationFound;
     }
 

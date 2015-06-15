@@ -1,4 +1,4 @@
-package org.berlin_vegan.bvapp;
+package org.berlin_vegan.bvapp.acra;
 
 import android.content.Context;
 import android.util.Log;
@@ -14,6 +14,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
+import org.berlin_vegan.bvapp.BuildConfig;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -28,12 +29,12 @@ import java.util.Map;
 import java.util.UUID;
 
 
-class ACRAPostSender implements ReportSender {
+public class ACRAPostSender implements ReportSender {
     private final static String TAG = "ACRAPostSender";
     private final static String BASE_URL = "http://www.berlin-vegan.de/cgi-bin/acra.php?email=bv-app@berlin-vegan.de";
     private Map<String, String> custom_data = null;
 
-    ACRAPostSender() {
+    public ACRAPostSender() {
     }
 
     ACRAPostSender(HashMap<String, String> custom_data) {

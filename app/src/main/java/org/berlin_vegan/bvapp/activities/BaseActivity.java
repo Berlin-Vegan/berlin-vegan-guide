@@ -1,10 +1,12 @@
-package org.berlin_vegan.bvapp;
+package org.berlin_vegan.bvapp.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-abstract class BaseActivity extends AppCompatActivity {
+import org.berlin_vegan.bvapp.R;
+
+public abstract class BaseActivity extends AppCompatActivity {
     private Toolbar mToolbar;
 
     @Override

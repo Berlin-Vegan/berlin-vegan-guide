@@ -1,4 +1,4 @@
-package org.berlin_vegan.bvapp;
+package org.berlin_vegan.bvapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import org.berlin_vegan.bvapp.activities.MainListActivity;
+import org.berlin_vegan.bvapp.R;
+import org.berlin_vegan.bvapp.activities.GastroActivity;
+import org.berlin_vegan.bvapp.data.GastroLocation;
+import org.berlin_vegan.bvapp.data.GastroLocations;
 
 import static android.view.View.OnClickListener;
 

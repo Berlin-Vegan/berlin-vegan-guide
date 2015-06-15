@@ -1,8 +1,10 @@
-package org.berlin_vegan.bvapp;
+package org.berlin_vegan.bvapp.data;
 
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.preference.PreferenceManager;
+
+import org.berlin_vegan.bvapp.activities.MainListActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,8 +18,8 @@ import java.util.Set;
  */
 public class GastroLocations {
     private static final String KEY_FAVORITES = "key_favorites";
-    static final String KEY_UNITS = "key_units";
-    static final String KEY_FILTER = "key_filter";
+    public static final String KEY_UNITS = "key_units";
+    public static final String KEY_FILTER = "key_filter";
 
     private final MainListActivity mMainListActivity;
     private static SharedPreferences sSharedPreferences;
@@ -77,7 +79,7 @@ public class GastroLocations {
         Collections.sort(mShown);
     }
 
-    void showFiltersResult(int... types) {
+    public void showFiltersResult(int... types) {
         mFavoritesCurrentlyShown = false;
         if (mAll != null && !mAll.isEmpty()) {
             mFiltered.clear();
@@ -135,7 +137,7 @@ public class GastroLocations {
     // --------------------------------------------------------------------
     // query
 
-    void processQueryFilter(String query) {
+    public void processQueryFilter(String query) {
         mFavoritesCurrentlyShown = false;
         mQueryFilter = query;
         final List<GastroLocation> queryFilteredList = new ArrayList<>();
@@ -151,14 +153,14 @@ public class GastroLocations {
         updateLocationAdapter();
     }
 
-    void resetQueryFilter() {
+    public void resetQueryFilter() {
         mQueryFilter = "";
     }
 
     // --------------------------------------------------------------------
     // updating
 
-    void updateLocationAdapter() {
+    public void updateLocationAdapter() {
         sortByDistance();
         mMainListActivity.runOnUiThread(new Runnable() {
             @Override
@@ -168,7 +170,7 @@ public class GastroLocations {
         });
     }
 
-    void updateLocationAdapter(Location locationFound) {
+    public void updateLocationAdapter(Location locationFound) {
         mLocationFound = locationFound;
         updateLocationAdapter();
     }
@@ -176,7 +178,7 @@ public class GastroLocations {
     // --------------------------------------------------------------------
     // getters & setters
 
-    void set(List<GastroLocation> gastroLocations) {
+    public void set(List<GastroLocation> gastroLocations) {
         mAll = mAll.isEmpty() ? gastroLocations : throw_();
         mShown = new ArrayList<>(mAll);
         updateLocationAdapter();
@@ -188,11 +190,11 @@ public class GastroLocations {
         throw new RuntimeException("gastro locations are already set");
     }
 
-    int size() {
+    public int size() {
         return mShown.size();
     }
 
-    GastroLocation get(int i) {
+    public GastroLocation get(int i) {
         return mShown.get(i);
     }
 

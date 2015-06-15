@@ -6,6 +6,7 @@ import android.util.Log;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
+import org.berlin_vegan.bvapp.acra.ACRAPostSender;
 
 @ReportsCrashes(
         mode = ReportingInteractionMode.TOAST,

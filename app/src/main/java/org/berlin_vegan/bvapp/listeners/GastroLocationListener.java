@@ -1,11 +1,14 @@
-package org.berlin_vegan.bvapp;
+package org.berlin_vegan.bvapp.listeners;
 
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.util.Log;
 
-class GastroLocationListener implements LocationListener {
+import org.berlin_vegan.bvapp.activities.MainListActivity;
+import org.berlin_vegan.bvapp.data.GastroLocations;
+
+public class GastroLocationListener implements LocationListener {
 
     private static final String TAG = "GastroLocationListener";
 

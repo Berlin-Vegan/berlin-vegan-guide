@@ -1,4 +1,4 @@
-package org.berlin_vegan.bvapp;
+package org.berlin_vegan.bvapp.activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +10,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.berlin_vegan.bvapp.BuildConfig;
+import org.berlin_vegan.bvapp.R;
+import org.berlin_vegan.bvapp.adapters.ViewPagerAdapter;
+import org.berlin_vegan.bvapp.data.GastroLocation;
+import org.berlin_vegan.bvapp.data.GastroLocations;
 
 public class GastroActivity extends BaseActivity {
 

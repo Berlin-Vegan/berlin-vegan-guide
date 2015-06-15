@@ -1,11 +1,15 @@
-package org.berlin_vegan.bvapp;
+package org.berlin_vegan.bvapp.adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-class ViewPagerAdapter extends FragmentStatePagerAdapter {
+import org.berlin_vegan.bvapp.R;
+import org.berlin_vegan.bvapp.fragments.GastroDescriptionFragment;
+import org.berlin_vegan.bvapp.fragments.GastroDetailsFragment;
+
+public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private final CharSequence mTitles[];
     private final int mNumOfTabs;

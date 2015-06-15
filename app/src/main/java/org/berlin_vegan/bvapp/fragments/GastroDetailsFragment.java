@@ -1,4 +1,4 @@
-package org.berlin_vegan.bvapp;
+package org.berlin_vegan.bvapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+
+import org.berlin_vegan.bvapp.data.GastroLocation;
+import org.berlin_vegan.bvapp.R;
 
 public class GastroDetailsFragment extends Fragment {
 

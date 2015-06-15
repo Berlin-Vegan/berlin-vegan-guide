@@ -1,4 +1,4 @@
-package org.berlin_vegan.bvapp;
+package org.berlin_vegan.bvapp.helpers;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -19,7 +19,10 @@ import android.webkit.WebView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-class UiUtils {
+import org.berlin_vegan.bvapp.BuildConfig;
+import org.berlin_vegan.bvapp.R;
+
+public class UiUtils {
 
     public static MaterialDialog showMaterialDialog(Context context, String title, String content) {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(content);
