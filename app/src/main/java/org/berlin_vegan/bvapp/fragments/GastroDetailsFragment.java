@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.R;
+import org.berlin_vegan.bvapp.data.GastroLocation;
 
 /**
  * Holds content for the details tab in {@link org.berlin_vegan.bvapp.activities.GastroActivity}.

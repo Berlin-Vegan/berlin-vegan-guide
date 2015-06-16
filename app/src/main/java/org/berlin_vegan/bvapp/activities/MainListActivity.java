@@ -27,9 +27,9 @@ import org.berlin_vegan.bvapp.adapters.GastroLocationAdapter;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.GastroLocations;
 import org.berlin_vegan.bvapp.helpers.DividerItemDecoration;
-import org.berlin_vegan.bvapp.listeners.GastroLocationListener;
 import org.berlin_vegan.bvapp.helpers.GastroListCallbackSingleChoice;
 import org.berlin_vegan.bvapp.helpers.UiUtils;
+import org.berlin_vegan.bvapp.listeners.GastroLocationListener;
 
 import java.io.Closeable;
 import java.io.IOException;
