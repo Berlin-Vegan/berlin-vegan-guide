@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.berlin_vegan.bvapp.MainApplication;
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.adapters.GastroLocationAdapter;
 import org.berlin_vegan.bvapp.data.GastroLocation;
@@ -360,7 +361,7 @@ public class MainListActivity extends BaseActivity {
             if (gastroLocations == null) {
                 // get local json file as fall back
                 useLocalCopy = true;
-                inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
+                inputStream = MainApplication.class.getResourceAsStream(GASTRO_LOCATIONS_JSON);
                 gastroLocations = createList(inputStream);
                 closeStream(inputStream);
             }
