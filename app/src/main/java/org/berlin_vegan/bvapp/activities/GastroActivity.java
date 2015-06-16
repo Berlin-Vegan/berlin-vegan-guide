@@ -6,16 +6,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.NavUtils;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import org.berlin_vegan.bvapp.BuildConfig;
 import org.berlin_vegan.bvapp.R;
-import org.berlin_vegan.bvapp.adapters.ViewPagerAdapter;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.GastroLocations;
 
@@ -45,13 +42,6 @@ public class GastroActivity extends BaseActivity {
         }
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        // tab handling
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(pager);
     }
 
     @Override
