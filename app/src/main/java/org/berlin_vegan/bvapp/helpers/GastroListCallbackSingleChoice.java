@@ -10,6 +10,9 @@ import org.berlin_vegan.bvapp.activities.MainListActivity;
 import org.berlin_vegan.bvapp.data.GastroLocations;
 import org.berlin_vegan.bvapp.fragments.GastroDetailsFragment;
 
+/**
+ * Processes the selection in {@code UiUtils.showMaterialDialogCheckboxes(...)}.
+ */
 public class GastroListCallbackSingleChoice implements MaterialDialog.ListCallbackSingleChoice {
 
     private static final int OMNIVORE_VEGETARIAN_VEGAN = 0;

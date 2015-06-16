@@ -18,6 +18,9 @@ import org.berlin_vegan.bvapp.data.GastroLocations;
 
 import static android.view.View.OnClickListener;
 
+/**
+ * Fills the {@code RecyclerView} of {@link MainListActivity} with its content.
+ */
 public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAdapter.GastroLocationViewHolder> {
 
     private final MainListActivity mMainListActivity;

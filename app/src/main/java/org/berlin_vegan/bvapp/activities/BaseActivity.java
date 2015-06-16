@@ -6,6 +6,9 @@ import android.support.v7.widget.Toolbar;
 
 import org.berlin_vegan.bvapp.R;
 
+/**
+ * Simple class to provide the toolbar for its children.
+ */
 public abstract class BaseActivity extends AppCompatActivity {
     private Toolbar mToolbar;
 

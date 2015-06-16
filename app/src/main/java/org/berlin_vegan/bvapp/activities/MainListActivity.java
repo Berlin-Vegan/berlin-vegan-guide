@@ -41,6 +41,9 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entry point of the program.
+ */
 public class MainListActivity extends BaseActivity {
 
     private static final String TAG = "MainListActivity";
@@ -344,6 +347,7 @@ public class MainListActivity extends BaseActivity {
             } catch (IOException e) {
                 Log.e(TAG, "fetching json file from server failed", e);
             } catch (RuntimeException e) {
+                // is thrown if a JsonParseException occurs
                 Log.e(TAG, "parsing the json file failed", e);
                 gastroLocations = null;
             } finally {

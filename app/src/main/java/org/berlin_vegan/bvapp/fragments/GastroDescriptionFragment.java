@@ -13,6 +13,9 @@ import android.widget.TextView;
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 
+/**
+ * Holds content for the description tab in {@link org.berlin_vegan.bvapp.activities.GastroActivity}.
+ */
 public class GastroDescriptionFragment extends Fragment {
 
     private GastroLocation mGastroLocation;

@@ -6,9 +6,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import org.berlin_vegan.bvapp.R;
+import org.berlin_vegan.bvapp.activities.GastroActivity;
 import org.berlin_vegan.bvapp.fragments.GastroDescriptionFragment;
 import org.berlin_vegan.bvapp.fragments.GastroDetailsFragment;
 
+/**
+ * Makes horizontal tab sliding in {@link GastroActivity} possible.
+ */
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private final CharSequence mTitles[];

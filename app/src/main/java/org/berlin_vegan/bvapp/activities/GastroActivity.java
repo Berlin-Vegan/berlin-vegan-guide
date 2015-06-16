@@ -17,6 +17,9 @@ import org.berlin_vegan.bvapp.adapters.ViewPagerAdapter;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.GastroLocations;
 
+/**
+ * Activity for the detail view of a gastro location.
+ */
 public class GastroActivity extends BaseActivity {
 
     private static final int NUM_STARS = 25;

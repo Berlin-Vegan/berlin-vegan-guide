@@ -1,9 +1,17 @@
 package org.berlin_vegan.bvapp.data;
 
+import org.berlin_vegan.bvapp.activities.MainListActivity;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Holds all information about a gastro location. This is a direct mapping to a JSON entry. Additionally
+ * the class has the member {@code distToCurLoc}, which save the distance to the current user location and
+ * a {@link java.util.Comparator} for this member to sort the {@link android.support.v7.widget.RecyclerView} in
+ * {@link MainListActivity}.
+ */
 public class GastroLocation implements Comparable<GastroLocation>, Serializable {
     private String id;
     private String name;

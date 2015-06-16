@@ -29,6 +29,11 @@ import java.util.Map;
 import java.util.UUID;
 
 
+/**
+ * ACRA Mailer. Easy to use mailer that sends you all crash reports from your Android apps.
+ * <p/>
+ * Source: https://github.com/d-a-n/acra-mailer
+ */
 public class ACRAPostSender implements ReportSender {
     private final static String TAG = "ACRAPostSender";
     private final static String BASE_URL = "http://www.berlin-vegan.de/cgi-bin/acra.php?email=bv-app@berlin-vegan.de";

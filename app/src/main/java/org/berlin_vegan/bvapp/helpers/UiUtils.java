@@ -22,6 +22,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import org.berlin_vegan.bvapp.BuildConfig;
 import org.berlin_vegan.bvapp.R;
 
+/**
+ * Helper class, which creates all dialogs.
+ */
 public class UiUtils {
 
     public static MaterialDialog showMaterialDialog(Context context, String title, String content) {
