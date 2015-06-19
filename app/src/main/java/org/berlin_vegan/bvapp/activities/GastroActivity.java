@@ -22,6 +22,7 @@ import org.berlin_vegan.bvapp.data.GastroLocations;
  */
 public class GastroActivity extends BaseActivity {
 
+    public static final String EXTRA_GASTRO_LOCATION = "GASTRO_LOCATION";
     private static final int NUM_STARS = 25;
 
     private GastroLocation mGastroLocation;
@@ -34,10 +35,10 @@ public class GastroActivity extends BaseActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
-                mGastroLocation = (GastroLocation) extras.getSerializable("GASTRO_LOCATION");
+                mGastroLocation = (GastroLocation) extras.getSerializable(EXTRA_GASTRO_LOCATION);
             }
         } else {
-            mGastroLocation = (GastroLocation) savedInstanceState.getSerializable("GASTRO_LOCATION");
+            mGastroLocation = (GastroLocation) savedInstanceState.getSerializable(EXTRA_GASTRO_LOCATION);
         }
 
         // tab handling
@@ -107,7 +108,7 @@ public class GastroActivity extends BaseActivity {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putSerializable("GASTRO_LOCATION", mGastroLocation);
+        savedInstanceState.putSerializable(EXTRA_GASTRO_LOCATION, mGastroLocation);
         super.onSaveInstanceState(savedInstanceState);
     }
 

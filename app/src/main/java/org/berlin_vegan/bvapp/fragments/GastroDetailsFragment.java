@@ -14,6 +14,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import org.berlin_vegan.bvapp.R;
+import org.berlin_vegan.bvapp.activities.GastroActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 
 /**
@@ -35,10 +36,10 @@ public class GastroDetailsFragment extends Fragment {
         if (savedInstanceState == null) {
             Bundle extras = getActivity().getIntent().getExtras();
             if (extras != null) {
-                mGastroLocation = (GastroLocation) extras.getSerializable("GASTRO_LOCATION");
+                mGastroLocation = (GastroLocation) extras.getSerializable(GastroActivity.EXTRA_GASTRO_LOCATION);
             }
         } else {
-            mGastroLocation = (GastroLocation) savedInstanceState.getSerializable("GASTRO_LOCATION");
+            mGastroLocation = (GastroLocation) savedInstanceState.getSerializable(GastroActivity.EXTRA_GASTRO_LOCATION);
         }
         fillGastroDetailsContactContent(v);
         fillGastroDetailsOpeningHoursContent(v);
@@ -182,7 +183,7 @@ public class GastroDetailsFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putSerializable("GASTRO_LOCATION", mGastroLocation);
+        savedInstanceState.putSerializable(GastroActivity.EXTRA_GASTRO_LOCATION, mGastroLocation);
         super.onSaveInstanceState(savedInstanceState);
     }
 }
