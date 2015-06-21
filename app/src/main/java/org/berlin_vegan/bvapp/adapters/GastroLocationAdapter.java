@@ -38,10 +38,10 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
 
     @Override
     public void onBindViewHolder(GastroLocationViewHolder gastroLocationViewHolder, int i) {
-        GastroLocation gastroLocation = mMainListActivity.getGastroLocations().get(i);
+        final GastroLocation gastroLocation = mMainListActivity.getGastroLocations().get(i);
         gastroLocationViewHolder.vTitle.setText(gastroLocation.getName());
         gastroLocationViewHolder.vStreet.setText(gastroLocation.getStreet());
-        float distToCurLoc = gastroLocation.getDistToCurLoc();
+        final float distToCurLoc = gastroLocation.getDistToCurLoc();
         if (distToCurLoc > -1.0f) {
             // TODO: speed up reloading the distances after a settings change
             // string for distance unit depends on settings
@@ -57,7 +57,7 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
 
     @Override
     public GastroLocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View itemView = LayoutInflater.
+        final View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.main_list_item, viewGroup, false);
 
@@ -81,10 +81,10 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
 
         @Override
         public void onClick(View view) {
-            Context context = view.getContext();
-            Intent intent = new Intent(context, GastroActivity.class);
-            int position = getAdapterPosition();
-            GastroLocation gastroLocation = mMainListActivity.getGastroLocations().get(position);
+            final Context context = view.getContext();
+            final Intent intent = new Intent(context, GastroActivity.class);
+            final int position = getAdapterPosition();
+            final GastroLocation gastroLocation = mMainListActivity.getGastroLocations().get(position);
             intent.putExtra(GastroActivity.EXTRA_GASTRO_LOCATION, gastroLocation);
             context.startActivity(intent);
         }
