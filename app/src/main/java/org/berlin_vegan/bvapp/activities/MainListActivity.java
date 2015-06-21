@@ -135,14 +135,13 @@ public class MainListActivity extends BaseActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         menu.clear();
 
         inflater.inflate(R.menu.menu_main_list_activity, menu);
         MenuItem menuItem = menu.findItem(R.id.menu_search);
         initializeSearch(menuItem);
-
-        super.onPrepareOptionsMenu(menu);
         return true;
     }
 
