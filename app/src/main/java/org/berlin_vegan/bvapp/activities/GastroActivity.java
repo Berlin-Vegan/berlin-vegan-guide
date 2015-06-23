@@ -1,9 +1,11 @@
 package org.berlin_vegan.bvapp.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
@@ -26,7 +28,7 @@ public class GastroActivity extends BaseActivity {
     private static final int NUM_STARS = 25;
 
     private GastroLocation mGastroLocation;
-
+    private SharedPreferences mSharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,7 @@ public class GastroActivity extends BaseActivity {
             mGastroLocation = (GastroLocation) savedInstanceState.getSerializable(EXTRA_GASTRO_LOCATION);
         }
 
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // tab handling
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
@@ -84,10 +87,10 @@ public class GastroActivity extends BaseActivity {
                 boolean isFavorite = GastroLocations.containsFavorite(mGastroLocation.getId());
                 if (!isFavorite) {
                     item.setIcon(getResources().getDrawable(R.mipmap.ic_star_white_24dp));
-                    GastroLocations.addFavorite(mGastroLocation.getId());
+                    GastroLocations.addFavorite(mGastroLocation.getId(),mSharedPreferences);
                 } else {
                     item.setIcon(getResources().getDrawable(R.mipmap.ic_star_outline_white_24dp));
-                    GastroLocations.removeFavorite(mGastroLocation.getId());
+                    GastroLocations.removeFavorite(mGastroLocation.getId(),mSharedPreferences);
                 }
                 break;
             case R.id.action_report_error:

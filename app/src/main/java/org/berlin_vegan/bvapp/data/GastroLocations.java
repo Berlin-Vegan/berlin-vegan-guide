@@ -21,9 +21,11 @@ public class GastroLocations {
     public static final String KEY_UNITS = "key_units";
     public static final String KEY_FILTER = "key_filter";
 
+    //needed for UI thread updateLocationAdapter
     private final MainListActivity mMainListActivity;
-    private static SharedPreferences sSharedPreferences;
+
     private Location mLocationFound;
+    private SharedPreferences mSharedPreferences;
     /**
      * holds all locations. used to create the filtered lists
      */
@@ -44,10 +46,10 @@ public class GastroLocations {
     private List<GastroLocation> mShown = new ArrayList<>();
     private String mQueryFilter;
 
-    public GastroLocations(MainListActivity mainListActivity) {
-        mMainListActivity = mainListActivity;
-        sSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mMainListActivity);
-        sFavoriteIDs = sSharedPreferences.getStringSet(KEY_FAVORITES, new HashSet<String>());
+    public GastroLocations(MainListActivity mainListactivity) {
+        mMainListActivity = mainListactivity;
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mMainListActivity.getApplicationContext());
+        sFavoriteIDs = mSharedPreferences.getStringSet(KEY_FAVORITES, new HashSet<String>());
     }
 
     private void sortByDistance() {
@@ -66,10 +68,10 @@ public class GastroLocations {
             distanceInMeters = locationFromJson.distanceTo(mLocationFound);
             distanceInKiloMeters = distanceInMeters / 1000;
             distanceInMiles = distanceInKiloMeters * (float) 0.621371192;
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mMainListActivity);
+
             // 1. explicit cast to float necessary, otherwise we always get x.0 values
             // 2. Math.round(1.234 * 10) / 10 = Math.round(12.34) / 10 = 12 / 10 = 1.2
-            if (sharedPreferences.getBoolean(KEY_UNITS, true)) {
+            if (mSharedPreferences.getBoolean(KEY_UNITS, true)) {
                 distanceRoundOnePlace = (float) Math.round(distanceInKiloMeters * 10) / 10;
             } else {
                 distanceRoundOnePlace = (float) Math.round(distanceInMiles * 10) / 10;
@@ -106,18 +108,18 @@ public class GastroLocations {
         return sFavoriteIDs.contains(id);
     }
 
-    public static void addFavorite(String id) {
+    public static void addFavorite(String id,SharedPreferences sPreference) {
         sFavoriteIDs.add(id);
-        commitFavoritesPreferences();
+        commitFavoritesPreferences(sPreference);
     }
 
-    public static void removeFavorite(String id) {
+    public static void removeFavorite(String id,SharedPreferences sPreference) {
         sFavoriteIDs.remove(id);
-        commitFavoritesPreferences();
+        commitFavoritesPreferences(sPreference);
     }
 
-    private static void commitFavoritesPreferences() {
-        SharedPreferences.Editor editor = sSharedPreferences.edit();
+    private static void commitFavoritesPreferences(SharedPreferences sPreference) {
+        SharedPreferences.Editor editor = sPreference.edit();
         editor.putStringSet(KEY_FAVORITES, sFavoriteIDs);
         editor.apply();
     }
@@ -144,8 +146,11 @@ public class GastroLocations {
         for (GastroLocation gastro : mFiltered) {
             final String gastroName = gastro.getName().toUpperCase();
             final String gastroComment = gastro.getCommentWithoutSoftHyphens().toUpperCase();
+            final String getStreet = gastro.getStreet().toUpperCase();
+            final String getDistrict = gastro.getDistrict().toUpperCase();
             final String queryFilter = mQueryFilter.toUpperCase();
-            if (gastroName.contains(queryFilter) || gastroComment.contains(queryFilter)) {
+            if (gastroName.contains(queryFilter) || gastroComment.contains(queryFilter)
+                    ||getStreet.contains(queryFilter) || getDistrict.contains(queryFilter)) {
                 queryFilteredList.add(gastro);
             }
         }
