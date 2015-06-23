@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.berlin_vegan.bvapp.EllipsizingTextView;
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.activities.GastroActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
@@ -32,7 +33,7 @@ public class GastroDescriptionFragment extends Fragment {
         } else {
             mGastroLocation = (GastroLocation) savedInstanceState.getSerializable(GastroActivity.EXTRA_GASTRO_LOCATION);
         }
-        TextView vDescription = (TextView) v.findViewById(R.id.text_view_description);
+        EllipsizingTextView vDescription = (EllipsizingTextView) v.findViewById(R.id.text_view_description);
         String description = mGastroLocation.getCommentWithoutSoftHyphens();
         // remove all occurrences of '<br/>' at the end of the description so we have no space between
         // the description and the {@link DividerFragment}
