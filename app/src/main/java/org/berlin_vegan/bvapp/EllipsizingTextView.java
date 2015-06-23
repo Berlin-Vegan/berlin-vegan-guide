@@ -1,3 +1,5 @@
+package org.berlin_vegan.bvapp;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.text.Layout;
@@ -10,14 +12,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Source: http://stackoverflow.com/questions/2160619/
+ */
 public class EllipsizingTextView extends TextView {
-    private static final String ELLIPSIS = "...";
+    private static final String ELLIPSIS = " ...";
 
     public interface EllipsizeListener {
         void ellipsizeStateChanged(boolean ellipsized);
     }
 
-    private final List<EllipsizeListener> ellipsizeListeners = new ArrayList<EllipsizeListener>();
+    private final List<EllipsizeListener> ellipsizeListeners = new ArrayList<>();
     private boolean isEllipsized;
     private boolean isStale;
     private boolean programmaticChange;
