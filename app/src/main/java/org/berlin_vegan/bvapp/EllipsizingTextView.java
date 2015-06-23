@@ -1,6 +1,7 @@
 package org.berlin_vegan.bvapp;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.text.Layout;
 import android.text.Layout.Alignment;
@@ -16,6 +17,7 @@ import java.util.List;
  * Source: http://stackoverflow.com/questions/2160619/
  */
 public class EllipsizingTextView extends TextView {
+    private static final int DEFAULT_COLLAPSED_LINES = 3;
     private static final String ELLIPSIS = " ...";
 
     public interface EllipsizeListener {
@@ -28,6 +30,7 @@ public class EllipsizingTextView extends TextView {
     private boolean programmaticChange;
     private String fullText;
     private int maxLines = -1;
+    private int collapsedLines = -1;
     private float lineSpacingMultiplier = 1.0f;
     private float lineAdditionalVerticalPadding = 0.0f;
 
@@ -37,6 +40,12 @@ public class EllipsizingTextView extends TextView {
 
     public EllipsizingTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.EllipsizingTextView);
+        collapsedLines = typedArray.getInt(R.styleable.EllipsizingTextView_collapsedLines, DEFAULT_COLLAPSED_LINES);
+        typedArray.recycle();
+
+        setMaxLines(collapsedLines);
     }
 
     public EllipsizingTextView(Context context, AttributeSet attrs, int defStyle) {
