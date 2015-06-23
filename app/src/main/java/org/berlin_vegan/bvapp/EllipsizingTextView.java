@@ -34,10 +34,6 @@ public class EllipsizingTextView extends TextView {
     private float lineSpacingMultiplier = 1.0f;
     private float lineAdditionalVerticalPadding = 0.0f;
 
-    public EllipsizingTextView(Context context) {
-        super(context);
-    }
-
     public EllipsizingTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -46,10 +42,6 @@ public class EllipsizingTextView extends TextView {
         typedArray.recycle();
 
         setMaxLines(collapsedLines);
-    }
-
-    public EllipsizingTextView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
     }
 
     public void addEllipsizeListener(EllipsizeListener listener) {
