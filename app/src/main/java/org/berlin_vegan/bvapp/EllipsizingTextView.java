@@ -8,12 +8,16 @@ import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextUtils.TruncateAt;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * class for expanding a text view. if collapsed the text is shown {@code collapsedLines} lines with
+ * ellipsis, until a user clicks on it to expand it.
+ * <p/>
  * Source: http://stackoverflow.com/questions/2160619/
  */
 public class EllipsizingTextView extends TextView {
@@ -31,6 +35,7 @@ public class EllipsizingTextView extends TextView {
     private String fullText;
     private int maxLines = -1;
     private int collapsedLines = -1;
+    private boolean trim = true;
     private float lineSpacingMultiplier = 1.0f;
     private float lineAdditionalVerticalPadding = 0.0f;
 
@@ -42,6 +47,20 @@ public class EllipsizingTextView extends TextView {
         typedArray.recycle();
 
         setMaxLines(collapsedLines);
+
+        // expand/collapse text view on click. see:
+        // https://codexplo.wordpress.com/2013/09/07/android-expandable-textview/
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trim = !trim;
+                if (trim) {
+                    setMaxLines(collapsedLines);
+                } else {
+                    setMaxLines(Integer.MAX_VALUE);
+                }
+            }
+        });
     }
 
     public void addEllipsizeListener(EllipsizeListener listener) {
