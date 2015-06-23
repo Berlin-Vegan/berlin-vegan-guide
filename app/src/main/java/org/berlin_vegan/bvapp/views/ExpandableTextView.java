@@ -1,4 +1,4 @@
-package org.berlin_vegan.bvapp;
+package org.berlin_vegan.bvapp.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,6 +11,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
+import org.berlin_vegan.bvapp.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ import java.util.List;
  * <p/>
  * Source: http://stackoverflow.com/questions/2160619/
  */
-public class EllipsizingTextView extends TextView {
+public class ExpandableTextView extends TextView {
     private static final int DEFAULT_COLLAPSED_LINES = 3;
     private static final String ELLIPSIS = " ...";
 
@@ -39,11 +41,11 @@ public class EllipsizingTextView extends TextView {
     private float lineSpacingMultiplier = 1.0f;
     private float lineAdditionalVerticalPadding = 0.0f;
 
-    public EllipsizingTextView(Context context, AttributeSet attrs) {
+    public ExpandableTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.EllipsizingTextView);
-        collapsedLines = typedArray.getInt(R.styleable.EllipsizingTextView_collapsedLines, DEFAULT_COLLAPSED_LINES);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableTextView);
+        collapsedLines = typedArray.getInt(R.styleable.ExpandableTextView_collapsedLines, DEFAULT_COLLAPSED_LINES);
         typedArray.recycle();
 
         setMaxLines(collapsedLines);
