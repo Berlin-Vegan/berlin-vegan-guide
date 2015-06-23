@@ -108,12 +108,12 @@ public class GastroLocations {
         return sFavoriteIDs.contains(id);
     }
 
-    public static void addFavorite(String id,SharedPreferences sPreference) {
+    public static void addFavorite(String id, SharedPreferences sPreference) {
         sFavoriteIDs.add(id);
         commitFavoritesPreferences(sPreference);
     }
 
-    public static void removeFavorite(String id,SharedPreferences sPreference) {
+    public static void removeFavorite(String id, SharedPreferences sPreference) {
         sFavoriteIDs.remove(id);
         commitFavoritesPreferences(sPreference);
     }
@@ -150,7 +150,7 @@ public class GastroLocations {
             final String getDistrict = gastro.getDistrict().toUpperCase();
             final String queryFilter = mQueryFilter.toUpperCase();
             if (gastroName.contains(queryFilter) || gastroComment.contains(queryFilter)
-                    ||getStreet.contains(queryFilter) || getDistrict.contains(queryFilter)) {
+                    || getStreet.contains(queryFilter) || getDistrict.contains(queryFilter)) {
                 queryFilteredList.add(gastro);
             }
         }

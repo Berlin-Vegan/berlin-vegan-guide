@@ -275,15 +275,15 @@ public class MainListActivity extends BaseActivity {
         while (mLocationFound == null) {
             // wait for first GPS fix (do nothing)
             if ((System.currentTimeMillis() - startTimeMillis) > waitTimeMillis) {
-                    if(!MainListActivity.this.isFinishing()) {
-                        MainListActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                UiUtils.showMaterialDialog(MainListActivity.this, getString(R.string.error),
-                                        getString(R.string.no_gps_data));
-                            }
-                        });
-                    }
+                if (!MainListActivity.this.isFinishing()) {
+                    MainListActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            UiUtils.showMaterialDialog(MainListActivity.this, getString(R.string.error),
+                                    getString(R.string.no_gps_data));
+                        }
+                    });
+                }
                 break;
             }
         }

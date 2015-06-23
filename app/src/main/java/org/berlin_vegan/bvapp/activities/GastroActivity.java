@@ -29,6 +29,7 @@ public class GastroActivity extends BaseActivity {
 
     private GastroLocation mGastroLocation;
     private SharedPreferences mSharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,10 +88,10 @@ public class GastroActivity extends BaseActivity {
                 boolean isFavorite = GastroLocations.containsFavorite(mGastroLocation.getId());
                 if (!isFavorite) {
                     item.setIcon(getResources().getDrawable(R.mipmap.ic_star_white_24dp));
-                    GastroLocations.addFavorite(mGastroLocation.getId(),mSharedPreferences);
+                    GastroLocations.addFavorite(mGastroLocation.getId(), mSharedPreferences);
                 } else {
                     item.setIcon(getResources().getDrawable(R.mipmap.ic_star_outline_white_24dp));
-                    GastroLocations.removeFavorite(mGastroLocation.getId(),mSharedPreferences);
+                    GastroLocations.removeFavorite(mGastroLocation.getId(), mSharedPreferences);
                 }
                 break;
             case R.id.action_report_error:
