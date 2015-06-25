@@ -8,17 +8,5 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/gastro_details_contact"
-            layout="@layout/gastro_details_contact" />
-
-        <include
-            android:id="@+id/gastro_details_opening_hours"
-            layout="@layout/gastro_details_opening_hours" />
-
-        <include
-            android:id="@+id/gastro_details_miscellaneous"
-            layout="@layout/gastro_details_miscellaneous" />
-
     </LinearLayout>
 </ScrollView>
