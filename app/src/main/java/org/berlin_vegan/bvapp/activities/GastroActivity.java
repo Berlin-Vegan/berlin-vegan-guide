@@ -10,11 +10,15 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import org.berlin_vegan.bvapp.BuildConfig;
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.GastroLocations;
+import org.berlin_vegan.bvapp.fragments.GastroDescriptionFragment;
+import org.berlin_vegan.bvapp.fragments.GastroDetailsFragment;
 
 /**
  * Activity for the detail view of a gastro location.
@@ -42,6 +46,15 @@ public class GastroActivity extends BaseActivity {
         }
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linear_layout);
+
+        GastroDescriptionFragment gastroDescriptionFragment = new GastroDescriptionFragment();
+        getFragmentManager().beginTransaction().add(linearLayout.getId(), gastroDescriptionFragment).commit();
+
+        GastroDetailsFragment gastroDetailsFragment = new GastroDetailsFragment();
+        getFragmentManager().beginTransaction().add(linearLayout.getId(), gastroDetailsFragment).commit();
+
     }
 
     @Override
