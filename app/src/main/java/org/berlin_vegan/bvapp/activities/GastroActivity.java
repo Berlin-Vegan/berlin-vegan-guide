@@ -19,6 +19,7 @@ import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.GastroLocations;
 import org.berlin_vegan.bvapp.fragments.GastroDescriptionFragment;
 import org.berlin_vegan.bvapp.fragments.GastroDetailsFragment;
+import org.berlin_vegan.bvapp.helpers.DividerFragment;
 
 /**
  * Activity for the detail view of a gastro location.
@@ -51,6 +52,9 @@ public class GastroActivity extends BaseActivity {
 
         GastroDescriptionFragment gastroDescriptionFragment = new GastroDescriptionFragment();
         getFragmentManager().beginTransaction().add(linearLayout.getId(), gastroDescriptionFragment).commit();
+
+        DividerFragment dividerFragment = new DividerFragment();
+        getFragmentManager().beginTransaction().add(linearLayout.getId(), dividerFragment).commit();
 
         GastroDetailsFragment gastroDetailsFragment = new GastroDetailsFragment();
         getFragmentManager().beginTransaction().add(linearLayout.getId(), gastroDetailsFragment).commit();
