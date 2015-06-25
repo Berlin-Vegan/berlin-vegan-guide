@@ -292,7 +292,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
         // to the user, because it just does not look right. as a workaround we do not split words at
         // all.
         // a web view solves the hyphen problem, but does not integrate into our current layout very well
-        return getComment().replace("&shy;", "");
+        return getComment().replace("&shy;", "").trim();
     }
 
     public void setComment(String comment) {

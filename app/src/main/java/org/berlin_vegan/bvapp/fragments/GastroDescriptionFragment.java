@@ -34,6 +34,17 @@ public class GastroDescriptionFragment extends Fragment {
         }
         TextView vDescription = (TextView) v.findViewById(R.id.text_view_description);
         String description = mGastroLocation.getCommentWithoutSoftHyphens();
+        // remove all occurrences of '<br/>' at the end of the description so we have no space between
+        // the description and the {@link DividerFragment}
+        final String lineBreak = "<br/>";
+        final int lineBreakLength = lineBreak.length();
+        int descriptionLength = description.length();
+        int lineBreakIndex = description.lastIndexOf(lineBreak);
+        while (descriptionLength == lineBreakIndex + lineBreakLength) {
+            description = description.substring(0, lineBreakIndex);
+            descriptionLength = description.length();
+            lineBreakIndex = description.lastIndexOf(lineBreak);
+        }
         // the description is html content and fromHtml() returns type Spanned
         vDescription.setText(Html.fromHtml(description), TextView.BufferType.SPANNABLE);
         vDescription.setMovementMethod(new ScrollingMovementMethod());
