@@ -59,8 +59,9 @@ public class GastroActivity extends BaseActivity {
         super.onPostCreate(savedInstanceState);
         Toolbar toolbar = getToolbar();
         if (toolbar != null) {
-            if (mGastroLocation != null)
+            if (mGastroLocation != null) { // todo clarify why it is null
                 toolbar.setTitle(mGastroLocation.getName());
+            }
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
