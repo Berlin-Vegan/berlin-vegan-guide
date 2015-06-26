@@ -23,12 +23,8 @@
     <string name="about_body">&lt;b>%1$s&lt;/b>&lt;br>Version %2$s</string>
     <string name="about_licenses">Open Source Licenses</string>
 
-    <string name="gastro_details_contact_title">Contact</string>
-    <string name="gastro_details_contact_address_title">Address</string>
     <string name="gastro_details_contact_address">No address</string>
-    <string name="gastro_details_contact_telephone_title">Phone</string>
     <string name="gastro_details_contact_telephone">No phone number</string>
-    <string name="gastro_details_opening_hours_title">Opening hours</string>
     <string name="gastro_details_opening_hours_content_monday">Monday</string>
     <string name="gastro_details_opening_hours_content_tuesday">Tuesday</string>
     <string name="gastro_details_opening_hours_content_wednesday">Wednesday</string>
@@ -37,7 +33,6 @@
     <string name="gastro_details_opening_hours_content_saturday">Saturday</string>
     <string name="gastro_details_opening_hours_content_sunday">Sunday</string>
     <string name="gastro_details_opening_hours_content_closed">closed</string>
-    <string name="gastro_details_miscellaneous_title">Miscellaneous</string>
     <string name="gastro_details_miscellaneous_content_catering">Catering</string>
     <string name="gastro_details_miscellaneous_content_child_chair">High chair</string>
     <string name="gastro_details_miscellaneous_content_delivery">Delivery service</string>
