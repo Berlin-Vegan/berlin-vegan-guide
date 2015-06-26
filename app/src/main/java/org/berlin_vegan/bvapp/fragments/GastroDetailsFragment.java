@@ -47,6 +47,7 @@ public class GastroDetailsFragment extends Fragment {
 
         addAddress(v);
         addOpeningHours(v);
+        addTelephone(v);
 
         return v;
     }
@@ -119,6 +120,27 @@ public class GastroDetailsFragment extends Fragment {
 
             content.addView(dateLayout);
         }
+    }
+
+    private void addTelephone(final View v) {
+        final RelativeLayout item = (RelativeLayout) v.findViewById(R.id.telephone);
+
+        final ImageView icon = (ImageView) item.findViewById(R.id.icon);
+        icon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_phone_white_24dp));
+        icon.setColorFilter(getResources().getColor(R.color.theme_primary));
+
+        final String text;
+        final String telephone = mGastroLocation.getTelephone();
+        if (telephone != null) {
+            text = "<a href=\"tel:"
+                    + telephone + "\">"
+                    + telephone + "</a>";
+        } else {
+            text = getString(R.string.gastro_details_contact_telephone);
+        }
+        final TextView content = (TextView) item.findViewById(R.id.content);
+        content.setText(Html.fromHtml(text));
+        content.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
