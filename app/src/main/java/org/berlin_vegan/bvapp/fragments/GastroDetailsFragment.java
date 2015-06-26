@@ -29,7 +29,9 @@ public class GastroDetailsFragment extends Fragment {
 
     private GastroLocation mGastroLocation;
 
+    final private static int OMNIVORE = 1;
     final public static int OMNIVORE_VEGAN_DECLARED = 2;
+    final private static int VEGETARIAN = 3;
     final public static int VEGETARIAN_VEGAN_DECLARED = 4;
     final public static int VEGAN = 5;
 
@@ -49,6 +51,7 @@ public class GastroDetailsFragment extends Fragment {
         addOpeningHours(v);
         addTelephone(v);
         addWebsite(v);
+        addMiscellaneous(v);
 
         return v;
     }
@@ -163,6 +166,75 @@ public class GastroDetailsFragment extends Fragment {
         final TextView content = (TextView) item.findViewById(R.id.content);
         content.setText(Html.fromHtml(text));
         content.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void addMiscellaneous(final View v) {
+        final RelativeLayout item = (RelativeLayout) v.findViewById(R.id.miscellaneous);
+
+        final ImageView icon = (ImageView) item.findViewById(R.id.icon);
+        icon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_more_vert_white_24dp));
+        icon.setColorFilter(getResources().getColor(R.color.theme_primary));
+
+        final LinearLayout content = (LinearLayout) item.findViewById(R.id.content);
+
+        final List<List<String>> dates = new ArrayList<>();
+        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_catering), getMiscellaneousContentString(mGastroLocation.getCatering())));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_child_chair), getMiscellaneousContentString(mGastroLocation.getChildChair())));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_delivery), getMiscellaneousContentString(mGastroLocation.getDelivery())));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_dog), getMiscellaneousContentString(mGastroLocation.getDog())));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_gluten_free), getMiscellaneousContentString(mGastroLocation.getGlutenFree())));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_handicapped_accessible), getMiscellaneousContentString(mGastroLocation.getHandicappedAccessible())));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_handicapped_accessible_wc), getMiscellaneousContentString(mGastroLocation.getHandicappedAccessibleWc())));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_organic), getMiscellaneousContentString(mGastroLocation.getOrganic())));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_seats_indoor), getMiscellaneousContentString(mGastroLocation.getSeatsIndoor())));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_seats_outdoor), getMiscellaneousContentString(mGastroLocation.getSeatsOutdoor())));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_vegan), getVeganContentString(mGastroLocation.getVegan())));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_wlan), getMiscellaneousContentString(mGastroLocation.getWlan())));
+
+        for (List<String> date : dates) {
+            final LinearLayout dateLayout = new LinearLayout(v.getContext());
+            dateLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            dateLayout.setPadding(0, 0, 0, 16);
+            dateLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+            final TextView key = new TextView(v.getContext());
+            key.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.7f));
+            key.setText(date.get(0));
+
+            dateLayout.addView(key);
+
+            final TextView value = new TextView(getActivity());
+            value.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.3f));
+            value.setText(date.get(1));
+
+            dateLayout.addView(value);
+
+            content.addView(dateLayout);
+        }
+    }
+
+    private String getMiscellaneousContentString(int i) {
+        if (i == 1) {
+            return getString(R.string.gastro_details_miscellaneous_content_yes);
+        } else if (i == 0) {
+            return getString(R.string.gastro_details_miscellaneous_content_no);
+        }
+        return getString(R.string.gastro_details_miscellaneous_content_unknown);
+    }
+
+    private String getVeganContentString(int i) {
+        if (i == OMNIVORE) {
+            return getString(R.string.gastro_details_miscellaneous_content_omnivore);
+        } else if (i == OMNIVORE_VEGAN_DECLARED) {
+            return getString(R.string.gastro_details_miscellaneous_content_omnivore_vegan_declared);
+        } else if (i == VEGETARIAN) {
+            return getString(R.string.gastro_details_miscellaneous_content_vegetarian);
+        } else if (i == VEGETARIAN_VEGAN_DECLARED) {
+            return getString(R.string.gastro_details_miscellaneous_content_vegetarian_vegan_declared);
+        } else if (i == VEGAN) {
+            return getString(R.string.gastro_details_miscellaneous_content_completely_vegan);
+        }
+        return getString(R.string.gastro_details_miscellaneous_content_unknown);
     }
 
     @Override
