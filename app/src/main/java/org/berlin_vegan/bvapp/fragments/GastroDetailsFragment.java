@@ -9,12 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.activities.GastroActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Holds content for the details tab in {@link org.berlin_vegan.bvapp.activities.GastroActivity}.
@@ -40,6 +46,7 @@ public class GastroDetailsFragment extends Fragment {
         }
 
         addAddress(v);
+        addOpeningHours(v);
 
         return v;
     }
@@ -67,6 +74,51 @@ public class GastroDetailsFragment extends Fragment {
         final TextView content = (TextView) item.findViewById(R.id.content);
         content.setText(Html.fromHtml(text));
         content.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void addOpeningHours(final View v) {
+        final RelativeLayout item = (RelativeLayout) v.findViewById(R.id.opening_hours);
+
+        final ImageView icon = (ImageView) item.findViewById(R.id.icon);
+        icon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_schedule_white_24dp));
+        icon.setColorFilter(getResources().getColor(R.color.theme_primary));
+
+        final LinearLayout content = (LinearLayout) item.findViewById(R.id.content);
+
+        final List<List<String>> dates = new ArrayList<>();
+        dates.add(Arrays.asList(getString(R.string.gastro_details_opening_hours_content_monday), mGastroLocation.getOtMon()));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_opening_hours_content_tuesday), mGastroLocation.getOtTue()));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_opening_hours_content_wednesday), mGastroLocation.getOtWed()));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_opening_hours_content_thursday), mGastroLocation.getOtThu()));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_opening_hours_content_friday), mGastroLocation.getOtFri()));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_opening_hours_content_saturday), mGastroLocation.getOtSat()));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_opening_hours_content_sunday), mGastroLocation.getOtSun()));
+
+        for (List<String> date : dates) {
+            final LinearLayout dateLayout = new LinearLayout(v.getContext());
+            dateLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            dateLayout.setPadding(0, 0, 0, 16);
+            dateLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+            final TextView key = new TextView(v.getContext());
+            key.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.7f));
+            key.setText(date.get(0));
+
+            dateLayout.addView(key);
+
+            final TextView value = new TextView(getActivity());
+            value.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.3f));
+            final String s = date.get(1);
+            if (!s.trim().equals("")) {
+                value.setText(s);
+            } else {
+                value.setText(getString(R.string.gastro_details_opening_hours_content_closed));
+            }
+
+            dateLayout.addView(value);
+
+            content.addView(dateLayout);
+        }
     }
 
     @Override
