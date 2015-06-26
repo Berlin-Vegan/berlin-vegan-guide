@@ -1,9 +1,6 @@
 package org.berlin_vegan.bvapp.activities;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
@@ -11,9 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
-import org.berlin_vegan.bvapp.BuildConfig;
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.GastroLocations;
@@ -27,7 +22,6 @@ import org.berlin_vegan.bvapp.helpers.DividerFragment;
 public class GastroActivity extends BaseActivity {
 
     public static final String EXTRA_GASTRO_LOCATION = "GASTRO_LOCATION";
-    private static final int NUM_STARS = 25;
 
     private GastroLocation mGastroLocation;
     private SharedPreferences mSharedPreferences;
@@ -104,16 +98,6 @@ public class GastroActivity extends BaseActivity {
                     GastroLocations.removeFavorite(mGastroLocation.getId(), mSharedPreferences);
                 }
                 break;
-            case R.id.action_report_error:
-                final Intent report = new Intent(Intent.ACTION_SENDTO);
-                final String uriText = ""
-                        + "mailto:" + Uri.encode("bvapp@berlin-vegan.org")
-                        + "?subject=" + Uri.encode(getMessageSubject())
-                        + "&body=" + Uri.encode(getMessageBody());
-                final Uri uri = Uri.parse(uriText);
-                report.setData(uri);
-                startActivity(Intent.createChooser(report, getString(R.string.action_report_error)));
-                break;
             default:
                 break;
         }
@@ -124,26 +108,5 @@ public class GastroActivity extends BaseActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putSerializable(EXTRA_GASTRO_LOCATION, mGastroLocation);
         super.onSaveInstanceState(savedInstanceState);
-    }
-
-    private String getMessageSubject() {
-        return getString(R.string.error) + ": "
-                + mGastroLocation.getName() + ", "
-                + mGastroLocation.getStreet();
-    }
-
-    private String getMessageBody() {
-        StringBuilder stars = new StringBuilder();
-        for (int i = 0; i < NUM_STARS; i++) {
-            stars.append("*");
-        }
-        return stars
-                + "\nApp Version: " + BuildConfig.VERSION_GIT_DESCRIPTION
-                + "\nDevice Name: " + Build.MODEL
-                + "\nPlatform: Android"
-                + "\nDevice Version: " + Build.VERSION.RELEASE
-                + "\n" + stars
-                + "\n\n" + getString(R.string.insert_error_report)
-                + "\n\n";
     }
 }

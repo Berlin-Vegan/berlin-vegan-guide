@@ -1,6 +1,10 @@
 package org.berlin_vegan.bvapp.fragments;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -14,6 +18,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.berlin_vegan.bvapp.BuildConfig;
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.activities.GastroActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
@@ -52,6 +57,7 @@ public class GastroDetailsFragment extends Fragment {
         addTelephone(v);
         addWebsite(v);
         addMiscellaneous(v);
+        addEditing(v);
 
         return v;
     }
@@ -237,9 +243,61 @@ public class GastroDetailsFragment extends Fragment {
         return getString(R.string.gastro_details_miscellaneous_content_unknown);
     }
 
+    private void addEditing(final View v) {
+        final RelativeLayout item = (RelativeLayout) v.findViewById(R.id.editing);
+
+        final ImageView icon = (ImageView) item.findViewById(R.id.icon);
+        icon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_edit_white_24dp));
+        icon.setColorFilter(getResources().getColor(R.color.theme_primary));
+
+        final String text = getString(R.string.gastro_details_editing);
+        final TextView content = (TextView) item.findViewById(R.id.content);
+        content.setText(Html.fromHtml(text));
+        content.setTypeface(null, Typeface.ITALIC);
+        content.setMovementMethod(LinkMovementMethod.getInstance());
+        content.setOnClickListener(new EditingOnClickListener());
+    }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putSerializable(GastroActivity.EXTRA_GASTRO_LOCATION, mGastroLocation);
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    private class EditingOnClickListener implements View.OnClickListener {
+        private static final int NUM_STARS = 25;
+
+        @Override
+        public void onClick(View v) {
+            final Intent report = new Intent(Intent.ACTION_SENDTO);
+            final String uriText = ""
+                    + "mailto:" + Uri.encode("bvapp@berlin-vegan.org")
+                    + "?subject=" + Uri.encode(getMessageSubject())
+                    + "&body=" + Uri.encode(getMessageBody());
+            final Uri uri = Uri.parse(uriText);
+            report.setData(uri);
+            startActivity(Intent.createChooser(report, getString(R.string.gastro_details_editing)));
+        }
+
+        private String getMessageSubject() {
+            return getString(R.string.error) + ": "
+                    + mGastroLocation.getName() + ", "
+                    + mGastroLocation.getStreet();
+        }
+
+        private String getMessageBody() {
+            StringBuilder stars = new StringBuilder();
+            for (int i = 0; i < NUM_STARS; i++) {
+                stars.append("*");
+            }
+            return stars
+                    + "\nApp Version: " + BuildConfig.VERSION_GIT_DESCRIPTION
+                    + "\nDevice Name: " + Build.MODEL
+                    + "\nPlatform: Android"
+                    + "\nDevice Version: " + Build.VERSION.RELEASE
+                    + "\n" + stars
+                    + "\n\n" + getString(R.string.insert_error_report)
+                    + "\n\n";
+        }
     }
 }

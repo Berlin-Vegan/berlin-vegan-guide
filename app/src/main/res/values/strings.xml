@@ -4,7 +4,6 @@
     <string name="action_about">About</string>
     <string name="action_filter">Filter</string>
     <string name="action_menu_search">Search</string>
-    <string name="action_report_error">Report error</string>
     <string name="action_add_favorite">Add favorite</string>
 
     <string name="km_string">km</string>
@@ -54,6 +53,7 @@
     <string name="gastro_details_miscellaneous_content_vegetarian">vegetarian</string>
     <string name="gastro_details_miscellaneous_content_vegetarian_vegan_declared">vegetarian (vegan declared)</string>
     <string name="gastro_details_miscellaneous_content_completely_vegan">100% vegan</string>
+    <string name="gastro_details_editing">Suggest changes</string>
 
     <string name="filter_title_dialog">Filter localities</string>
     <string name="filter_content_dialog">All localities declare vegan at least. Show:</string>

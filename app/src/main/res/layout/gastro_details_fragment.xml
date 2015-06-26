@@ -26,4 +26,8 @@
         android:id="@+id/miscellaneous"
         layout="@layout/gastro_details_fragment_item_2" />
 
+    <include
+        android:id="@+id/editing"
+        layout="@layout/gastro_details_fragment_item_1" />
+
 </LinearLayout>
