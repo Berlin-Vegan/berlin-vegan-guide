@@ -48,6 +48,7 @@ public class GastroDetailsFragment extends Fragment {
         addAddress(v);
         addOpeningHours(v);
         addTelephone(v);
+        addWebsite(v);
 
         return v;
     }
@@ -137,6 +138,27 @@ public class GastroDetailsFragment extends Fragment {
                     + telephone + "</a>";
         } else {
             text = getString(R.string.gastro_details_contact_telephone);
+        }
+        final TextView content = (TextView) item.findViewById(R.id.content);
+        content.setText(Html.fromHtml(text));
+        content.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void addWebsite(final View v) {
+        final RelativeLayout item = (RelativeLayout) v.findViewById(R.id.website);
+
+        final ImageView icon = (ImageView) item.findViewById(R.id.icon);
+        icon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_public_white_24dp));
+        icon.setColorFilter(getResources().getColor(R.color.theme_primary));
+
+        final String text;
+        final String website = mGastroLocation.getWebsite();
+        if (website != null) {
+            text = "<a href="
+                    + website + ">"
+                    + website + "</a>";
+        } else {
+            text = getString(R.string.gastro_details_contact_website);
         }
         final TextView content = (TextView) item.findViewById(R.id.content);
         content.setText(Html.fromHtml(text));

@@ -18,4 +18,8 @@
         android:id="@+id/telephone"
         layout="@layout/gastro_details_fragment_item_1" />
 
+    <include
+        android:id="@+id/website"
+        layout="@layout/gastro_details_fragment_item_1" />
+
 </LinearLayout>

@@ -25,6 +25,7 @@
 
     <string name="gastro_details_contact_address">No address</string>
     <string name="gastro_details_contact_telephone">No phone number</string>
+    <string name="gastro_details_contact_website">No website</string>
     <string name="gastro_details_opening_hours_content_monday">Monday</string>
     <string name="gastro_details_opening_hours_content_tuesday">Tuesday</string>
     <string name="gastro_details_opening_hours_content_wednesday">Wednesday</string>
