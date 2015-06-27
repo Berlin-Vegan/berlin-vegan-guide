@@ -51,7 +51,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
 
     // getter & setter
     public String getId() {
-        return id;
+        return id.trim();
     }
 
     public void setId(String id) {
@@ -59,7 +59,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getName() {
-        return name;
+        return name.trim();
     }
 
     public void setName(String name) {
@@ -67,7 +67,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getStreet() {
-        return street;
+        return street.trim();
     }
 
     public void setStreet(String street) {
@@ -83,7 +83,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getCity() {
-        return city;
+        return city.trim();
     }
 
     public void setCity(String city) {
@@ -91,7 +91,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getDistrict() {
-        return district;
+        return district.trim();
     }
 
     public void setDistrict(String district) {
@@ -123,7 +123,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getPublicTransport() {
-        return publicTransport;
+        return publicTransport.trim();
     }
 
     public void setPublicTransport(String publicTransport) {
@@ -131,7 +131,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getTelephone() {
-        return telephone;
+        return telephone.trim();
     }
 
     public void setTelephone(String telephone) {
@@ -144,7 +144,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
         if (!website.startsWith(http) || !website.startsWith(https)) {
             website = http + website;
         }
-        return website;
+        return website.trim();
     }
 
     /**
@@ -166,7 +166,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
             out = out.substring(0, lastCharacter);
         }
 
-        return out;
+        return out.trim();
     }
 
     public void setWebsite(String website) {
@@ -174,7 +174,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getOtMon() {
-        return otMon;
+        return otMon.trim();
     }
 
     public void setOtMon(String otMon) {
@@ -182,7 +182,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getOtTue() {
-        return otTue;
+        return otTue.trim();
     }
 
     public void setOtTue(String otTue) {
@@ -190,7 +190,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getOtWed() {
-        return otWed;
+        return otWed.trim();
     }
 
     public void setOtWed(String otWed) {
@@ -198,7 +198,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getOtThu() {
-        return otThu;
+        return otThu.trim();
     }
 
     public void setOtThu(String otThu) {
@@ -206,7 +206,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getOtFri() {
-        return otFri;
+        return otFri.trim();
     }
 
     public void setOtFri(String otFri) {
@@ -214,7 +214,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getOtSat() {
-        return otSat;
+        return otSat.trim();
     }
 
     public void setOtSat(String otSat) {
@@ -222,7 +222,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getOtSun() {
-        return otSun;
+        return otSun.trim();
     }
 
     public void setOtSun(String otSun) {
@@ -310,7 +310,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     private String getComment() {
-        return comment;
+        return comment.trim();
     }
 
     public String getCommentWithoutSoftHyphens() {
@@ -357,6 +357,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     public void setPictures(List<GastroLocationPicture> pictures) {
         this.pictures = pictures;
     }
+
     // --------------------------------------------------------------------
     // implement comparable interface
 
