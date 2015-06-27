@@ -147,6 +147,28 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
         return website;
     }
 
+    /**
+     * Method to present a nicer formatted website string to a user in the view.
+     *
+     * @return formatted website string
+     */
+    public String getWebsiteFormatted() {
+        final String http = "http://";
+        final String https = "https://";
+        final char slash = '/';
+        String out = website;
+
+        out = out.replaceAll(http, "");
+        out = out.replaceAll(https, "");
+
+        final int lastCharacter = out.length() - 1;
+        if (out.charAt(lastCharacter) == slash) {
+            out = out.substring(0, lastCharacter);
+        }
+
+        return out;
+    }
+
     public void setWebsite(String website) {
         this.website = website;
     }
