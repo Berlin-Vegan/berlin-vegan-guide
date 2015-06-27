@@ -139,6 +139,11 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getWebsite() {
+        final String http = "http://";
+        final String https = "https://";
+        if (!website.startsWith(http) || !website.startsWith(https)) {
+            website = http + website;
+        }
         return website;
     }
 
