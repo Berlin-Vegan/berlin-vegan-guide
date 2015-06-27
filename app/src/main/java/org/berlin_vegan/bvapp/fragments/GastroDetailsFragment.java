@@ -8,7 +8,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +88,7 @@ public class GastroDetailsFragment extends Fragment {
         final TextView content = (TextView) item.findViewById(R.id.content);
         content.setText(Html.fromHtml(text));
         content.setMovementMethod(LinkMovementMethod.getInstance());
+        stripUnderlines(content);
     }
 
     private void addOpeningHours(final View v) {
@@ -151,6 +155,7 @@ public class GastroDetailsFragment extends Fragment {
         final TextView content = (TextView) item.findViewById(R.id.content);
         content.setText(Html.fromHtml(text));
         content.setMovementMethod(LinkMovementMethod.getInstance());
+        stripUnderlines(content);
     }
 
     private void addWebsite(final View v) {
@@ -172,6 +177,7 @@ public class GastroDetailsFragment extends Fragment {
         final TextView content = (TextView) item.findViewById(R.id.content);
         content.setText(Html.fromHtml(text));
         content.setMovementMethod(LinkMovementMethod.getInstance());
+        stripUnderlines(content);
     }
 
     private void addMiscellaneous(final View v) {
@@ -262,6 +268,37 @@ public class GastroDetailsFragment extends Fragment {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putSerializable(GastroActivity.EXTRA_GASTRO_LOCATION, mGastroLocation);
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    /**
+     * see: http://stackoverflow.com/questions/4096851/
+     */
+    private void stripUnderlines(final TextView textView) {
+        Spannable s = (Spannable) textView.getText();
+        URLSpan[] spans = s.getSpans(0, s.length(), URLSpan.class);
+        for (URLSpan span : spans) {
+            int start = s.getSpanStart(span);
+            int end = s.getSpanEnd(span);
+            s.removeSpan(span);
+            span = new URLSpanNoUnderline(span.getURL());
+            s.setSpan(span, start, end, 0);
+        }
+        textView.setText(s);
+    }
+
+    /**
+     * see: http://stackoverflow.com/questions/4096851/
+     */
+    public class URLSpanNoUnderline extends URLSpan {
+        public URLSpanNoUnderline(final String url) {
+            super(url);
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setUnderlineText(false);
+        }
     }
 
     private class EditingOnClickListener implements View.OnClickListener {
