@@ -76,7 +76,7 @@ public class GastroDetailsFragment extends Fragment {
         final String street = mGastroLocation.getStreet();
         final int cityCode = mGastroLocation.getCityCode();
         final String city = mGastroLocation.getCity();
-        if (street != null) {
+        if (!street.isEmpty()) {
             text = "<a href=\"http://maps.google.com/maps?q="
                     // google maps
                     + street + ", " + cityCode + ", " + city + "\">"
@@ -145,7 +145,7 @@ public class GastroDetailsFragment extends Fragment {
 
         final String text;
         final String telephone = mGastroLocation.getTelephone();
-        if (telephone != null) {
+        if (!telephone.isEmpty()) {
             text = "<a href=\"tel:"
                     + telephone + "\">"
                     + telephone + "</a>";
@@ -168,7 +168,7 @@ public class GastroDetailsFragment extends Fragment {
         final String text;
         final String website = mGastroLocation.getWebsite();
         final String websiteFormatted = mGastroLocation.getWebsiteFormatted();
-        if (website != null) {
+        if (!website.isEmpty()) {
             text = "<a href="
                     + website + ">"
                     + websiteFormatted + "</a>";

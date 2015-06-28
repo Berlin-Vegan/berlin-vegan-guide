@@ -51,6 +51,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
 
     // getter & setter
     public String getId() {
+        if (id == null) {
+            return "";
+        }
         return id.trim();
     }
 
@@ -59,6 +62,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getName() {
+        if (name == null) {
+            return "";
+        }
         return name.trim();
     }
 
@@ -67,6 +73,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getStreet() {
+        if (street == null) {
+            return "";
+        }
         return street.trim();
     }
 
@@ -83,6 +92,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getCity() {
+        if (city == null) {
+            return "";
+        }
         return city.trim();
     }
 
@@ -91,6 +103,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getDistrict() {
+        if (district == null) {
+            return "";
+        }
         return district.trim();
     }
 
@@ -123,6 +138,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getPublicTransport() {
+        if (publicTransport == null) {
+            return "";
+        }
         return publicTransport.trim();
     }
 
@@ -131,6 +149,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getTelephone() {
+        if (telephone == null) {
+            return "";
+        }
         return telephone.trim();
     }
 
@@ -139,6 +160,10 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getWebsite() {
+        if (website == null) {
+            return "";
+        }
+
         final String http = "http://";
         final String https = "https://";
         if (!website.startsWith(http) || !website.startsWith(https)) {
@@ -153,6 +178,10 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
      * @return formatted website string
      */
     public String getWebsiteFormatted() {
+        if (website == null) {
+            return "";
+        }
+
         final String http = "http://";
         final String https = "https://";
         final char slash = '/';
@@ -174,6 +203,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getOtMon() {
+        if (otMon == null) {
+            return "";
+        }
         return otMon.trim();
     }
 
@@ -182,6 +214,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getOtTue() {
+        if (otTue == null) {
+            return "";
+        }
         return otTue.trim();
     }
 
@@ -190,6 +225,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getOtWed() {
+        if (otWed == null) {
+            return "";
+        }
         return otWed.trim();
     }
 
@@ -198,6 +236,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getOtThu() {
+        if (otThu == null) {
+            return "";
+        }
         return otThu.trim();
     }
 
@@ -206,6 +247,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getOtFri() {
+        if (otFri == null) {
+            return "";
+        }
         return otFri.trim();
     }
 
@@ -214,6 +258,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getOtSat() {
+        if (otSat == null) {
+            return "";
+        }
         return otSat.trim();
     }
 
@@ -222,6 +269,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public String getOtSun() {
+        if (otSun == null) {
+            return "";
+        }
         return otSun.trim();
     }
 
@@ -310,6 +360,9 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     private String getComment() {
+        if (comment == null) {
+            return "";
+        }
         return comment.trim();
     }
 
