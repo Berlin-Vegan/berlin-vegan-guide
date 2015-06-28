@@ -167,10 +167,11 @@ public class GastroDetailsFragment extends Fragment {
 
         final String text;
         final String website = mGastroLocation.getWebsite();
-        final String websiteFormatted = mGastroLocation.getWebsiteFormatted();
         if (!website.isEmpty()) {
+            final String websiteWithProtocolPrefix = mGastroLocation.getWebsiteWithProtocolPrefix();
+            final String websiteFormatted = mGastroLocation.getWebsiteFormatted();
             text = "<a href="
-                    + website + ">"
+                    + websiteWithProtocolPrefix + ">"
                     + websiteFormatted + "</a>";
         } else {
             text = getString(R.string.gastro_details_contact_website);

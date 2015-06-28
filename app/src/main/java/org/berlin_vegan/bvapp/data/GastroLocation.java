@@ -163,11 +163,14 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
         if (website == null) {
             return "";
         }
+        return website.trim();
+    }
 
+    public String getWebsiteWithProtocolPrefix() {
         final String http = "http://";
         final String https = "https://";
         if (!website.startsWith(http) || !website.startsWith(https)) {
-            website = http + website;
+            return http + website.trim();
         }
         return website.trim();
     }
