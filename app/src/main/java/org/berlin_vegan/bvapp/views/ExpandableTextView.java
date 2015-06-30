@@ -1,6 +1,7 @@
 package org.berlin_vegan.bvapp.views;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.text.Layout;
@@ -96,6 +97,12 @@ public class ExpandableTextView extends TextView {
         this.lineAdditionalVerticalPadding = add;
         this.lineSpacingMultiplier = mult;
         super.setLineSpacing(add, mult);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        isStale = true;
     }
 
     @Override
