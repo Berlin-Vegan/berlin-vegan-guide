@@ -1,5 +1,6 @@
 package org.berlin_vegan.bvapp;
 
+import org.berlin_vegan.bvapp.activities.MainListActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.GastroLocationPicture;
 import org.junit.Test;

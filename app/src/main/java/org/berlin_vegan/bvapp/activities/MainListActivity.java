@@ -310,7 +310,7 @@ public class MainListActivity extends BaseActivity {
         mLocationFound = locationFound;
     }
 
-    static List<GastroLocation> createList(final InputStream inputStream) {
+    public static List<GastroLocation> createList(final InputStream inputStream) {
         final InputStreamReader reader = new InputStreamReader(inputStream, Charset.defaultCharset());
         Type listType = new TypeToken<ArrayList<GastroLocation>>() {
         }.getType();
