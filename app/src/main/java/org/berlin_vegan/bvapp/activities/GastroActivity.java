@@ -3,6 +3,7 @@ package org.berlin_vegan.bvapp.activities;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -59,13 +60,21 @@ public class GastroActivity extends BaseActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         Toolbar toolbar = getToolbar();
-        if (toolbar != null) {
-            if (mGastroLocation != null) { // todo clarify why it is null
-                toolbar.setTitle(mGastroLocation.getName());
-            }
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (toolbar == null) {
+            return;
         }
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (mGastroLocation == null) { // TODO: clarify why it is null
+            return;
+        }
+
+        final CollapsingToolbarLayout collapsingToolbar =
+                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        final String title = mGastroLocation.getName();
+        collapsingToolbar.setTitle(title);
     }
 
     @Override
