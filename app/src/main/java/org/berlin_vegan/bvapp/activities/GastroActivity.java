@@ -1,6 +1,7 @@
 package org.berlin_vegan.bvapp.activities;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -8,14 +9,22 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.squareup.picasso.Picasso;
 
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.data.GastroLocation;
+import org.berlin_vegan.bvapp.data.GastroLocationPicture;
 import org.berlin_vegan.bvapp.data.GastroLocations;
 import org.berlin_vegan.bvapp.fragments.GastroDescriptionFragment;
 import org.berlin_vegan.bvapp.fragments.GastroDetailsFragment;
 import org.berlin_vegan.bvapp.helpers.DividerFragment;
+
+import java.util.List;
 
 /**
  * Activity for the detail view of a gastro location.
@@ -75,6 +84,26 @@ public class GastroActivity extends BaseActivity {
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         final String title = mGastroLocation.getName();
         collapsingToolbar.setTitle(title);
+
+        final List<GastroLocationPicture> pictures = mGastroLocation.getPictures();
+        if (pictures == null || pictures.isEmpty()) {
+            return;
+        }
+
+        final ImageView backdrop = (ImageView) findViewById(R.id.backdrop);
+        Picasso.with(this)
+                .load(pictures.get(0).getUrl())
+                .into(backdrop);
+
+        // otherwise the backdrop is not fully visible
+        final int transparent = getResources().getColor(android.R.color.transparent);
+        toolbar.setBackgroundColor(transparent);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            final Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(transparent);
+        }
     }
 
     @Override
