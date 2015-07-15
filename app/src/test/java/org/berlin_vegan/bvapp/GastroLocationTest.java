@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 
 public class GastroLocationTest {
 
-    public static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
+    private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
 
     @Test
     public void testParseLocationsWithGSON() throws Exception {
