@@ -25,9 +25,12 @@ import org.berlin_vegan.bvapp.BuildConfig;
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.activities.GastroActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
+import org.berlin_vegan.bvapp.data.OpenTimesInterval;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -42,6 +45,7 @@ public class GastroDetailsFragment extends Fragment {
     final private static int VEGETARIAN = 3;
     final public static int VEGETARIAN_VEGAN_DECLARED = 4;
     final public static int VEGAN = 5;
+    public static final String FORMAT_BOLD = "<b>%s</b>";
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -100,38 +104,52 @@ public class GastroDetailsFragment extends Fragment {
 
         final LinearLayout content = (LinearLayout) item.findViewById(R.id.content);
 
-        final List<List<String>> dates = new ArrayList<>();
-        dates.add(Arrays.asList(getString(R.string.gastro_details_opening_hours_content_monday), mGastroLocation.getOtMon()));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_opening_hours_content_tuesday), mGastroLocation.getOtTue()));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_opening_hours_content_wednesday), mGastroLocation.getOtWed()));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_opening_hours_content_thursday), mGastroLocation.getOtThu()));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_opening_hours_content_friday), mGastroLocation.getOtFri()));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_opening_hours_content_saturday), mGastroLocation.getOtSat()));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_opening_hours_content_sunday), mGastroLocation.getOtSun()));
+        final List<OpenTimesInterval> openTimes = mGastroLocation.getCondensedOpenTimes();
 
-        for (List<String> date : dates) {
+        final HashMap<Integer, String> dayTranslation = new HashMap<>();
+        dayTranslation.put(0, getString(R.string.gastro_details_opening_hours_content_monday));
+        dayTranslation.put(1, getString(R.string.gastro_details_opening_hours_content_tuesday));
+        dayTranslation.put(2, getString(R.string.gastro_details_opening_hours_content_wednesday));
+        dayTranslation.put(3, getString(R.string.gastro_details_opening_hours_content_thursday));
+        dayTranslation.put(4, getString(R.string.gastro_details_opening_hours_content_friday));
+        dayTranslation.put(5, getString(R.string.gastro_details_opening_hours_content_saturday));
+        dayTranslation.put(6, getString(R.string.gastro_details_opening_hours_content_sunday));
+
+        for (OpenTimesInterval openTimesInterval : openTimes) {
             final LinearLayout dateLayout = new LinearLayout(v.getContext());
             dateLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
             dateLayout.setPadding(0, 0, 0, 16);
             dateLayout.setOrientation(LinearLayout.HORIZONTAL);
 
             final TextView key = new TextView(v.getContext());
-            key.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.7f));
-            key.setText(date.get(0));
-
+            key.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.65f));
+            String text;
+            if (openTimesInterval.getNumberOfDays() == 1) {
+                text = dayTranslation.get(openTimesInterval.getStartDay());
+            } else {
+                text = dayTranslation.get(openTimesInterval.getStartDay()) + " - " + dayTranslation.get(openTimesInterval.getEndDay());
+            }
+            final boolean todayInInterval = openTimesInterval.isDateInInterval(Calendar.getInstance().getTime());
+            if (todayInInterval) {
+                text = String.format(FORMAT_BOLD, text);
+            }
+            key.setText(Html.fromHtml(text));
             dateLayout.addView(key);
 
             final TextView value = new TextView(getActivity());
-            value.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.3f));
-            final String s = date.get(1);
-            if (!s.trim().equals("")) {
-                value.setText(s);
+            value.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.35f));
+
+            if (openTimesInterval.getOpenTimes().equals(OpenTimesInterval.CLOSED)) {
+                text = getString(R.string.gastro_details_opening_hours_content_closed);
             } else {
-                value.setText(getString(R.string.gastro_details_opening_hours_content_closed));
+                text = openTimesInterval.getOpenTimes() + " " + getString(R.string.gastro_details_opening_hours_content_clock);
             }
+            if (todayInInterval) {
+                text = String.format(FORMAT_BOLD, text);
+            }
+            value.setText(Html.fromHtml(text));
 
             dateLayout.addView(value);
-
             content.addView(dateLayout);
         }
     }
@@ -212,13 +230,13 @@ public class GastroDetailsFragment extends Fragment {
             dateLayout.setOrientation(LinearLayout.HORIZONTAL);
 
             final TextView key = new TextView(v.getContext());
-            key.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.7f));
+            key.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.65f));
             key.setText(date.get(0));
 
             dateLayout.addView(key);
 
             final TextView value = new TextView(getActivity());
-            value.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.3f));
+            value.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.35f));
             value.setText(date.get(1));
 
             dateLayout.addView(value);

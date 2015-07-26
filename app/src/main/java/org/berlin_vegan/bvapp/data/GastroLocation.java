@@ -282,6 +282,44 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
         this.otSun = otSun;
     }
 
+    public List<OpenTimesInterval> getCondensedOpenTimes() {
+        final ArrayList<OpenTimesInterval> result = new ArrayList<>();
+        String[] openTimes = new String[7];
+        openTimes[0] = getOtMon();
+        openTimes[1] = getOtTue();
+        openTimes[2] = getOtWed();
+        openTimes[3] = getOtThu();
+        openTimes[4] = getOtFri();
+        openTimes[5] = getOtSat();
+        openTimes[6] = getOtSun();
+
+        int equalIndex = -1;
+        for (int day = 0; day <= 6; day++) {
+            if (day < 6 && openTimes[day].equalsIgnoreCase(openTimes[day + 1])) {
+                // successor has equal open times, so remember current day and continue
+                if (equalIndex == -1) {
+                    equalIndex = day;
+                }
+            } else {
+                if (equalIndex == -1) {
+                    // current day (open times) is unique, so create new entry
+                    if (openTimes[day].isEmpty()) {
+                        // closed
+                        result.add(new OpenTimesInterval(day, OpenTimesInterval.CLOSED));
+                    } else {
+                        result.add(new OpenTimesInterval(day, openTimes[day]));
+                    }
+                } else {
+                    // there are consecutive days
+                    String openTimesText = openTimes[day].isEmpty() ? OpenTimesInterval.CLOSED : openTimes[day];
+                    result.add(new OpenTimesInterval(equalIndex, day, openTimesText));
+                    equalIndex = -1;
+                }
+            }
+        }
+        return result;
+    }
+
     public Integer getVegan() {
         return vegan;
     }

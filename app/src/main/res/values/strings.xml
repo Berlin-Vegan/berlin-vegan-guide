@@ -57,4 +57,5 @@
 
     <string name="filter_title_dialog">Filter localities</string>
     <string name="filter_content_dialog">All localities declare vegan at least. Show:</string>
+    <string name="gastro_details_opening_hours_content_clock"/>
 </resources>

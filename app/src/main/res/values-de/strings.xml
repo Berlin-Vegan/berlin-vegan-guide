@@ -57,4 +57,5 @@
 
     <string name="filter_title_dialog">Filter Lokalitäten</string>
     <string name="filter_content_dialog">Alle Lokalitäten deklarieren vegan. Zeige:</string>
+    <string name="gastro_details_opening_hours_content_clock">Uhr</string>
 </resources>
