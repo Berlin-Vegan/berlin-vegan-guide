@@ -1,9 +1,13 @@
 package org.berlin_vegan.bvapp.data;
 
 import org.berlin_vegan.bvapp.activities.MainListActivity;
+import org.berlin_vegan.bvapp.helpers.DateUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -284,14 +288,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
 
     public List<OpeningHoursInterval> getCondensedOpeningHours() {
         final ArrayList<OpeningHoursInterval> result = new ArrayList<>();
-        String[] openingHours = new String[7];
-        openingHours[0] = getOtMon();
-        openingHours[1] = getOtTue();
-        openingHours[2] = getOtWed();
-        openingHours[3] = getOtThu();
-        openingHours[4] = getOtFri();
-        openingHours[5] = getOtSat();
-        openingHours[6] = getOtSun();
+        String[] openingHours = getOpeningHoursAsArray();
 
         int equalIndex = -1;
         for (int day = 0; day <= 6; day++) {
@@ -318,6 +315,37 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
             }
         }
         return result;
+    }
+
+    public boolean isOpen(Date date) {
+        final int sundayIndex = 6;
+        final String[] openingHours = getOpeningHoursAsArray();
+
+        final Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(date);
+        final int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        boolean afterMidnight = false;
+        if (currentHour >= 0 && currentHour <= 6) {
+            afterMidnight = true;
+        }
+        int dayOfWeek = DateUtil.getDayOfWeek(date);
+        if (afterMidnight) {
+            dayOfWeek = dayOfWeek - 1; // its short after midnight, so we use the opening hour from the day before
+            if (dayOfWeek == -1) {
+                dayOfWeek = sundayIndex; // sunday
+            }
+        }
+        if (DateUtil.isPublicHoliday(date)) { // it is a holiday so take the opening hours from sunday
+            dayOfWeek = sundayIndex;
+        }
+
+        final OpeningHours hours = new OpeningHours(openingHours[dayOfWeek]);
+        int currentMinute = DateUtil.inMinutes(currentHour, calendar.get(Calendar.MINUTE));
+        if (afterMidnight) {
+            currentMinute = currentMinute + 24 * 60; // add a complete day
+        }
+        return hours.isInRange(currentMinute);
+
     }
 
     public Integer getVegan() {
@@ -500,6 +528,19 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
             return -1;
         }
         return getDistToCurLoc().compareTo(other.getDistToCurLoc());
+    }
+
+
+    private String[] getOpeningHoursAsArray() {
+        String[] openingHours = new String[7];
+        openingHours[0] = getOtMon();
+        openingHours[1] = getOtTue();
+        openingHours[2] = getOtWed();
+        openingHours[3] = getOtThu();
+        openingHours[4] = getOtFri();
+        openingHours[5] = getOtSat();
+        openingHours[6] = getOtSun();
+        return openingHours;
     }
 
 }

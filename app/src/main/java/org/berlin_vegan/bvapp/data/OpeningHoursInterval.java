@@ -1,6 +1,8 @@
 package org.berlin_vegan.bvapp.data;
 
 
+import org.berlin_vegan.bvapp.helpers.DateUtil;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -65,7 +67,7 @@ public class OpeningHoursInterval {
      * @return true if it is in interval
      */
     public boolean isDateInInterval(Date date) {
-        final int dayOfWeek = getDayOfWeek(date);
+        final int dayOfWeek = DateUtil.getDayOfWeek(date);
         boolean isInInterval = false;
         if (getNumberOfDays() == 1) {
             if (mStartDay == dayOfWeek) {
@@ -79,17 +81,5 @@ public class OpeningHoursInterval {
         return isInInterval;
     }
 
-    /**
-     * return the current day of week, starting with monday
-     */
-    private int getDayOfWeek(Date date) {
-        final Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(date);
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if (dayOfWeek == 1) { // set sunday to end
-            dayOfWeek = 8;
-        }
-        dayOfWeek = dayOfWeek - 2;
-        return dayOfWeek;
-    }
+
 }
