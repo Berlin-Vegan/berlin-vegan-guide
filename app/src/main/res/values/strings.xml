@@ -8,8 +8,7 @@
 
     <string name="km_string">km</string>
     <string name="mi_string">mi</string>
-    <string name="closed">closed</string>
-    <string name="closed_soon">closed soon</string>
+
     <string name="please_wait">Please wait&#8230;</string>
     <string name="retrieving_data">Retrieving data.</string>
     <string name="units">Units</string>
@@ -35,6 +34,7 @@
     <string name="gastro_details_opening_hours_content_saturday">Saturday</string>
     <string name="gastro_details_opening_hours_content_sunday">Sunday</string>
     <string name="gastro_details_opening_hours_content_closed">closed</string>
+    <string name="gastro_details_opening_hours_content_closed_soon">closed soon</string>
     <string name="gastro_details_miscellaneous_content_catering">Catering</string>
     <string name="gastro_details_miscellaneous_content_child_chair">High chair</string>
     <string name="gastro_details_miscellaneous_content_delivery">Delivery service</string>

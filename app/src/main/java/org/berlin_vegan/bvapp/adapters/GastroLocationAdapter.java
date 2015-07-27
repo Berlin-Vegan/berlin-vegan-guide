@@ -62,9 +62,9 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
         final Date currentTime = GregorianCalendar.getInstance().getTime();
         final Date currentTimePlus30Minutes = DateUtil.addMinutesToDate(currentTime, 30);
         if (!gastroLocation.isOpen(currentTime)) {
-            gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.closed));
+            gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_details_opening_hours_content_closed));
         }else if (!gastroLocation.isOpen(currentTimePlus30Minutes)) {
-            gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.closed_soon));
+            gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_details_opening_hours_content_closed_soon));
         }
     }
 
