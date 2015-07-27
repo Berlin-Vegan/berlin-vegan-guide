@@ -18,7 +18,16 @@
         android:singleLine="true"
         android:textColor="@color/theme_primary"
         android:textSize="@dimen/text_size_medium" />
-
+    <TextView
+        android:id="@+id/text_view_closed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/text_view_title"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:singleLine="true"
+        android:textColor="@color/theme_primary"
+        android:textSize="@dimen/text_size_medium" />
     <TextView
         android:id="@+id/text_view_title"
         android:layout_width="wrap_content"

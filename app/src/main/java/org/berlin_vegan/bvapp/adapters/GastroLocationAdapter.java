@@ -15,6 +15,10 @@ import org.berlin_vegan.bvapp.activities.GastroActivity;
 import org.berlin_vegan.bvapp.activities.MainListActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.GastroLocations;
+import org.berlin_vegan.bvapp.helpers.DateUtil;
+
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import static android.view.View.OnClickListener;
 
@@ -53,6 +57,15 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
             }
             gastroLocationViewHolder.vDistance.setText(distance);
         }
+        // update opening hours field
+        // TODO move calculation to background thread or cache in gastrolocation
+        final Date currentTime = GregorianCalendar.getInstance().getTime();
+        final Date currentTimePlus30Minutes = DateUtil.addMinutesToDate(currentTime, 30);
+        if (!gastroLocation.isOpen(currentTime)) {
+            gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.closed));
+        }else if (!gastroLocation.isOpen(currentTimePlus30Minutes)) {
+            gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.closed_soon));
+        }
     }
 
     @Override
@@ -67,6 +80,7 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
     public static class GastroLocationViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
         private final MainListActivity mMainListActivity;
         final TextView vTitle;
+        final TextView vClosed;
         final TextView vStreet;
         final TextView vDistance;
 
@@ -75,6 +89,7 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
             v.setOnClickListener(this);
             mMainListActivity = mainListActivity;
             vTitle = (TextView) v.findViewById(R.id.text_view_title);
+            vClosed = (TextView) v.findViewById(R.id.text_view_closed);
             vStreet = (TextView) v.findViewById(R.id.text_view_street);
             vDistance = (TextView) v.findViewById(R.id.text_view_distance);
         }

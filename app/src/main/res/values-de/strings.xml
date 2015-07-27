@@ -8,6 +8,8 @@
 
     <string name="km_string">km</string>
     <string name="mi_string">mi</string>
+    <string name="closed">geschlossen</string>
+    <string name="closed_soon">schließt bald</string>
     <string name="please_wait">Bitte warten&#8230;</string>
     <string name="retrieving_data">Empfange Daten.</string>
     <string name="units">Einheiten</string>
@@ -58,4 +60,5 @@
     <string name="filter_title_dialog">Filter Lokalitäten</string>
     <string name="filter_content_dialog">Alle Lokalitäten deklarieren vegan. Zeige:</string>
     <string name="gastro_details_opening_hours_content_clock">Uhr</string>
+
 </resources>
