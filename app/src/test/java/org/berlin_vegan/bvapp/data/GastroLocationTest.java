@@ -29,7 +29,7 @@ public class GastroLocationTest {
     }
 
     @Test
-    public void testCondensedOpenTimes() throws Exception {
+    public void testCondensedOpeningHours() throws Exception {
         final GastroLocation location = new GastroLocation();
         location.setOtMon("9 - 18");
         location.setOtTue("9 - 18");
@@ -38,12 +38,12 @@ public class GastroLocationTest {
         location.setOtFri("10 - 21");
         location.setOtSat("10 - 22");
         location.setOtSun("10 - 22");
-        final List<OpenTimesInterval> openTimes = location.getCondensedOpenTimes();
-        assertEquals(5,openTimes.size());
+        final List<OpeningHoursInterval> openingHours = location.getCondensedOpeningHours();
+        assertEquals(5, openingHours.size());
 
     }
     @Test
-    public void testCondensedOpenTimesCompleteClosed() throws Exception {
+    public void testCondensedOpeningHoursCompleteClosed() throws Exception {
         final GastroLocation location = new GastroLocation();
         location.setOtMon("");
         location.setOtTue("");
@@ -52,7 +52,7 @@ public class GastroLocationTest {
         location.setOtFri("");
         location.setOtSat("");
         location.setOtSun("");
-        final List<OpenTimesInterval> openTimes = location.getCondensedOpenTimes();
-        assertEquals(1, openTimes.size());
+        final List<OpeningHoursInterval> openingHours = location.getCondensedOpeningHours();
+        assertEquals(1, openingHours.size());
     }
 }

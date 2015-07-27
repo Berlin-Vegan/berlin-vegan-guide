@@ -282,37 +282,37 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
         this.otSun = otSun;
     }
 
-    public List<OpenTimesInterval> getCondensedOpenTimes() {
-        final ArrayList<OpenTimesInterval> result = new ArrayList<>();
-        String[] openTimes = new String[7];
-        openTimes[0] = getOtMon();
-        openTimes[1] = getOtTue();
-        openTimes[2] = getOtWed();
-        openTimes[3] = getOtThu();
-        openTimes[4] = getOtFri();
-        openTimes[5] = getOtSat();
-        openTimes[6] = getOtSun();
+    public List<OpeningHoursInterval> getCondensedOpeningHours() {
+        final ArrayList<OpeningHoursInterval> result = new ArrayList<>();
+        String[] openingHours = new String[7];
+        openingHours[0] = getOtMon();
+        openingHours[1] = getOtTue();
+        openingHours[2] = getOtWed();
+        openingHours[3] = getOtThu();
+        openingHours[4] = getOtFri();
+        openingHours[5] = getOtSat();
+        openingHours[6] = getOtSun();
 
         int equalIndex = -1;
         for (int day = 0; day <= 6; day++) {
-            if (day < 6 && openTimes[day].equalsIgnoreCase(openTimes[day + 1])) {
-                // successor has equal open times, so remember current day and continue
+            if (day < 6 && openingHours[day].equalsIgnoreCase(openingHours[day + 1])) {
+                // successor has equal opening hours, so remember current day and continue
                 if (equalIndex == -1) {
                     equalIndex = day;
                 }
             } else {
                 if (equalIndex == -1) {
-                    // current day (open times) is unique, so create new entry
-                    if (openTimes[day].isEmpty()) {
+                    // current day (opening hours) is unique, so create new entry
+                    if (openingHours[day].isEmpty()) {
                         // closed
-                        result.add(new OpenTimesInterval(day, OpenTimesInterval.CLOSED));
+                        result.add(new OpeningHoursInterval(day, OpeningHoursInterval.CLOSED));
                     } else {
-                        result.add(new OpenTimesInterval(day, openTimes[day]));
+                        result.add(new OpeningHoursInterval(day, openingHours[day]));
                     }
                 } else {
                     // there are consecutive days
-                    String openTimesText = openTimes[day].isEmpty() ? OpenTimesInterval.CLOSED : openTimes[day];
-                    result.add(new OpenTimesInterval(equalIndex, day, openTimesText));
+                    String openTimesText = openingHours[day].isEmpty() ? OpeningHoursInterval.CLOSED : openingHours[day];
+                    result.add(new OpeningHoursInterval(equalIndex, day, openTimesText));
                     equalIndex = -1;
                 }
             }

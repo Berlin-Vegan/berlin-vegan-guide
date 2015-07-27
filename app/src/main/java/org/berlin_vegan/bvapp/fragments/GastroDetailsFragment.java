@@ -25,7 +25,7 @@ import org.berlin_vegan.bvapp.BuildConfig;
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.activities.GastroActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
-import org.berlin_vegan.bvapp.data.OpenTimesInterval;
+import org.berlin_vegan.bvapp.data.OpeningHoursInterval;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,7 +104,7 @@ public class GastroDetailsFragment extends Fragment {
 
         final LinearLayout content = (LinearLayout) item.findViewById(R.id.content);
 
-        final List<OpenTimesInterval> openTimes = mGastroLocation.getCondensedOpenTimes();
+        final List<OpeningHoursInterval> openingHours = mGastroLocation.getCondensedOpeningHours();
 
         final HashMap<Integer, String> dayTranslation = new HashMap<>();
         dayTranslation.put(0, getString(R.string.gastro_details_opening_hours_content_monday));
@@ -115,7 +115,7 @@ public class GastroDetailsFragment extends Fragment {
         dayTranslation.put(5, getString(R.string.gastro_details_opening_hours_content_saturday));
         dayTranslation.put(6, getString(R.string.gastro_details_opening_hours_content_sunday));
 
-        for (OpenTimesInterval openTimesInterval : openTimes) {
+        for (OpeningHoursInterval openingHoursInterval : openingHours) {
             final LinearLayout dateLayout = new LinearLayout(v.getContext());
             dateLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
             dateLayout.setPadding(0, 0, 0, 16);
@@ -124,12 +124,12 @@ public class GastroDetailsFragment extends Fragment {
             final TextView key = new TextView(v.getContext());
             key.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.65f));
             String text;
-            if (openTimesInterval.getNumberOfDays() == 1) {
-                text = dayTranslation.get(openTimesInterval.getStartDay());
+            if (openingHoursInterval.getNumberOfDays() == 1) {
+                text = dayTranslation.get(openingHoursInterval.getStartDay());
             } else {
-                text = dayTranslation.get(openTimesInterval.getStartDay()) + " - " + dayTranslation.get(openTimesInterval.getEndDay());
+                text = dayTranslation.get(openingHoursInterval.getStartDay()) + " - " + dayTranslation.get(openingHoursInterval.getEndDay());
             }
-            final boolean todayInInterval = openTimesInterval.isDateInInterval(Calendar.getInstance().getTime());
+            final boolean todayInInterval = openingHoursInterval.isDateInInterval(Calendar.getInstance().getTime());
             if (todayInInterval) {
                 text = String.format(FORMAT_BOLD, text);
             }
@@ -139,10 +139,10 @@ public class GastroDetailsFragment extends Fragment {
             final TextView value = new TextView(getActivity());
             value.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 0.35f));
 
-            if (openTimesInterval.getOpenTimes().equals(OpenTimesInterval.CLOSED)) {
+            if (openingHoursInterval.getOpeningHours().equals(OpeningHoursInterval.CLOSED)) {
                 text = getString(R.string.gastro_details_opening_hours_content_closed);
             } else {
-                text = openTimesInterval.getOpenTimes() + " " + getString(R.string.gastro_details_opening_hours_content_clock);
+                text = openingHoursInterval.getOpeningHours() + " " + getString(R.string.gastro_details_opening_hours_content_clock);
             }
             if (todayInInterval) {
                 text = String.format(FORMAT_BOLD, text);

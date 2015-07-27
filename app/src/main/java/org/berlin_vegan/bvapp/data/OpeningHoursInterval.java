@@ -6,27 +6,27 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * class to store open times in intervals, so days with same open times are condensed,
+ * class to store opening hours in intervals, so days with same opening hours are condensed,
  * weekdays are stored as integer, beginning with monday = 0
  */
-public class OpenTimesInterval {
+public class OpeningHoursInterval {
     public static final String CLOSED = "";
 
     private static int sNoEndDay = -1;
     private int mStartDay = 0; // monday
     private int mEndDay = sNoEndDay;
-    private String mOpenTimes = CLOSED;
+    private String mOpeningHoursTimes = CLOSED;
 
-    public OpenTimesInterval(int startDay, int endDay, String openTimes) {
+    public OpeningHoursInterval(int startDay, int endDay, String openingHours) {
         mStartDay = startDay;
         mEndDay = endDay;
-        mOpenTimes = openTimes;
+        mOpeningHoursTimes = openingHours;
     }
 
-    public OpenTimesInterval(int startDay, String openTimes) {
+    public OpeningHoursInterval(int startDay, String openingHours) {
         this.mStartDay = startDay;
         this.mEndDay = sNoEndDay;
-        this.mOpenTimes = openTimes;
+        this.mOpeningHoursTimes = openingHours;
     }
 
     public int getStartDay() {
@@ -45,12 +45,12 @@ public class OpenTimesInterval {
         this.mEndDay = endDay;
     }
 
-    public String getOpenTimes() {
-        return mOpenTimes;
+    public String getOpeningHours() {
+        return mOpeningHoursTimes;
     }
 
-    public void setOpenTimes(String openTimes) {
-        this.mOpenTimes = openTimes;
+    public void setOpeningHours(String openingHours) {
+        this.mOpeningHoursTimes = openingHours;
     }
     public int getNumberOfDays() {
         if (mEndDay == sNoEndDay) {
