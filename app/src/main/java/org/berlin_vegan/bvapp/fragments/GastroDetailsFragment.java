@@ -45,7 +45,6 @@ public class GastroDetailsFragment extends Fragment {
     final private static int VEGETARIAN = 3;
     final public static int VEGETARIAN_VEGAN_DECLARED = 4;
     final public static int VEGAN = 5;
-    public static final String FORMAT_BOLD = "<b>%s</b>";
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -131,9 +130,9 @@ public class GastroDetailsFragment extends Fragment {
             }
             final boolean todayInInterval = openingHoursInterval.isDateInInterval(Calendar.getInstance().getTime());
             if (todayInInterval) {
-                text = String.format(FORMAT_BOLD, text);
+                key.setTypeface(key.getTypeface(),Typeface.BOLD);
             }
-            key.setText(Html.fromHtml(text));
+            key.setText(text);
             dateLayout.addView(key);
 
             final TextView value = new TextView(getActivity());
@@ -145,13 +144,14 @@ public class GastroDetailsFragment extends Fragment {
                 text = openingHoursInterval.getOpeningHours() + " " + getString(R.string.gastro_details_opening_hours_content_clock);
             }
             if (todayInInterval) {
-                text = String.format(FORMAT_BOLD, text);
+                value.setTypeface(value.getTypeface(),Typeface.BOLD);
             }
-            value.setText(Html.fromHtml(text));
+            value.setText(text);
 
             dateLayout.addView(value);
             content.addView(dateLayout);
         }
+
     }
 
     private void addTelephone(final View v) {
