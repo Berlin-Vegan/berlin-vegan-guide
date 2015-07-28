@@ -65,6 +65,8 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
             gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_details_opening_hours_content_closed));
         }else if (!gastroLocation.isOpen(currentTimePlus30Minutes)) {
             gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_details_opening_hours_content_closed_soon));
+        }else {
+            gastroLocationViewHolder.vClosed.setText(""); // clear
         }
     }
 
