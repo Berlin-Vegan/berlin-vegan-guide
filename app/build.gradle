@@ -45,6 +45,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        playstore {
+        }
+        foss {
+        }
+    }
 
 }
 dependencies {
@@ -59,4 +65,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     testCompile 'junit:junit:4.12'
+
+    // closed source
+    playstoreCompile 'com.google.android.gms:play-services-maps:7.5.0'
 }

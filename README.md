@@ -3,7 +3,10 @@ mobile app for android
 
 #build & install
 
-    gradlew installDebug
+```
+./gradlew installPlaystoreDebug (build the app including the proprietary google play services lib)
+./gradlew installFossDebug (100% open source)
+```
 
 # release creation
 
@@ -18,7 +21,7 @@ TAG=0.1 && git tag -a ${TAG} -m ${TAG}
 ```
 * build the release:
 ```
-./gradlew assembleRelease -PsharedSecret=<acra_shared_secret>
+./gradlew assemblePlaystoreRelease -PsharedSecret=<acra_shared_secret>
 ```
 * sign the release, e.g.
 ```

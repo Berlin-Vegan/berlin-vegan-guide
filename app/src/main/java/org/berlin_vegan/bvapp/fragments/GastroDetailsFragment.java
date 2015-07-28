@@ -360,6 +360,7 @@ public class GastroDetailsFragment extends Fragment {
             }
             return stars
                     + "\nApp Version: " + BuildConfig.VERSION_GIT_DESCRIPTION
+                    + "\nApp Flavor: " + BuildConfig.FLAVOR
                     + "\nDevice Name: " + Build.MODEL
                     + "\nPlatform: Android"
                     + "\nDevice Version: " + Build.VERSION.RELEASE

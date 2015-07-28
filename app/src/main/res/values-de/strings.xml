@@ -20,7 +20,8 @@
     <string name="insert_error_report">Bitte trage hier die Fehlerbeschreibung ein:</string>
     <string name="something_went_wrong">Etwas ist schiefgelaufen. Aber keine Sorge, ein Fehlerbericht wurde verschickt um das Problem zu beheben.</string>
 
-    <string name="about_body">&lt;b>%1$s&lt;/b>&lt;br>Version %2$s</string>
+    <string name="about_version">&lt;b>%1$s&lt;/b>&lt;br>Version: %2$s</string>
+    <string name="about_flavor">Variante: %1$s</string>
     <string name="about_licenses">Open-Source-Lizenzen</string>
 
     <string name="gastro_details_contact_address">Keine Adresse</string>
