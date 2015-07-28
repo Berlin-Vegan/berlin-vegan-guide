@@ -35,6 +35,7 @@
     <string name="gastro_details_opening_hours_content_sunday">Sunday</string>
     <string name="gastro_details_opening_hours_content_closed">closed</string>
     <string name="gastro_details_opening_hours_content_closed_soon">closed soon</string>
+    <string name="gastro_details_opening_hours_content_holiday_warning">Attention, today is a public holiday!</string>
     <string name="gastro_details_miscellaneous_content_catering">Catering</string>
     <string name="gastro_details_miscellaneous_content_child_chair">High chair</string>
     <string name="gastro_details_miscellaneous_content_delivery">Delivery service</string>
@@ -60,5 +61,6 @@
     <string name="filter_title_dialog">Filter localities</string>
     <string name="filter_content_dialog">All localities declare vegan at least. Show:</string>
     <string name="gastro_details_opening_hours_content_clock"/>
+
 
 </resources>

@@ -35,6 +35,7 @@
     <string name="gastro_details_opening_hours_content_sunday">Sonntag</string>
     <string name="gastro_details_opening_hours_content_closed">geschlossen</string>
     <string name="gastro_details_opening_hours_content_closed_soon">schließt bald</string>
+    <string name="gastro_details_opening_hours_content_holiday_warning">Achtung, heute ist ein Feiertag!</string>
     <string name="gastro_details_miscellaneous_content_catering">Catering</string>
     <string name="gastro_details_miscellaneous_content_child_chair">Kinderhochstuhl</string>
     <string name="gastro_details_miscellaneous_content_delivery">Lieferdienst</string>

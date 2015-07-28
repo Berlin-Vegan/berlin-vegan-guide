@@ -26,10 +26,12 @@ import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.activities.GastroActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.OpeningHoursInterval;
+import org.berlin_vegan.bvapp.helpers.DateUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -151,6 +153,15 @@ public class GastroDetailsFragment extends Fragment {
             dateLayout.addView(value);
             content.addView(dateLayout);
         }
+        // add warning to the opening hours if its a holiday
+        // TODO fix layout and style, at the moment its italic and below the opening hours @Robin-siebzehn3
+        if (DateUtil.isPublicHoliday(GregorianCalendar.getInstance().getTime())) {
+            final TextView holidayWarning = new TextView(v.getContext());
+            holidayWarning.setTypeface(holidayWarning.getTypeface(), Typeface.ITALIC);
+            holidayWarning.setText(getString(R.string.gastro_details_opening_hours_content_holiday_warning));
+            content.addView(holidayWarning);
+        }
+
 
     }
 
