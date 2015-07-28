@@ -32,6 +32,18 @@ public class OpeningHours {
         }
     }
 
+    public boolean isInRange(int minute) {
+        return minute >= startMinute && minute <= endMinute;
+    }
+
+    public int getStartMinute() {
+        return startMinute;
+    }
+
+    public int getEndMinute() {
+        return endMinute;
+    }
+
     /**
      * calculate the minute of day for the given string
      * "5:30" returns 5*60 + 30
@@ -57,10 +69,5 @@ public class OpeningHours {
         }
 
         return hour * 60 + minute;
-    }
-
-
-    public boolean isInRange(int minute) {
-        return minute >= startMinute && minute <= endMinute;
     }
 }
