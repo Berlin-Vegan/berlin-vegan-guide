@@ -1,6 +1,7 @@
 # Berlin Vegan Guide
 mobile app for android
 
+[![Build Status](https://travis-ci.org/Berlin-Vegan/berlin-vegan-guide.svg?branch=development)](https://travis-ci.org/Berlin-Vegan/berlin-vegan-guide)
 #build & install
 
 ```
