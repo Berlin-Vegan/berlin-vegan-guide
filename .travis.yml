@@ -1,0 +1,19 @@
+language: android
+jdk: oraclejdk7
+env:
+  matrix:
+    - ANDROID_TARGET=android-22  ANDROID_ABI=armeabi-v7a
+
+# https://github.com/travis-ci/travis-cookbooks/blob/master/ci_environment/android-sdk/attributes/default.rb
+
+android:
+  components:
+    - android-22
+    - build-tools-22.0.1
+    - extra-android-support
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+
+
+script: ./gradlew test
