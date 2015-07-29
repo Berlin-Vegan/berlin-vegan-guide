@@ -1,6 +1,8 @@
-package org.berlin_vegan.bvapp.data;
+package org.berlin_vegan.bvapp;
 
 import org.berlin_vegan.bvapp.activities.MainListActivity;
+import org.berlin_vegan.bvapp.data.GastroLocation;
+import org.berlin_vegan.bvapp.data.OpeningHoursInterval;
 import org.junit.Before;
 import org.junit.Test;
 
