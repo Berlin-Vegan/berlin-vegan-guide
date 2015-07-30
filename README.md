@@ -1,12 +1,18 @@
 # Berlin Vegan Guide
-mobile app for android
+A vegan guide to Berlin/Germany. This app runs on Android 4.x and up and comes in 2 flavors.
+There is a "playstore" version with proprietary Google Maps integration and a "foss" version with no propriertary dependencies.
 
 [![Build Status](https://travis-ci.org/Berlin-Vegan/berlin-vegan-guide.svg?branch=development)](https://travis-ci.org/Berlin-Vegan/berlin-vegan-guide)
 #build & install
 
 ```
-./gradlew installPlaystoreDebug (build the app including the proprietary google play services lib)
-./gradlew installFossDebug (100% open source)
+./gradlew installPlaystoreDebug
+./gradlew installFossDebug
+```
+
+#test
+```
+./gradlew test
 ```
 
 # release creation
