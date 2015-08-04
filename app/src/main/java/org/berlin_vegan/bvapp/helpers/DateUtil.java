@@ -12,6 +12,9 @@ public class DateUtil {
     public static final List<String> FIXED_HOLIDAYS = Arrays.asList( "1.1", "1.5", "3.10", "25.12", "26.12");
     public static final List<String> DYNAMIC_HOLIDAYS = Arrays.asList( "25.3.2016", "28.3.2016", "5.5.2016", "16.5.2016", "14.4.2017","17.4.2017","25.5.2017","05.6.2017");
     public static final int ONE_MINUTE_IN_MILLISECONDS = 60000;
+    public static final int HOURS_PER_DAY = 24;
+    public static final int MINUTES_PER_HOUR = 60;
+    public static final int MINUTES_PER_DAY = HOURS_PER_DAY * MINUTES_PER_HOUR;
     /**
      * return the current day of week, starting with monday
      */
@@ -44,5 +47,27 @@ public class DateUtil {
     public static Date addMinutesToDate(Date date,int minutes){
         final long currentTime = date.getTime();
         return new Date(currentTime + (minutes * ONE_MINUTE_IN_MILLISECONDS));
+    }
+
+    /**
+     * return a typical opening times string, for the input minutes
+     * some example
+     * minutes = 120 -> 2:00
+     * minutes = 570 -> 9:30
+     *
+     */
+    static public String formatTimeFromMinutes(int minutes) {
+        if (minutes == 0) {
+            return "0";
+        }
+        int hours = minutes / MINUTES_PER_HOUR;
+        if (hours == 24) { // set 24 to 0, its more common in germany
+            hours = 0;
+        }
+        int restMinutes = minutes % MINUTES_PER_HOUR;
+        if (restMinutes != 0) {
+            return hours + ":" + String.format("%02d", restMinutes); // format minutes with 2 digits
+        }
+        return String.valueOf(hours);
     }
 }

@@ -62,9 +62,13 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
         final Date currentTime = GregorianCalendar.getInstance().getTime();
         final Date currentTimePlus30Minutes = DateUtil.addMinutesToDate(currentTime, 30);
         if (!gastroLocation.isOpen(currentTime)) {
-            gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_details_opening_hours_content_closed));
+            gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_list_closed));
+            gastroLocationViewHolder.vClosed.setTextColor(mMainListActivity.getResources().getColor(R.color.text_disabled));
         }else if (!gastroLocation.isOpen(currentTimePlus30Minutes)) {
-            gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_details_opening_hours_content_closed_soon));
+            final String formattedClosingTime = gastroLocation.getFormattedClosingTime(currentTime);
+            gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_list_closed_soon, formattedClosingTime));
+            gastroLocationViewHolder.vClosed.setTextColor(mMainListActivity.getResources().getColor(R.color.text_attention));
+
         }else {
             gastroLocationViewHolder.vClosed.setText(""); // clear
         }

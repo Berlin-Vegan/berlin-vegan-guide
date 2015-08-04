@@ -11,26 +11,45 @@ public class OpeningHoursTest {
     @Test
     public void testInvalidData() throws Exception {
         OpeningHours openingHours = new OpeningHours("9 - spät"); // invalid end time, so we assume its open until midnight
-        assertEquals(openingHours.getEndMinute(), MINUTES_AT_MIDNIGHT);
+        assertEquals(MINUTES_AT_MIDNIGHT,openingHours.getEndMinute());
 
         openingHours = new OpeningHours("9-"); // missing end time so we assume its open until midnight
-        assertEquals(openingHours.getEndMinute(),MINUTES_AT_MIDNIGHT);
+        assertEquals(MINUTES_AT_MIDNIGHT,openingHours.getEndMinute());
 
         openingHours = new OpeningHours("a-b"); // no numbers, so we set everything to close
-        assertEquals(openingHours.getStartMinute(),0);
-        assertEquals(openingHours.getEndMinute(),0);
+        assertEquals(0,openingHours.getStartMinute());
+        assertEquals(0,openingHours.getEndMinute());
 
         openingHours = new OpeningHours("9"); // missing -, so we set every to close
-        assertEquals(openingHours.getStartMinute(),0);
-        assertEquals(openingHours.getEndMinute(),0);
+        assertEquals(0,openingHours.getStartMinute());
+        assertEquals(0,openingHours.getEndMinute());
 
         openingHours = new OpeningHours(""); // missing -, so we set every to close
-        assertEquals(openingHours.getStartMinute(),0);
-        assertEquals(openingHours.getEndMinute(),0);
+        assertEquals(0,openingHours.getStartMinute());
+        assertEquals(0,openingHours.getEndMinute());
 
         openingHours = new OpeningHours("don't know"); // missing -, so we set every to close
-        assertEquals(openingHours.getStartMinute(),0);
-        assertEquals(openingHours.getEndMinute(),0);
+        assertEquals(0,openingHours.getStartMinute());
+        assertEquals(0,openingHours.getEndMinute());
+
+    }
+
+    @Test
+    public void testGetFormattedClosingTime() throws Exception {
+        OpeningHours openingHours = new OpeningHours("9-4");
+        assertEquals("4",openingHours.getFormattedClosingTime());
+
+        openingHours = new OpeningHours("9-11");
+        assertEquals("11",openingHours.getFormattedClosingTime());
+
+        openingHours = new OpeningHours("9-");
+        assertEquals("0",openingHours.getFormattedClosingTime());
+
+        openingHours = new OpeningHours("9-12:30");
+        assertEquals("12:30",openingHours.getFormattedClosingTime());
+
+        openingHours = new OpeningHours("9-12:05");
+        assertEquals("12:05",openingHours.getFormattedClosingTime());
 
     }
 }

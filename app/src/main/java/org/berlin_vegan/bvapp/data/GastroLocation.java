@@ -1,5 +1,7 @@
 package org.berlin_vegan.bvapp.data;
 
+import android.support.annotation.NonNull;
+
 import org.berlin_vegan.bvapp.activities.MainListActivity;
 import org.berlin_vegan.bvapp.helpers.DateUtil;
 
@@ -318,18 +320,25 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     public boolean isOpen(Date date) {
-        final int sundayIndex = 6;
-        final String[] openingHours = getOpeningHoursAsArray();
-
         final Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(date);
         final int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        boolean afterMidnight = false;
-        if (currentHour >= 0 && currentHour <= 6) {
-            afterMidnight = true;
+        int currentMinute = DateUtil.inMinutes(currentHour, calendar.get(Calendar.MINUTE));
+        if (isAfterMidnight(date)) {
+            currentMinute = currentMinute + DateUtil.MINUTES_PER_DAY; // add a complete day
         }
+        final OpeningHours hours = getOpeningHours(date);
+        return hours.isInRange(currentMinute);
+
+    }
+
+    @NonNull
+    private OpeningHours getOpeningHours(Date date) {
+        final int sundayIndex = 6;
+        final String[] openingHours = getOpeningHoursAsArray();
+
         int dayOfWeek = DateUtil.getDayOfWeek(date);
-        if (afterMidnight) {
+        if (isAfterMidnight(date)) {
             dayOfWeek = dayOfWeek - 1; // its short after midnight, so we use the opening hour from the day before
             if (dayOfWeek == -1) {
                 dayOfWeek = sundayIndex; // sunday
@@ -338,14 +347,22 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
         if (DateUtil.isPublicHoliday(date)) { // it is a holiday so take the opening hours from sunday
             dayOfWeek = sundayIndex;
         }
+        return new OpeningHours(openingHours[dayOfWeek]);
+    }
 
-        final OpeningHours hours = new OpeningHours(openingHours[dayOfWeek]);
-        int currentMinute = DateUtil.inMinutes(currentHour, calendar.get(Calendar.MINUTE));
-        if (afterMidnight) {
-            currentMinute = currentMinute + 24 * 60; // add a complete day
-        }
-        return hours.isInRange(currentMinute);
+    /**
+     * returns true if the date is short after midnight
+     */
+    private boolean isAfterMidnight(Date date) {
+        final Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(date);
+        final int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        return currentHour >= 0 && currentHour <= 6;
+    }
 
+    public String getFormattedClosingTime(Date date) {
+        final OpeningHours hours = getOpeningHours(date);
+        return hours.getFormattedClosingTime();
     }
 
     public Integer getVegan() {

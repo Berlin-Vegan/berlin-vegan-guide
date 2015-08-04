@@ -1,6 +1,11 @@
 package org.berlin_vegan.bvapp.data;
 
 
+import org.berlin_vegan.bvapp.helpers.DateUtil;
+
+import static org.berlin_vegan.bvapp.helpers.DateUtil.MINUTES_PER_DAY;
+import static org.berlin_vegan.bvapp.helpers.DateUtil.MINUTES_PER_HOUR;
+
 /**
  * this class parsed the open hours format and convert it to a minute range,
  * if the opening hours are after midnight the day get extended
@@ -14,6 +19,7 @@ package org.berlin_vegan.bvapp.data;
  * "10 - 24"
  */
 public class OpeningHours {
+
     int startMinute=0;
     int endMinute=0;
 
@@ -25,27 +31,37 @@ public class OpeningHours {
             if (parts.length > 1) {
                 String endTime = parts[1];
                 endMinute = getMinute(endTime);
-            }
-            if (endMinute < startMinute) {
-                endMinute = endMinute + 24 * 60; // add a whole day in minutes
+                if (startMinute != 0 && endMinute == 0) {
+                    endMinute = MINUTES_PER_DAY;
+                }
+            }else if (startMinute != 0) {
+                endMinute = MINUTES_PER_DAY;
             }
         }
     }
 
     public boolean isInRange(int minute) {
-        return minute >= startMinute && minute <= endMinute;
+        int endMinutes = endMinute;
+        if (endMinute < startMinute) { // closing time is after midnight
+            endMinutes = endMinutes + MINUTES_PER_DAY; // add a whole day in minutes, so we can easily calculate range
+        }
+        return minute >= startMinute && minute <= endMinutes;
+    }
+
+    public String getFormattedClosingTime() {
+        return DateUtil.formatTimeFromMinutes(endMinute);
     }
 
     public int getStartMinute() {
         return startMinute;
     }
-
     public int getEndMinute() {
         return endMinute;
     }
 
+
     /**
-     * calculate the minute of day for the given string
+     * parse the minute of day for the given string
      * "5:30" returns 5*60 + 30
      */
     private int getMinute(String time) {
@@ -68,6 +84,6 @@ public class OpeningHours {
         } catch (Exception ignored) {
         }
 
-        return hour * 60 + minute;
+        return hour * MINUTES_PER_HOUR + minute;
     }
 }

@@ -24,6 +24,9 @@
     <string name="about_flavor">Flavor:  %1$s</string>
     <string name="about_licenses">Open Source Licenses</string>
 
+    <string name="gastro_list_closed">closed at the moment</string>
+    <string name="gastro_list_closed_soon">closes by\n%1$s clock</string>
+
     <string name="gastro_details_contact_address">No address</string>
     <string name="gastro_details_contact_telephone">No phone number</string>
     <string name="gastro_details_contact_website">No website</string>
@@ -34,8 +37,7 @@
     <string name="gastro_details_opening_hours_content_friday">Friday</string>
     <string name="gastro_details_opening_hours_content_saturday">Saturday</string>
     <string name="gastro_details_opening_hours_content_sunday">Sunday</string>
-    <string name="gastro_details_opening_hours_content_closed">closed</string>
-    <string name="gastro_details_opening_hours_content_closed_soon">closed soon</string>
+    <string name="gastro_details_opening_hours_content_closed">closed soon</string>
     <string name="gastro_details_opening_hours_content_holiday_warning">Attention, today is a public holiday!</string>
     <string name="gastro_details_miscellaneous_content_catering">Catering</string>
     <string name="gastro_details_miscellaneous_content_child_chair">High chair</string>
