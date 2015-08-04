@@ -58,7 +58,6 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
             gastroLocationViewHolder.vDistance.setText(distance);
         }
         // update opening hours field
-        // TODO move calculation to background thread or cache in gastrolocation
         final Date currentTime = GregorianCalendar.getInstance().getTime();
         final Date currentTimePlus30Minutes = DateUtil.addMinutesToDate(currentTime, 30);
         if (!gastroLocation.isOpen(currentTime)) {
