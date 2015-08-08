@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.berlin_vegan.bvapp.R;
@@ -41,10 +42,10 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
     }
 
     @Override
-    public void onBindViewHolder(GastroLocationViewHolder gastroLocationViewHolder, int i) {
+    public void onBindViewHolder(GastroLocationViewHolder viewHolder, int i) {
         final GastroLocation gastroLocation = mMainListActivity.getGastroLocations().get(i);
-        gastroLocationViewHolder.vTitle.setText(gastroLocation.getName());
-        gastroLocationViewHolder.vStreet.setText(gastroLocation.getStreet());
+        viewHolder.vTitle.setText(gastroLocation.getName());
+        viewHolder.vStreet.setText(gastroLocation.getStreet());
         final float distToCurLoc = gastroLocation.getDistToCurLoc();
         if (distToCurLoc > -1.0f) {
             // TODO: speed up reloading the distances after a settings change
@@ -55,23 +56,30 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
             } else {
                 distance += mMainListActivity.getString(R.string.mi_string);
             }
-            gastroLocationViewHolder.vDistance.setText(distance);
+            viewHolder.vDistance.setText(distance);
         }
         // update opening hours field
         final Date currentTime = GregorianCalendar.getInstance().getTime();
         final Date currentTimePlus30Minutes = DateUtil.addMinutesToDate(currentTime, 30);
         if (!gastroLocation.isOpen(currentTime)) {
-            gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_list_closed));
-            gastroLocationViewHolder.vClosed.setTextColor(mMainListActivity.getResources().getColor(R.color.text_disabled));
-            gastroLocationViewHolder.vDistance.setTextColor(mMainListActivity.getResources().getColor(R.color.text_disabled));
+            viewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_list_closed));
+            viewHolder.vClosed.setTextColor(mMainListActivity.getResources().getColor(R.color.text_disabled));
+            viewHolder.vDistance.setTextColor(mMainListActivity.getResources().getColor(R.color.text_disabled));
         }else if (!gastroLocation.isOpen(currentTimePlus30Minutes)) {
             final String formattedClosingTime = gastroLocation.getFormattedClosingTime(currentTime);
-            gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_list_closed_soon, formattedClosingTime));
-            gastroLocationViewHolder.vClosed.setTextColor(mMainListActivity.getResources().getColor(R.color.text_attention));
-            gastroLocationViewHolder.vDistance.setTextColor(mMainListActivity.getResources().getColor(R.color.theme_primary));
+            viewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_list_closed_soon, formattedClosingTime));
+            viewHolder.vClosed.setTextColor(mMainListActivity.getResources().getColor(R.color.text_attention));
+            viewHolder.vDistance.setTextColor(mMainListActivity.getResources().getColor(R.color.theme_primary));
         }else {
-            gastroLocationViewHolder.vClosed.setText(""); // clear
-            gastroLocationViewHolder.vDistance.setTextColor(mMainListActivity.getResources().getColor(R.color.theme_primary));
+            viewHolder.vClosed.setText(""); // clear
+            viewHolder.vDistance.setTextColor(mMainListActivity.getResources().getColor(R.color.theme_primary));
+        }
+
+        // update vegan label, indicate 100% vegan locations
+        if (gastroLocation.getVegan() == GastroLocation.VEGAN) {
+            viewHolder.vVeganLabel.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.vVeganLabel.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -90,12 +98,14 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
         final TextView vClosed;
         final TextView vStreet;
         final TextView vDistance;
+        final ImageView vVeganLabel;
 
         public GastroLocationViewHolder(View v, MainListActivity mainListActivity) {
             super(v);
             v.setOnClickListener(this);
             mMainListActivity = mainListActivity;
             vTitle = (TextView) v.findViewById(R.id.text_view_title);
+            vVeganLabel = (ImageView) v.findViewById(R.id.image_view_vegan_label);
             vClosed = (TextView) v.findViewById(R.id.text_view_closed);
             vStreet = (TextView) v.findViewById(R.id.text_view_street);
             vDistance = (TextView) v.findViewById(R.id.text_view_distance);
