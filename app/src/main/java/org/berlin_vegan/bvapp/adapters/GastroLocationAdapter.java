@@ -63,13 +63,15 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
         if (!gastroLocation.isOpen(currentTime)) {
             gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_list_closed));
             gastroLocationViewHolder.vClosed.setTextColor(mMainListActivity.getResources().getColor(R.color.text_disabled));
+            gastroLocationViewHolder.vDistance.setTextColor(mMainListActivity.getResources().getColor(R.color.text_disabled));
         }else if (!gastroLocation.isOpen(currentTimePlus30Minutes)) {
             final String formattedClosingTime = gastroLocation.getFormattedClosingTime(currentTime);
             gastroLocationViewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_list_closed_soon, formattedClosingTime));
             gastroLocationViewHolder.vClosed.setTextColor(mMainListActivity.getResources().getColor(R.color.text_attention));
-
+            gastroLocationViewHolder.vDistance.setTextColor(mMainListActivity.getResources().getColor(R.color.theme_primary));
         }else {
             gastroLocationViewHolder.vClosed.setText(""); // clear
+            gastroLocationViewHolder.vDistance.setTextColor(mMainListActivity.getResources().getColor(R.color.theme_primary));
         }
     }
 

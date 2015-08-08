@@ -25,7 +25,7 @@
     <string name="about_licenses">Open Source Licenses</string>
 
     <string name="gastro_list_closed">closed at the moment</string>
-    <string name="gastro_list_closed_soon">closes by\n%1$s clock</string>
+    <string name="gastro_list_closed_soon">closes by\n%1$s clock!</string>
 
     <string name="gastro_details_contact_address">No address</string>
     <string name="gastro_details_contact_telephone">No phone number</string>
