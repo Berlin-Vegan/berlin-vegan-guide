@@ -19,6 +19,11 @@ import java.util.List;
  * {@link MainListActivity}.
  */
 public class GastroLocation implements Comparable<GastroLocation>, Serializable {
+    public final static int OMNIVORE = 1;
+    final public static int OMNIVORE_VEGAN_DECLARED = 2;
+    final public static int VEGETARIAN = 3;
+    final public static int VEGETARIAN_VEGAN_DECLARED = 4;
+    final public static int VEGAN = 5;
     private String id;
     private String name;
     private String street;

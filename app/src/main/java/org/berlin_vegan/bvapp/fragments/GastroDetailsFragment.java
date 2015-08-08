@@ -42,12 +42,6 @@ public class GastroDetailsFragment extends Fragment {
 
     private GastroLocation mGastroLocation;
 
-    final private static int OMNIVORE = 1;
-    final public static int OMNIVORE_VEGAN_DECLARED = 2;
-    final private static int VEGETARIAN = 3;
-    final public static int VEGETARIAN_VEGAN_DECLARED = 4;
-    final public static int VEGAN = 5;
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.gastro_details_fragment, container, false);
@@ -266,15 +260,15 @@ public class GastroDetailsFragment extends Fragment {
     }
 
     private String getVeganContentString(int i) {
-        if (i == OMNIVORE) {
+        if (i == GastroLocation.OMNIVORE) {
             return getString(R.string.gastro_details_miscellaneous_content_omnivore);
-        } else if (i == OMNIVORE_VEGAN_DECLARED) {
+        } else if (i == GastroLocation.OMNIVORE_VEGAN_DECLARED) {
             return getString(R.string.gastro_details_miscellaneous_content_omnivore_vegan_declared);
-        } else if (i == VEGETARIAN) {
+        } else if (i == GastroLocation.VEGETARIAN) {
             return getString(R.string.gastro_details_miscellaneous_content_vegetarian);
-        } else if (i == VEGETARIAN_VEGAN_DECLARED) {
+        } else if (i == GastroLocation.VEGETARIAN_VEGAN_DECLARED) {
             return getString(R.string.gastro_details_miscellaneous_content_vegetarian_vegan_declared);
-        } else if (i == VEGAN) {
+        } else if (i == GastroLocation.VEGAN) {
             return getString(R.string.gastro_details_miscellaneous_content_completely_vegan);
         }
         return getString(R.string.gastro_details_miscellaneous_content_unknown);

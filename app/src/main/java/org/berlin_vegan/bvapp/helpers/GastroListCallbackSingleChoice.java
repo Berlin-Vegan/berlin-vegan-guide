@@ -7,8 +7,8 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.berlin_vegan.bvapp.activities.MainListActivity;
+import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.GastroLocations;
-import org.berlin_vegan.bvapp.fragments.GastroDetailsFragment;
 
 /**
  * Processes the selection in {@code UiUtils.showMaterialDialogCheckboxes(...)}.
@@ -33,18 +33,18 @@ public class GastroListCallbackSingleChoice implements MaterialDialog.ListCallba
         switch (selected) {
             case OMNIVORE_VEGETARIAN_VEGAN:
                 gastroLocations.showFiltersResult(
-                        GastroDetailsFragment.OMNIVORE_VEGAN_DECLARED,
-                        GastroDetailsFragment.VEGETARIAN_VEGAN_DECLARED,
-                        GastroDetailsFragment.VEGAN);
+                        GastroLocation.OMNIVORE_VEGAN_DECLARED,
+                        GastroLocation.VEGETARIAN_VEGAN_DECLARED,
+                        GastroLocation.VEGAN);
                 break;
             case VEGETARIAN_VEGAN:
                 gastroLocations.showFiltersResult(
-                        GastroDetailsFragment.VEGETARIAN_VEGAN_DECLARED,
-                        GastroDetailsFragment.VEGAN);
+                        GastroLocation.VEGETARIAN_VEGAN_DECLARED,
+                        GastroLocation.VEGAN);
                 break;
             case VEGAN_ONLY:
                 gastroLocations.showFiltersResult(
-                        GastroDetailsFragment.VEGAN);
+                        GastroLocation.VEGAN);
                 break;
             case FAVORITES:
                 gastroLocations.showFavorites();
