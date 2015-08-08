@@ -77,9 +77,6 @@ public class OpeningHours {
                 minute = Integer.parseInt(parts[1].trim());
             } else {
                 hour = Integer.parseInt(time.trim());
-                if (hour == 0) { // 0 is the same as 24 in hour format
-                    hour = 24;
-                }
             }
         } catch (Exception ignored) {
         }

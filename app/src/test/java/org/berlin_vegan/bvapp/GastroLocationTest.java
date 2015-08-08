@@ -19,28 +19,28 @@ import static org.junit.Assert.assertTrue;
 public class GastroLocationTest {
 
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
-    private GastroLocation location;
-    private GastroLocation locationAlwaysClosed;
+    private GastroLocation mLocation;
+    private GastroLocation mLocationAlwaysClosed;
 
     @Before
     public void setUp() throws Exception {
-        location = new GastroLocation();
-        location.setOtMon("9 - 1");
-        location.setOtTue("9 - 1");
-        location.setOtWed("");
-        location.setOtThu("7 - 19");
-        location.setOtFri("10 - 14");
-        location.setOtSat("10 - 22");
-        location.setOtSun("10 - 22");
+        mLocation = new GastroLocation();
+        mLocation.setOtMon("9 - 1");
+        mLocation.setOtTue("9 - 1");
+        mLocation.setOtWed("");
+        mLocation.setOtThu("7 - 19");
+        mLocation.setOtFri("10 - 14");
+        mLocation.setOtSat("10 - 22");
+        mLocation.setOtSun("10 - 22");
 
-        locationAlwaysClosed = new GastroLocation();
-        locationAlwaysClosed.setOtMon("");
-        locationAlwaysClosed.setOtTue("");
-        locationAlwaysClosed.setOtWed("");
-        locationAlwaysClosed.setOtThu("");
-        locationAlwaysClosed.setOtFri("");
-        locationAlwaysClosed.setOtSat("");
-        locationAlwaysClosed.setOtSun("");
+        mLocationAlwaysClosed = new GastroLocation();
+        mLocationAlwaysClosed.setOtMon("");
+        mLocationAlwaysClosed.setOtTue("");
+        mLocationAlwaysClosed.setOtWed("");
+        mLocationAlwaysClosed.setOtThu("");
+        mLocationAlwaysClosed.setOtFri("");
+        mLocationAlwaysClosed.setOtSat("");
+        mLocationAlwaysClosed.setOtSun("");
     }
 
     @Test
@@ -61,7 +61,7 @@ public class GastroLocationTest {
 
     @Test
     public void testCondensedOpeningHours() throws Exception {
-        final List<OpeningHoursInterval> openingHours = location.getCondensedOpeningHours();
+        final List<OpeningHoursInterval> openingHours = mLocation.getCondensedOpeningHours();
         assertEquals(5, openingHours.size());
 
     }
@@ -69,28 +69,39 @@ public class GastroLocationTest {
     @Test
     public void testCondensedOpeningHoursCompleteClosed() throws Exception {
 
-        final List<OpeningHoursInterval> openingHours = locationAlwaysClosed.getCondensedOpeningHours();
+        final List<OpeningHoursInterval> openingHours = mLocationAlwaysClosed.getCondensedOpeningHours();
         assertEquals(1, openingHours.size());
     }
 
     @Test
     public void testIsOpenLocationAlwaysClosed() throws Exception {
-        assertFalse(locationAlwaysClosed.isOpen(Calendar.getInstance().getTime()));
+        assertFalse(mLocationAlwaysClosed.isOpen(Calendar.getInstance().getTime()));
     }
 
     @Test
     public void testIsOpen() throws Exception {
         Date date = new GregorianCalendar(2015, 6, 27, 20, 32).getTime();// monday 20:32, 27 July 2015
-        assertTrue(location.isOpen(date));
+        assertTrue(mLocation.isOpen(date));
 
         date = new GregorianCalendar(2015, 6, 28, 0, 32).getTime();// tuesday 0:32, after midnight, so take the opening hours from "monday"
-        assertTrue(location.isOpen(date));
+        assertTrue(mLocation.isOpen(date));
 
         date = new GregorianCalendar(2015, 6, 29, 1, 32).getTime();// wednesday
-        assertFalse(location.isOpen(date));
+        assertFalse(mLocation.isOpen(date));
 
         date = new GregorianCalendar(2015, 4, 1, 21, 0).getTime();// friday, but as 1 may is public holiday, take opening hours from sunday
+        assertTrue(mLocation.isOpen(date));
+
+    }
+
+    @Test
+    // test for ISSUE #30
+    public void testIsOpenForLocationAlwaysOpen() throws Exception {
+        final GastroLocation location = new GastroLocation();
+        location.setOtMon("0 - 24");
+        Date date = new GregorianCalendar(2015, 7, 10, 20, 32).getTime();// monday 20:32, 10 August 2015
         assertTrue(location.isOpen(date));
+
 
     }
 }
