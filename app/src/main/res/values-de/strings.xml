@@ -4,7 +4,6 @@
     <string name="action_about">Über</string>
     <string name="action_filter">Filter</string>
     <string name="action_menu_search">Suche</string>
-    <string name="action_add_favorite">Favoriten hinzufügen</string>
 
     <string name="km_string">km</string>
     <string name="mi_string">mi</string>
@@ -61,9 +60,13 @@
     <string name="gastro_details_miscellaneous_content_vegetarian_vegan_declared">vegetarisch (vegan deklariert)</string>
     <string name="gastro_details_miscellaneous_content_completely_vegan">100% vegan</string>
     <string name="gastro_details_editing">Änderungen vorschlagen</string>
+    <string name="gastro_details_opening_hours_content_clock">Uhr</string>
+    <string name="gastro_details_dial">Anrufen</string>
+    <string name="gastro_details_favorite">Favorit</string>
+    <string name="gastro_details_website">Webseite</string>
 
     <string name="filter_title_dialog">Filter Lokalitäten</string>
     <string name="filter_content_dialog">Alle Lokalitäten deklarieren vegan. Zeige:</string>
-    <string name="gastro_details_opening_hours_content_clock">Uhr</string>
+
 
 </resources>

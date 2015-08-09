@@ -12,10 +12,11 @@ import android.widget.LinearLayout;
 
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.data.GastroLocation;
-import org.berlin_vegan.bvapp.data.GastroLocations;
 import org.berlin_vegan.bvapp.fragments.GastroDescriptionFragment;
 import org.berlin_vegan.bvapp.fragments.GastroDetailsFragment;
+import org.berlin_vegan.bvapp.fragments.GastroHeadFragment;
 import org.berlin_vegan.bvapp.fragments.GastroMapFragment;
+import org.berlin_vegan.bvapp.fragments.GastroActionsFragment;
 import org.berlin_vegan.bvapp.helpers.DividerFragment;
 
 /**
@@ -46,10 +47,20 @@ public class GastroActivity extends BaseActivity{
 
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linear_layout);
 
+        final GastroHeadFragment gastroHeadFragment = new GastroHeadFragment();
+        getFragmentManager().beginTransaction().add(linearLayout.getId(), gastroHeadFragment).commit();
+
+        final GastroActionsFragment gastroActionsFragment = new GastroActionsFragment();
+        getFragmentManager().beginTransaction().add(linearLayout.getId(), gastroActionsFragment).commit();
+
+        DividerFragment dividerFragment = new DividerFragment();
+        getFragmentManager().beginTransaction().add(linearLayout.getId(), dividerFragment).commit();
+
+
         GastroDescriptionFragment gastroDescriptionFragment = new GastroDescriptionFragment();
         getFragmentManager().beginTransaction().add(linearLayout.getId(), gastroDescriptionFragment).commit();
 
-        DividerFragment dividerFragment = new DividerFragment();
+        dividerFragment = new DividerFragment();
         getFragmentManager().beginTransaction().add(linearLayout.getId(), dividerFragment).commit();
 
         GastroDetailsFragment gastroDetailsFragment = new GastroDetailsFragment();
@@ -75,7 +86,7 @@ public class GastroActivity extends BaseActivity{
         final CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         final String title = mGastroLocation.getName();
-        collapsingToolbar.setTitle(title);
+        //collapsingToolbar.setTitle(title);
 
         // otherwise the backdrop is not fully visible
         final int transparent = getResources().getColor(android.R.color.transparent);
@@ -89,13 +100,6 @@ public class GastroActivity extends BaseActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_gastro_activity, menu);
-        MenuItem item = menu.findItem(R.id.action_add_favorite);
-        boolean isFavorite = GastroLocations.containsFavorite(mGastroLocation.getId());
-        if (isFavorite) {
-            item.setIcon(getResources().getDrawable(R.mipmap.ic_star_white_24dp));
-        } else {
-            item.setIcon(getResources().getDrawable(R.mipmap.ic_star_outline_white_24dp));
-        }
         return true;
     }
 
@@ -105,16 +109,6 @@ public class GastroActivity extends BaseActivity{
             case android.R.id.home:
                 // respond to the action bar's up button
                 NavUtils.navigateUpFromSameTask(this);
-                break;
-            case R.id.action_add_favorite:
-                boolean isFavorite = GastroLocations.containsFavorite(mGastroLocation.getId());
-                if (!isFavorite) {
-                    item.setIcon(getResources().getDrawable(R.mipmap.ic_star_white_24dp));
-                    GastroLocations.addFavorite(mGastroLocation.getId(), mSharedPreferences);
-                } else {
-                    item.setIcon(getResources().getDrawable(R.mipmap.ic_star_outline_white_24dp));
-                    GastroLocations.removeFavorite(mGastroLocation.getId(), mSharedPreferences);
-                }
                 break;
             default:
                 break;
@@ -127,6 +121,4 @@ public class GastroActivity extends BaseActivity{
         savedInstanceState.putSerializable(EXTRA_GASTRO_LOCATION, mGastroLocation);
         super.onSaveInstanceState(savedInstanceState);
     }
-
-
 }

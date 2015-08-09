@@ -15,8 +15,8 @@ import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.activities.GastroActivity;
 import org.berlin_vegan.bvapp.activities.MainListActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
-import org.berlin_vegan.bvapp.data.GastroLocations;
 import org.berlin_vegan.bvapp.helpers.DateUtil;
+import org.berlin_vegan.bvapp.helpers.UiUtils;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -50,12 +50,7 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
         if (distToCurLoc > -1.0f) {
             // TODO: speed up reloading the distances after a settings change
             // string for distance unit depends on settings
-            String distance = String.valueOf(distToCurLoc) + " ";
-            if (mSharedPreferences.getBoolean(GastroLocations.KEY_UNITS, true)) {
-                distance += mMainListActivity.getString(R.string.km_string);
-            } else {
-                distance += mMainListActivity.getString(R.string.mi_string);
-            }
+            final String distance = UiUtils.getFormattedDistance(distToCurLoc, mMainListActivity);
             viewHolder.vDistance.setText(distance);
         }
         // update opening hours field
@@ -63,8 +58,8 @@ public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAd
         final Date currentTimePlus30Minutes = DateUtil.addMinutesToDate(currentTime, 30);
         if (!gastroLocation.isOpen(currentTime)) {
             viewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_list_closed));
-            viewHolder.vClosed.setTextColor(mMainListActivity.getResources().getColor(R.color.text_disabled));
-            viewHolder.vDistance.setTextColor(mMainListActivity.getResources().getColor(R.color.text_disabled));
+            viewHolder.vClosed.setTextColor(mMainListActivity.getResources().getColor(R.color.disabled));
+            viewHolder.vDistance.setTextColor(mMainListActivity.getResources().getColor(R.color.disabled));
         }else if (!gastroLocation.isOpen(currentTimePlus30Minutes)) {
             final String formattedClosingTime = gastroLocation.getFormattedClosingTime(currentTime);
             viewHolder.vClosed.setText(mMainListActivity.getString(R.string.gastro_list_closed_soon, formattedClosingTime));

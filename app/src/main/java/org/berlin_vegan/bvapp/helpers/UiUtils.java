@@ -8,7 +8,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -21,6 +23,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.berlin_vegan.bvapp.BuildConfig;
 import org.berlin_vegan.bvapp.R;
+import org.berlin_vegan.bvapp.data.GastroLocations;
 
 /**
  * Helper class, which creates all dialogs.
@@ -52,6 +55,17 @@ public class UiUtils {
         return dialog;
     }
 
+    /** todo move preference handling to new helper class*/
+    public static String getFormattedDistance(float distance, Context context) {
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        String distanceStr = String.valueOf(distance) + " ";
+        if (sharedPreferences.getBoolean(GastroLocations.KEY_UNITS, true)) {
+            distanceStr += context.getString(R.string.km_string);
+        } else {
+            distanceStr += context.getString(R.string.mi_string);
+        }
+        return distanceStr;
+    }
     private static MaterialDialog showMaterialDialog(Context context, String title, SpannableStringBuilder content) {
         MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .title(title)
