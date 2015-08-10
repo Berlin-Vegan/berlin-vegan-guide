@@ -38,7 +38,7 @@
                 android:contentDescription="100 % vegan indicator"
                 android:gravity="bottom"
                 android:visibility="invisible"
-                android:src="@drawable/abc_btn_check_to_on_mtrl_015"
+                android:src="@mipmap/ic_100provegan_black_18dp"
                 android:tint="@color/theme_primary"
                 tools:visibility="visible"/>
         </LinearLayout>
