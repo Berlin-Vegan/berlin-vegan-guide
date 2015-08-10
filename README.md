@@ -1,4 +1,4 @@
-# Berlin Vegan Guide
+# Berlin-Vegan Guide
 A vegan guide to Berlin/Germany. This app runs on Android 4.x and up and comes in 2 flavors.
 There is a "playstore" version with proprietary Google Maps integration and a "foss" version with no proprietary dependencies.
 
