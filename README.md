@@ -32,11 +32,11 @@ TAG=0.1 && git tag -a ${TAG} -m ${TAG}
 ```
 * sign the release, e.g.
 ```
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore ./app/build/outputs/apk/app-release-unsigned.apk alias_name
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore ./app/build/outputs/apk/app-playstore-release-unsigned.apk alias_name
 ```
 * give the app a better name, e.g.
 ```
-mv ./app/build/outputs/apk/app-release-unsigned.apk ./app/build/outputs/apk/org.berlin_vegan.app_alpha.apk
+mv ./app/build/outputs/apk/app-playstore-release-unsigned.apk ./app/build/outputs/apk/org.berlin_vegan.app_alpha.apk
 ```
 * install the release:
 ```
