@@ -9,8 +9,8 @@ android {
     def dirtyWorkingCopy = hasModifiedDeletedOrOtherFiles || hasStagedFiles
     def gitDescription = dirtyWorkingCopy ? "${gitHash}-dirty" : gitHash
 
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.0"
 
     defaultConfig {
         applicationId "org.berlin_vegan.bvapp_alpha"
@@ -67,5 +67,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     // closed source
-    playstoreCompile 'com.google.android.gms:play-services-maps:7.5.0'
+    playstoreCompile 'com.google.android.gms:play-services-maps:7.8.0'
 }
