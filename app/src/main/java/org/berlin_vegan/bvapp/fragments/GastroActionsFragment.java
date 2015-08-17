@@ -48,6 +48,12 @@ public class GastroActionsFragment extends Fragment {
     }
 
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable(GastroActivity.EXTRA_GASTRO_LOCATION, mGastroLocation);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
     private void initDialButton(View view) {
         final TextView dialTextView = (TextView) view.findViewById(R.id.text_view_dial);
         final boolean hasTelephone = !mGastroLocation.getTelephone().isEmpty();

@@ -46,5 +46,10 @@ public class GastroHeadFragment extends Fragment {
         }
         return view;
     }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable(GastroActivity.EXTRA_GASTRO_LOCATION, mGastroLocation);
+        super.onSaveInstanceState(savedInstanceState);
+    }
 
 }
