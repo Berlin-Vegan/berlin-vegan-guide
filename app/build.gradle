@@ -12,6 +12,9 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.0"
 
+    android {
+        useLibrary 'org.apache.http.legacy'
+    }
     defaultConfig {
         applicationId "org.berlin_vegan.bvapp_alpha"
         minSdkVersion 15
