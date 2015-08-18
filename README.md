@@ -48,6 +48,8 @@ adb install -r ./app/build/outputs/apk/org.berlin_vegan.app_alpha.apk
 git push origin master --tags
 ```
 
+* switch to development branch and increase versionCode in "app/build.gradle"
+
 #json format
 ##gastronomy locations
 
