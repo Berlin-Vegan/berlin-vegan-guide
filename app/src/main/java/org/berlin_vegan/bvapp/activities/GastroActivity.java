@@ -1,13 +1,17 @@
 package org.berlin_vegan.bvapp.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import org.berlin_vegan.bvapp.R;
@@ -95,6 +99,14 @@ public class GastroActivity extends BaseActivity{
         GastroMapFragment mapFragment = (GastroMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.backdrop);
         mapFragment.setLocation(mGastroLocation);
+
+        final FloatingActionButton navButton = (FloatingActionButton)findViewById(R.id.fab);
+        navButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigationButtonClicked();
+            }
+        });
     }
 
     @Override
@@ -120,5 +132,13 @@ public class GastroActivity extends BaseActivity{
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putSerializable(EXTRA_GASTRO_LOCATION, mGastroLocation);
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    private void navigationButtonClicked() {
+        // tested with oeffi, google maps and citymapper
+        final String uriString = "geo:0,0?q=" + mGastroLocation.getStreet() + ", " + mGastroLocation.getCityCode() + ", " + mGastroLocation.getCity();
+        Uri geoIntentUri = Uri.parse(uriString);
+        Intent geoIntent = new Intent(Intent.ACTION_VIEW, geoIntentUri);
+        startActivity(geoIntent);
     }
 }
