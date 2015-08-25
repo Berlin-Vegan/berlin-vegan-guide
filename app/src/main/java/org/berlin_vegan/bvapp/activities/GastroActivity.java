@@ -90,7 +90,7 @@ public class GastroActivity extends BaseActivity{
         final CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         final String title = mGastroLocation.getName();
-        //collapsingToolbar.setTitle(title);
+        collapsingToolbar.setTitle(title);
 
         // otherwise the backdrop is not fully visible
         final int transparent = getResources().getColor(android.R.color.transparent);
