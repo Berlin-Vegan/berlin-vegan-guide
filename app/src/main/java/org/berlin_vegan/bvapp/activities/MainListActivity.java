@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -253,15 +254,11 @@ public class MainListActivity extends BaseActivity {
     // location handling
 
     private void requestLocationUpdates() {
-        final int minTime = 3 * 60 * 1000; // e.g. 5 * 60 * 1000 (5 minutes)
-        final int minDistance = 100;
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (mLocationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER)) {
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, mGastroLocationListener);
-        }
-        if (mLocationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, mGastroLocationListener);
-        }
+        mLocationManager.requestSingleUpdate(criteria, mGastroLocationListener, null);
     }
 
     public void removeLocationUpdates() {
