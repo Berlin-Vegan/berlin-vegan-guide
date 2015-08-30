@@ -2,8 +2,6 @@ package org.berlin_vegan.bvapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +27,9 @@ import static android.view.View.OnClickListener;
 public class GastroLocationAdapter extends RecyclerView.Adapter<GastroLocationAdapter.GastroLocationViewHolder> {
 
     private final MainListActivity mMainListActivity;
-    private final SharedPreferences mSharedPreferences;
 
     public GastroLocationAdapter(MainListActivity mainListActivity) {
         mMainListActivity = mainListActivity;
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mMainListActivity);
     }
 
     @Override

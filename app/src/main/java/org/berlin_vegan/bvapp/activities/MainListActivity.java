@@ -28,6 +28,7 @@ import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.adapters.GastroLocationAdapter;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.GastroLocations;
+import org.berlin_vegan.bvapp.data.Preferences;
 import org.berlin_vegan.bvapp.helpers.DividerItemDecoration;
 import org.berlin_vegan.bvapp.helpers.GastroListCallbackSingleChoice;
 import org.berlin_vegan.bvapp.helpers.UiUtils;
@@ -120,9 +121,8 @@ public class MainListActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.remove(GastroLocations.KEY_FILTER);
-        editor.apply();
+        Preferences.removeGastroFilter(this);
+
     }
 
     // --------------------------------------------------------------------
@@ -184,7 +184,7 @@ public class MainListActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_filter:
-                int selected = mSharedPreferences.getInt(GastroLocations.KEY_FILTER, 0);
+                int selected = Preferences.getGastroFilter(this);
                 UiUtils.showMaterialDialogCheckboxes(MainListActivity.this, getString(R.string.filter_title_dialog),
                         getString(R.string.filter_content_dialog),
                         getResources().getStringArray(R.array.filter_checkboxes), selected, mButtonCallback);

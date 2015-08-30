@@ -1,8 +1,7 @@
 package org.berlin_vegan.bvapp.data;
 
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.location.Location;
-import android.preference.PreferenceManager;
 
 import org.berlin_vegan.bvapp.activities.MainListActivity;
 
@@ -17,15 +16,11 @@ import java.util.Set;
  * which are currently presented to the user. Latter includes searching through the gastro locations lists.
  */
 public class GastroLocations {
-    private static final String KEY_FAVORITES = "key_favorites";
-    public static final String KEY_UNITS = "key_units";
-    public static final String KEY_FILTER = "key_filter";
 
     //needed for UI thread updateLocationAdapter
     private final MainListActivity mMainListActivity;
 
     private Location mLocationFound;
-    private SharedPreferences mSharedPreferences;
     /**
      * holds all locations. used to create the filtered lists
      */
@@ -48,8 +43,7 @@ public class GastroLocations {
 
     public GastroLocations(MainListActivity mainListactivity) {
         mMainListActivity = mainListactivity;
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mMainListActivity.getApplicationContext());
-        sFavoriteIDs = mSharedPreferences.getStringSet(KEY_FAVORITES, new HashSet<String>());
+        sFavoriteIDs = Preferences.getFavorites(mMainListActivity);
     }
 
     private void sortByDistance() {
@@ -71,7 +65,7 @@ public class GastroLocations {
 
             // 1. explicit cast to float necessary, otherwise we always get x.0 values
             // 2. Math.round(1.234 * 10) / 10 = Math.round(12.34) / 10 = 12 / 10 = 1.2
-            if (mSharedPreferences.getBoolean(KEY_UNITS, true)) {
+            if (Preferences.isMetricUnit(mMainListActivity.getApplicationContext())) {
                 distanceRoundOnePlace = (float) Math.round(distanceInKiloMeters * 10) / 10;
             } else {
                 distanceRoundOnePlace = (float) Math.round(distanceInMiles * 10) / 10;
@@ -108,20 +102,14 @@ public class GastroLocations {
         return sFavoriteIDs.contains(id);
     }
 
-    public static void addFavorite(String id, SharedPreferences sPreference) {
+    public static void addFavorite(Context context,String id) {
         sFavoriteIDs.add(id);
-        commitFavoritesPreferences(sPreference);
+        Preferences.saveFavorites(context, sFavoriteIDs);
     }
 
-    public static void removeFavorite(String id, SharedPreferences sPreference) {
+    public static void removeFavorite(Context context,String id) {
         sFavoriteIDs.remove(id);
-        commitFavoritesPreferences(sPreference);
-    }
-
-    private static void commitFavoritesPreferences(SharedPreferences sPreference) {
-        SharedPreferences.Editor editor = sPreference.edit();
-        editor.putStringSet(KEY_FAVORITES, sFavoriteIDs);
-        editor.apply();
+        Preferences.saveFavorites(context, sFavoriteIDs);
     }
 
     public void showFavorites() {

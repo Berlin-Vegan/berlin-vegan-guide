@@ -1,12 +1,12 @@
 package org.berlin_vegan.bvapp.fragments;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,10 +106,10 @@ public class GastroActionsFragment extends Fragment {
     private void favoriteButtonClicked() {
         if (!isFavorite()) {
             setFavoriteIcon(true);
-            GastroLocations.addFavorite(mGastroLocation.getId(), mSharedPreferences);
+            GastroLocations.addFavorite(getActivity(),mGastroLocation.getId());
         } else {
             setFavoriteIcon(false);
-            GastroLocations.removeFavorite(mGastroLocation.getId(), mSharedPreferences);
+            GastroLocations.removeFavorite(getActivity(),mGastroLocation.getId());
         }
     }
 

@@ -23,7 +23,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.berlin_vegan.bvapp.BuildConfig;
 import org.berlin_vegan.bvapp.R;
-import org.berlin_vegan.bvapp.data.GastroLocations;
+import org.berlin_vegan.bvapp.data.Preferences;
 
 /**
  * Helper class, which creates all dialogs.
@@ -55,11 +55,10 @@ public class UiUtils {
         return dialog;
     }
 
-    /** todo move preference handling to new helper class*/
     public static String getFormattedDistance(float distance, Context context) {
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         String distanceStr = String.valueOf(distance) + " ";
-        if (sharedPreferences.getBoolean(GastroLocations.KEY_UNITS, true)) {
+        if (Preferences.isMetricUnit(context)) {
             distanceStr += context.getString(R.string.km_string);
         } else {
             distanceStr += context.getString(R.string.mi_string);

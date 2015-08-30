@@ -1,7 +1,5 @@
 package org.berlin_vegan.bvapp.helpers;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -9,6 +7,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import org.berlin_vegan.bvapp.activities.MainListActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.GastroLocations;
+import org.berlin_vegan.bvapp.data.Preferences;
 
 /**
  * Processes the selection in {@code UiUtils.showMaterialDialogCheckboxes(...)}.
@@ -52,9 +51,7 @@ public class GastroListCallbackSingleChoice implements MaterialDialog.ListCallba
             default:
                 break;
         }
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mMainListActivity).edit();
-        editor.putInt(GastroLocations.KEY_FILTER, selected);
-        editor.apply();
+        Preferences.saveGastroFilter(mMainListActivity, selected);
         return true;
     }
 }
