@@ -64,6 +64,7 @@
     <string name="gastro_details_dial">Anrufen</string>
     <string name="gastro_details_favorite">Favorit</string>
     <string name="gastro_details_website">Webseite</string>
+    <string name="gastro_details_no_navigation_found">Keine App für die Navigation gefunden. Du kannst zum Beispiel OsmAnd aus dem F-Droid store installieren.</string>
 
     <string name="filter_title_dialog">Filter Lokalitäten</string>
     <string name="filter_content_dialog">Alle Lokalitäten deklarieren vegan. Zeige:</string>

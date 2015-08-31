@@ -16,17 +16,18 @@ import android.widget.LinearLayout;
 
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.data.GastroLocation;
+import org.berlin_vegan.bvapp.fragments.GastroActionsFragment;
 import org.berlin_vegan.bvapp.fragments.GastroDescriptionFragment;
 import org.berlin_vegan.bvapp.fragments.GastroDetailsFragment;
 import org.berlin_vegan.bvapp.fragments.GastroHeadFragment;
 import org.berlin_vegan.bvapp.fragments.GastroMapFragment;
-import org.berlin_vegan.bvapp.fragments.GastroActionsFragment;
 import org.berlin_vegan.bvapp.helpers.DividerFragment;
+import org.berlin_vegan.bvapp.helpers.UiUtils;
 
 /**
  * Activity for the detail view of a gastro location.
  */
-public class GastroActivity extends BaseActivity{
+public class GastroActivity extends BaseActivity {
 
     public static final String EXTRA_GASTRO_LOCATION = "GASTRO_LOCATION";
 
@@ -100,7 +101,7 @@ public class GastroActivity extends BaseActivity{
                 .findFragmentById(R.id.backdrop);
         mapFragment.setLocation(mGastroLocation);
 
-        final FloatingActionButton navButton = (FloatingActionButton)findViewById(R.id.fab);
+        final FloatingActionButton navButton = (FloatingActionButton) findViewById(R.id.fab);
         navButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,10 +136,16 @@ public class GastroActivity extends BaseActivity{
     }
 
     private void navigationButtonClicked() {
-        // tested with oeffi, google maps and citymapper
-        final String uriString = "geo:0,0?q=" + mGastroLocation.getStreet() + ", " + mGastroLocation.getCityCode() + ", " + mGastroLocation.getCity();
+        // tested with oeffi, google maps,citymapper and osmand
+        final String uriString = "geo:" + mGastroLocation.getLatCoord() + "," + mGastroLocation.getLongCoord() + "?q=" + mGastroLocation.getStreet() + ", " + mGastroLocation.getCityCode() + ", " + mGastroLocation.getCity();
+
         Uri geoIntentUri = Uri.parse(uriString);
         Intent geoIntent = new Intent(Intent.ACTION_VIEW, geoIntentUri);
-        startActivity(geoIntent);
+        if (geoIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(geoIntent);
+        } else {
+            UiUtils.showMaterialDialog(this, getString(R.string.error),
+                    getString(R.string.gastro_details_no_navigation_found));
+        }
     }
 }
