@@ -10,11 +10,13 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,12 +37,14 @@ import org.berlin_vegan.bvapp.helpers.UiUtils;
 import org.berlin_vegan.bvapp.listeners.GastroLocationListener;
 
 import java.io.Closeable;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -315,6 +319,7 @@ public class MainListActivity extends BaseActivity {
     }
 
     private class RetrieveGastroLocations extends AsyncTask<Void, Void, Void> {
+        public static final int TIMEOUT_MILLIS = 5 * 1000;
         private final MainListActivity mMainListActivity;
 
         public RetrieveGastroLocations(MainListActivity mainListActivity) {
@@ -336,17 +341,48 @@ public class MainListActivity extends BaseActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
+            List<GastroLocation> gastroLocations = getGastroLocationsFromServer();
+            if (gastroLocations == null) { // not modified, timeout or parsing problem, so use cached version if available
+                gastroLocations = getGastroLocationsFromCache();
+            }
+            if (gastroLocations == null) { // use included json file as fall back
+                gastroLocations = getGastroLocationsFromBundle();
+            }
+            Log.d(TAG, "read " + gastroLocations.size() + " entries");
+            mGastroLocations.set(gastroLocations);
+            waitForGpsFix();
+            return null;
+        }
+
+        @Nullable
+        private List<GastroLocation> getGastroLocationsFromServer() {
+            FileOutputStream fileOutputStream = null;
             InputStream inputStream = null;
             List<GastroLocation> gastroLocations = null;
-            boolean useLocalCopy = false;
             try {
                 // fetch json file from server
                 final URL url = new URL(HTTP_GASTRO_LOCATIONS_JSON);
-                final URLConnection urlConnection = url.openConnection();
-                urlConnection.setConnectTimeout(5 * 1000);
-                urlConnection.setReadTimeout(5 * 1000);
-                inputStream = urlConnection.getInputStream();
-                gastroLocations = createList(inputStream);
+                final HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setConnectTimeout(TIMEOUT_MILLIS);
+                urlConnection.setReadTimeout(TIMEOUT_MILLIS);
+                if (Preferences.getGastroLastModified(mMainListActivity) != 0) {
+                    urlConnection.setIfModifiedSince(Preferences.getGastroLastModified(mMainListActivity));
+                }
+                if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_NOT_MODIFIED) { // modified, try to parse and if successfully store a cached version
+                    inputStream = urlConnection.getInputStream();
+                    gastroLocations = createList(inputStream);
+                    final long lastModified = urlConnection.getLastModified();
+                    if (lastModified != 0) { //valid timestamp, store local cache version
+                        fileOutputStream = mMainListActivity.openFileOutput(GASTRO_LOCATIONS_JSON, Context.MODE_PRIVATE);
+                        final String gastroStr = new Gson().toJson(gastroLocations);
+                        if (!TextUtils.isEmpty(gastroStr)) {
+                            fileOutputStream.write(gastroStr.getBytes());
+                            fileOutputStream.close();
+                            Preferences.saveGastroLastModified(mMainListActivity, lastModified);
+                        }
+                    }
+                    Log.i(TAG, "retrieving gastro database from server successful");
+                }
             } catch (IOException e) {
                 Log.e(TAG, "fetching json file from server failed", e);
             } catch (RuntimeException e) {
@@ -355,23 +391,36 @@ public class MainListActivity extends BaseActivity {
                 gastroLocations = null;
             } finally {
                 closeStream(inputStream);
+                closeStream(fileOutputStream);
             }
-            if (gastroLocations == null) {
-                // get local json file as fall back
-                useLocalCopy = true;
-                inputStream = MainApplication.class.getResourceAsStream(GASTRO_LOCATIONS_JSON);
-                gastroLocations = createList(inputStream);
-                closeStream(inputStream);
+            return gastroLocations;
+        }
+
+        @Nullable
+        private List<GastroLocation> getGastroLocationsFromCache() {
+            List<GastroLocation> gastroLocations;
+            FileInputStream fileInputStream = null;
+            try { // try cached version
+                fileInputStream = mMainListActivity.openFileInput(GASTRO_LOCATIONS_JSON);
+                gastroLocations = createList(fileInputStream);
+                Log.i(TAG, "use cached version of gastro database file");
+            } catch (RuntimeException | IOException e) {
+                Log.e(TAG, "parsing the cached json file failed", e);
+                gastroLocations = null;
+            } finally {
+                closeStream(fileInputStream);
             }
-            if (useLocalCopy) {
-                Log.i(TAG, "fall back: use local copy of database file");
-            } else {
-                Log.i(TAG, "retrieving database from server successful");
-            }
-            Log.d(TAG, "read " + gastroLocations.size() + " entries");
-            mGastroLocations.set(gastroLocations);
-            waitForGpsFix();
-            return null;
+            return gastroLocations;
+        }
+
+        private List<GastroLocation> getGastroLocationsFromBundle() {
+            List<GastroLocation> gastroLocations;
+            InputStream inputStream;
+            inputStream = MainApplication.class.getResourceAsStream(GASTRO_LOCATIONS_JSON);
+            gastroLocations = createList(inputStream);
+            closeStream(inputStream);
+            Log.i(TAG, "fall back: use bundled copy of gastro database file");
+            return gastroLocations;
         }
 
         @Override
