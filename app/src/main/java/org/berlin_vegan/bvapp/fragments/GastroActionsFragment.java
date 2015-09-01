@@ -19,7 +19,7 @@ import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.GastroLocations;
 
 
-public class GastroActionsFragment extends Fragment {
+public class GastroActionsFragment extends GastroBaseFragment {
     private GastroLocation mGastroLocation;
     private TextView favoriteTextView;
 
@@ -31,14 +31,7 @@ public class GastroActionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gastro_actions_fragment, container, false);
-        if (savedInstanceState == null) {
-            Bundle extras = getActivity().getIntent().getExtras();
-            if (extras != null) {
-                mGastroLocation = (GastroLocation) extras.getSerializable(GastroActivity.EXTRA_GASTRO_LOCATION);
-            }
-        } else {
-            mGastroLocation = (GastroLocation) savedInstanceState.getSerializable(GastroActivity.EXTRA_GASTRO_LOCATION);
-        }
+        mGastroLocation = initGastroLocation(savedInstanceState);
         initDialButton(view);
         initFavoriteButton(view);
         initWebsiteButton(view);

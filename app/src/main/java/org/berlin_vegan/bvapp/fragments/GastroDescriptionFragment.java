@@ -1,6 +1,5 @@
 package org.berlin_vegan.bvapp.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -18,21 +17,14 @@ import org.berlin_vegan.bvapp.views.ExpandableTextView;
 /**
  * Holds content for the description tab in {@link org.berlin_vegan.bvapp.activities.GastroActivity}.
  */
-public class GastroDescriptionFragment extends Fragment {
+public class GastroDescriptionFragment extends GastroBaseFragment {
 
     private GastroLocation mGastroLocation;
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.gastro_description_fragment, container, false);
-        if (savedInstanceState == null) {
-            Bundle extras = getActivity().getIntent().getExtras();
-            if (extras != null) {
-                mGastroLocation = (GastroLocation) extras.getSerializable(GastroActivity.EXTRA_GASTRO_LOCATION);
-            }
-        } else {
-            mGastroLocation = (GastroLocation) savedInstanceState.getSerializable(GastroActivity.EXTRA_GASTRO_LOCATION);
-        }
+        mGastroLocation = initGastroLocation(savedInstanceState);
+
         ExpandableTextView vDescription = (ExpandableTextView) v.findViewById(R.id.text_view_description);
         String description = mGastroLocation.getCommentWithoutSoftHyphens();
         // remove all occurrences of '<br/>' at the end of the description so we have no space between

@@ -1,6 +1,5 @@
 package org.berlin_vegan.bvapp.fragments;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -38,21 +37,14 @@ import java.util.List;
 /**
  * Holds content for the details tab in {@link org.berlin_vegan.bvapp.activities.GastroActivity}.
  */
-public class GastroDetailsFragment extends Fragment {
+public class GastroDetailsFragment extends GastroBaseFragment {
 
     private GastroLocation mGastroLocation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.gastro_details_fragment, container, false);
-        if (savedInstanceState == null) {
-            Bundle extras = getActivity().getIntent().getExtras();
-            if (extras != null) {
-                mGastroLocation = (GastroLocation) extras.getSerializable(GastroActivity.EXTRA_GASTRO_LOCATION);
-            }
-        } else {
-            mGastroLocation = (GastroLocation) savedInstanceState.getSerializable(GastroActivity.EXTRA_GASTRO_LOCATION);
-        }
+        mGastroLocation = initGastroLocation(savedInstanceState);
 
         addOpeningHours(v);
         addAddress(v);

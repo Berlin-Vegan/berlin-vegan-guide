@@ -53,23 +53,23 @@ public class GastroActivity extends BaseActivity {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linear_layout);
 
         final GastroHeadFragment gastroHeadFragment = new GastroHeadFragment();
-        getFragmentManager().beginTransaction().add(linearLayout.getId(), gastroHeadFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(linearLayout.getId(), gastroHeadFragment).commit();
 
         final GastroActionsFragment gastroActionsFragment = new GastroActionsFragment();
-        getFragmentManager().beginTransaction().add(linearLayout.getId(), gastroActionsFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(linearLayout.getId(), gastroActionsFragment).commit();
 
         DividerFragment dividerFragment = new DividerFragment();
-        getFragmentManager().beginTransaction().add(linearLayout.getId(), dividerFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(linearLayout.getId(), dividerFragment).commit();
 
 
         GastroDescriptionFragment gastroDescriptionFragment = new GastroDescriptionFragment();
-        getFragmentManager().beginTransaction().add(linearLayout.getId(), gastroDescriptionFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(linearLayout.getId(), gastroDescriptionFragment).commit();
 
         dividerFragment = new DividerFragment();
-        getFragmentManager().beginTransaction().add(linearLayout.getId(), dividerFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(linearLayout.getId(), dividerFragment).commit();
 
         GastroDetailsFragment gastroDetailsFragment = new GastroDetailsFragment();
-        getFragmentManager().beginTransaction().add(linearLayout.getId(), gastroDetailsFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(linearLayout.getId(), gastroDetailsFragment).commit();
 
     }
 
