@@ -539,7 +539,7 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     }
 
     @Override
-    public int compareTo(GastroLocation other) {
+    public int compareTo(@NonNull GastroLocation other) {
         if (getDistToCurLoc() == null && other.getDistToCurLoc() == null) {
             return 0;
         }
