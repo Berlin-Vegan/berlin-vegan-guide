@@ -21,7 +21,6 @@ import org.berlin_vegan.bvapp.data.GastroLocations;
 
 public class GastroActionsFragment extends Fragment {
     private GastroLocation mGastroLocation;
-    private SharedPreferences mSharedPreferences;
     private TextView favoriteTextView;
 
     public GastroActionsFragment() {
@@ -40,7 +39,6 @@ public class GastroActionsFragment extends Fragment {
         } else {
             mGastroLocation = (GastroLocation) savedInstanceState.getSerializable(GastroActivity.EXTRA_GASTRO_LOCATION);
         }
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         initDialButton(view);
         initFavoriteButton(view);
         initWebsiteButton(view);
