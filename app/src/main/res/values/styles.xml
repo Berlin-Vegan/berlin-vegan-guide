@@ -18,4 +18,8 @@
         <item name="android:tint">@color/theme_primary</item>
         <item name="rippleColor">@color/theme_primary_light</item>
     </style>
+    <style name="TransparentText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/transparent</item>
+        <item name="android:textSize">0sp</item> <!-- todo, transparent should be enough, but doesn't work with 23.0.1 design support lib-->
+    </style>
 </resources>
