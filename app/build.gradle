@@ -63,7 +63,9 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.0.1'
 
     compile 'com.google.code.gson:gson:2.3'
-    compile 'com.afollestad:material-dialogs:0.7.5.1'
+    compile('com.afollestad.material-dialogs:core:0.8.0.1@aar') {
+        transitive = true
+    }
     compile 'ch.acra:acra:4.6.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
 
