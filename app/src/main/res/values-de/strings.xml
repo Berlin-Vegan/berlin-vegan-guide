@@ -40,12 +40,12 @@
 
     <string name="gastro_details_opening_hours_content_holiday_warning">Achtung, heute ist ein Feiertag!</string>
     <string name="gastro_details_miscellaneous_content_catering">Catering</string>
-    <string name="gastro_details_miscellaneous_content_child_chair">Kinderhochstuhl</string>
+    <string name="gastro_details_miscellaneous_content_child_chair">Kinderstuhl</string>
     <string name="gastro_details_miscellaneous_content_delivery">Lieferdienst</string>
     <string name="gastro_details_miscellaneous_content_dog">Hunde erlaubt</string>
     <string name="gastro_details_miscellaneous_content_gluten_free">Glutenfrei</string>
-    <string name="gastro_details_miscellaneous_content_handicapped_accessible">Behindertengerecht</string>
-    <string name="gastro_details_miscellaneous_content_handicapped_accessible_wc">Behindertengerechtes WC</string>
+    <string name="gastro_details_miscellaneous_content_handicapped_accessible">Rollstuhl geeignet</string>
+    <string name="gastro_details_miscellaneous_content_handicapped_accessible_wc">Rollstuhl geeignetes WC</string>
     <string name="gastro_details_miscellaneous_content_organic">Bioware</string>
     <string name="gastro_details_miscellaneous_content_seats_indoor">Stühle im Gebäude</string>
     <string name="gastro_details_miscellaneous_content_seats_outdoor">Stühle im Freien</string>
