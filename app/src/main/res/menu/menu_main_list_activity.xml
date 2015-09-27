@@ -24,14 +24,6 @@
         android:title="@string/action_filter"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_filter_new"
-        android:icon="@mipmap/ic_filter_list_white_24dp"
-        android:orderInCategory="100"
-        android:title="@string/action_filter"
-        app:showAsAction="always" />
-
-
-    <item
         android:id="@+id/menu_search"
         android:icon="@mipmap/ic_search_white_24dp"
         android:title="@string/action_menu_search"
