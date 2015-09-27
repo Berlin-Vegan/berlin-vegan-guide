@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -192,6 +193,14 @@ public class MainListActivity extends BaseActivity {
                 UiUtils.showMaterialDialogCheckboxes(MainListActivity.this, getString(R.string.filter_title_dialog),
                         getString(R.string.filter_content_dialog),
                         getResources().getStringArray(R.array.filter_checkboxes), selected, mButtonCallback);
+                break;
+            case R.id.action_filter_new:
+                boolean wrapInScrollView = true;
+                new MaterialDialog.Builder(this)
+                        .title("Filter")
+                        .customView(R.layout.gastro_filter, wrapInScrollView)
+                        .positiveText("ok")
+                        .show();
                 break;
             case R.id.action_settings:
                 final Intent settings = new Intent(this, SettingsActivity.class);

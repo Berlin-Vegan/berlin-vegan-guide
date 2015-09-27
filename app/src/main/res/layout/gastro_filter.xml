@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auswahl"
+        android:id="@+id/textView4" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alle"
+            android:id="@+id/radioButton" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gastro_details_favorite"
+            android:id="@+id/radioButton2" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Veganfreundlich"
+        android:id="@+id/textView2" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="vegan"
+            android:id="@+id/checkBox3" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="vegetarisch"
+            android:id="@+id/checkBox2" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="omnivor"
+            android:id="@+id/checkBox" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kategorie"
+        android:id="@+id/textView" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Restaurant"
+            android:id="@+id/checkBox4" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Imbiss"
+            android:id="@+id/checkBox5" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Eiscafe"
+            android:id="@+id/checkBox6" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cafe"
+            android:id="@+id/checkBox7" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Optionen"
+        android:id="@+id/textView3" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/gastro_details_miscellaneous_content_organic"
+            android:id="@+id/checkBox8"
+            />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gastro_details_miscellaneous_content_gluten_free"
+            android:id="@+id/checkBox9"
+            />
+
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/gastro_details_miscellaneous_content_handicapped_accessible"
+            android:id="@+id/checkBox11" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gastro_details_miscellaneous_content_child_chair"
+            android:id="@+id/checkBox13" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/gastro_details_miscellaneous_content_dog"
+            android:id="@+id/checkBox14" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gastro_details_miscellaneous_content_wlan"
+            android:id="@+id/checkBox10" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/gastro_details_miscellaneous_content_delivery"
+            android:id="@+id/checkBox15" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gastro_details_miscellaneous_content_catering"
+            android:id="@+id/checkBox16" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
