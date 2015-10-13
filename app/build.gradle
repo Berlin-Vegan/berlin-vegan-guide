@@ -68,6 +68,7 @@ dependencies {
     }
     compile 'ch.acra:acra:4.6.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jakewharton:butterknife:7.0.1'
 
     testCompile 'junit:junit:4.12'
 

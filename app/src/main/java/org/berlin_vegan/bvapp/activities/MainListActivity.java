@@ -22,7 +22,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -30,12 +29,14 @@ import org.berlin_vegan.bvapp.MainApplication;
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.adapters.GastroLocationAdapter;
 import org.berlin_vegan.bvapp.data.GastroLocation;
+import org.berlin_vegan.bvapp.data.GastroLocationFilter;
 import org.berlin_vegan.bvapp.data.GastroLocations;
 import org.berlin_vegan.bvapp.data.Preferences;
 import org.berlin_vegan.bvapp.helpers.DividerItemDecoration;
-import org.berlin_vegan.bvapp.helpers.GastroListCallbackSingleChoice;
+import org.berlin_vegan.bvapp.helpers.GastroLocationFilterCallback;
 import org.berlin_vegan.bvapp.helpers.UiUtils;
 import org.berlin_vegan.bvapp.listeners.GastroLocationListener;
+import org.berlin_vegan.bvapp.views.GastroFilterView;
 
 import java.io.Closeable;
 import java.io.FileInputStream;
@@ -71,7 +72,8 @@ public class MainListActivity extends BaseActivity {
     private Dialog mProgressDialog;
     private SharedPreferences mSharedPreferences;
     private GastroLocations mGastroLocations;
-    private final GastroListCallbackSingleChoice mButtonCallback = new GastroListCallbackSingleChoice(this);
+
+    private final GastroLocationFilterCallback mButtonCallback = new GastroLocationFilterCallback(this);
 
     // --------------------------------------------------------------------
     // life cycle
@@ -126,8 +128,6 @@ public class MainListActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Preferences.removeGastroFilter(this);
-
     }
 
     // --------------------------------------------------------------------
@@ -189,18 +189,12 @@ public class MainListActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_filter:
-                int selected = Preferences.getGastroFilter(this);
-                UiUtils.showMaterialDialogCheckboxes(MainListActivity.this, getString(R.string.filter_title_dialog),
-                        getString(R.string.filter_content_dialog),
-                        getResources().getStringArray(R.array.filter_checkboxes), selected, mButtonCallback);
-                break;
-            case R.id.action_filter_new:
-                boolean wrapInScrollView = true;
-                new MaterialDialog.Builder(this)
-                        .title("Filter")
-                        .customView(R.layout.gastro_filter, wrapInScrollView)
-                        .positiveText("ok")
-                        .show();
+                final GastroFilterView gastroFilterView = new GastroFilterView(MainListActivity.this);
+                gastroFilterView.init(getGastroLocations(), Preferences.getGastroFilter(this));
+                UiUtils.showMaterialDialogCustomView(MainListActivity.this,
+                        getString(R.string.gastro_filter_title_dialog),
+                        gastroFilterView,
+                        mButtonCallback);
                 break;
             case R.id.action_settings:
                 final Intent settings = new Intent(this, SettingsActivity.class);
@@ -359,6 +353,9 @@ public class MainListActivity extends BaseActivity {
             }
             Log.d(TAG, "read " + gastroLocations.size() + " entries");
             mGastroLocations.set(gastroLocations);
+            // filter the locations with current filter
+            final GastroLocationFilter filter = Preferences.getGastroFilter(mMainListActivity);
+            mGastroLocations.showFiltersResult(filter);
             waitForGpsFix();
             return null;
         }
@@ -447,4 +444,5 @@ public class MainListActivity extends BaseActivity {
             }
         }
     }
+
 }

@@ -75,23 +75,14 @@ public class GastroLocations {
         Collections.sort(mShown);
     }
 
-    public void showFiltersResult(int... types) {
+
+    public void showFiltersResult(GastroLocationFilter filter) {
         mFavoritesCurrentlyShown = false;
         if (mAll != null && !mAll.isEmpty()) {
             mFiltered.clear();
-            for (GastroLocation gastro : mAll) {
-                // e.g. omnivore, vegetarian and vegan, which at least declare vegan, are locations
-                // with type 2, 4, and 5
-                for (int type : types) {
-                    if (gastro.getVegan() == type) {
-                        mFiltered.add(gastro);
-                    }
-                }
-            }
-            if (!mFiltered.isEmpty()) {
-                mShown = new ArrayList<>(mFiltered);
-                updateLocationAdapter();
-            }
+            mFiltered = getFilterResult(filter);
+            mShown = new ArrayList<>(mFiltered);
+            updateLocationAdapter();
         }
     }
 
@@ -102,12 +93,12 @@ public class GastroLocations {
         return sFavoriteIDs.contains(id);
     }
 
-    public static void addFavorite(Context context,String id) {
+    public static void addFavorite(Context context, String id) {
         sFavoriteIDs.add(id);
         Preferences.saveFavorites(context, sFavoriteIDs);
     }
 
-    public static void removeFavorite(Context context,String id) {
+    public static void removeFavorite(Context context, String id) {
         sFavoriteIDs.remove(id);
         Preferences.saveFavorites(context, sFavoriteIDs);
     }
@@ -193,5 +184,18 @@ public class GastroLocations {
 
     public boolean isFavoritesCurrentlyShown() {
         return mFavoritesCurrentlyShown;
+    }
+
+    /**
+     * returns the locations if the gastroFilter is applied
+     */
+    public List<GastroLocation> getFilterResult(GastroLocationFilter filter) {
+        List<GastroLocation> filtered = new ArrayList<>();
+        for (GastroLocation gastro : mAll) {
+            if (filter.matchToFilter(gastro)) {
+                filtered.add(gastro);
+            }
+        }
+        return filtered;
     }
 }

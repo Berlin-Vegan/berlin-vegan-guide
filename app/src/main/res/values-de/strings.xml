@@ -66,8 +66,17 @@
     <string name="gastro_details_website">Webseite</string>
     <string name="gastro_details_no_navigation_found">Keine App für die Navigation gefunden. Du kannst zum Beispiel OsmAnd aus dem F-Droid store installieren.</string>
 
-    <string name="filter_title_dialog">Filter Lokalitäten</string>
-    <string name="filter_content_dialog">Alle Lokalitäten deklarieren vegan. Zeige:</string>
-
+    <string name="gastro_filter_title_dialog">Filter</string>
+    <string name="gastro_filter_result">%1$s ausgewählt</string>
+    <string name="gastro_filter_category">Kategorie</string>
+    <string name="gastro_filter_category_vegan">vegan</string>
+    <string name="gastro_filter_category_vegetarian">vegetarisch</string>
+    <string name="gastro_filter_category_omnivore">omnivor</string>
+    <string name="gastro_filter_type">Art der Lokalität</string>
+    <string name="gastro_filter_type_restaurant">Restaurant</string>
+    <string name="gastro_filter_type_fast_food">Imbiss</string>
+    <string name="gastro_filter_type_ice_cafe">Eiscafe</string>
+    <string name="gastro_filter_type_cafe">Cafe</string>
+    <string name="gastro_filter_options">Optionen</string>
 
 </resources>

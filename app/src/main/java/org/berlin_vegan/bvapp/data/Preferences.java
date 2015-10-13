@@ -5,13 +5,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+
 import java.util.HashSet;
 import java.util.Set;
 
 
 public class Preferences {
     private static final String KEY_UNITS = "key_units";
-    private static final String KEY_FILTER = "key_filter";
+    private static final String KEY_GASTRO_FILTER = "key_gastro_filter";
     private static final String KEY_GASTRO_LAST_MODIFIED = "key_gastro_last_modified";
     static final String KEY_FAVORITES = "key_favorites";
 
@@ -20,23 +22,31 @@ public class Preferences {
         return prefs.getBoolean(Preferences.KEY_UNITS, true);
     }
 
-    public static int getGastroFilter(Context context) {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getInt(Preferences.KEY_FILTER, 0);
-    }
 
     public static void removeGastroFilter(Context context) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        editor.remove(Preferences.KEY_FILTER);
+        editor.remove(Preferences.KEY_GASTRO_FILTER);
         editor.apply();
 
     }
 
-    public static void saveGastroFilter(Context context, int selected) {
+
+    public static void saveGastroFilter(Context context, GastroLocationFilter filter) {
+        String stringFilter = new Gson().toJson(filter);
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        editor.putInt(Preferences.KEY_FILTER, selected);
+        editor.putString(Preferences.KEY_GASTRO_FILTER, stringFilter);
         editor.apply();
     }
+
+    public static GastroLocationFilter getGastroFilter(Context context) {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String filterJson = prefs.getString(Preferences.KEY_GASTRO_FILTER, null);
+        if (filterJson == null) {
+            return new GastroLocationFilter();
+        }
+        return new Gson().fromJson(filterJson, GastroLocationFilter.class);
+    }
+
 
     public static void saveFavorites(Context context, Set<String> favoriteIDs) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();

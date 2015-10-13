@@ -43,8 +43,8 @@
     <string name="gastro_details_miscellaneous_content_delivery">Delivery service</string>
     <string name="gastro_details_miscellaneous_content_dog">Dog allowed</string>
     <string name="gastro_details_miscellaneous_content_gluten_free">Glutenfree</string>
-    <string name="gastro_details_miscellaneous_content_handicapped_accessible">Handicapped accessible</string>
-    <string name="gastro_details_miscellaneous_content_handicapped_accessible_wc">Handicapped accessible WC</string>
+    <string name="gastro_details_miscellaneous_content_handicapped_accessible">wheelchair friendly</string>
+    <string name="gastro_details_miscellaneous_content_handicapped_accessible_wc">wheelchair friendly WC</string>
     <string name="gastro_details_miscellaneous_content_organic">Organic food</string>
     <string name="gastro_details_miscellaneous_content_seats_indoor">Seats indoor</string>
     <string name="gastro_details_miscellaneous_content_seats_outdoor">Seats outdoor</string>
@@ -65,8 +65,17 @@
     <string name="gastro_details_website">Website</string>
     <string name="gastro_details_no_navigation_found">No navigation app found. You can install, for example, OsmAnd from F-Droid store.</string>
 
-    <string name="filter_title_dialog">Filter localities</string>
-    <string name="filter_content_dialog">All localities declare vegan at least. Show:</string>
-
+    <string name="gastro_filter_title_dialog">Filter</string>
+    <string name="gastro_filter_result">%1$s selected</string>
+    <string name="gastro_filter_category">Category</string>
+    <string name="gastro_filter_category_vegan">vegan</string>
+    <string name="gastro_filter_category_vegetarian">vegetarian</string>
+    <string name="gastro_filter_category_omnivore">omnivore</string>
+    <string name="gastro_filter_type">Type of locality</string>
+    <string name="gastro_filter_type_restaurant">Restaurant</string>
+    <string name="gastro_filter_type_fast_food">Fast food</string>
+    <string name="gastro_filter_type_ice_cafe">Ice cream shop</string>
+    <string name="gastro_filter_type_cafe">Cafe</string>
+    <string name="gastro_filter_options">Options</string>
 
 </resources>

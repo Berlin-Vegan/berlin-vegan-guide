@@ -15,8 +15,6 @@
         android:title="@string/action_about"
         app:showAsAction="never" />
 
-    <!-- TODO: implement filters -->
-
     <item
         android:id="@+id/action_filter"
         android:icon="@mipmap/ic_filter_list_white_24dp"

@@ -24,6 +24,11 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
     final public static int VEGETARIAN = 3;
     final public static int VEGETARIAN_VEGAN_DECLARED = 4;
     final public static int VEGAN = 5;
+    final public static String TYPE_RESTAURANT = "Restaurant";
+    public static final String TYPE_FAST_FOOD = "Imbiss";
+    public static final String TYPE_ICE_CAFE = "Eiscafe";
+    public static final String TYPE_CAFE = "Cafe";
+
     private String id;
     private String name;
     private String street;
@@ -500,6 +505,22 @@ public class GastroLocation implements Comparable<GastroLocation>, Serializable 
 
     public void setPictures(List<GastroLocationPicture> pictures) {
         this.pictures = pictures;
+    }
+
+    public boolean isRestaurant() {
+        return tags.contains(TYPE_RESTAURANT);
+    }
+
+    public boolean isFastFood() {
+        return tags.contains(TYPE_FAST_FOOD);
+    }
+
+    public boolean isCafe() {
+        return tags.contains(TYPE_CAFE);
+    }
+
+    public boolean isIceCafe() {
+        return tags.contains(TYPE_ICE_CAFE);
     }
 
     // --------------------------------------------------------------------

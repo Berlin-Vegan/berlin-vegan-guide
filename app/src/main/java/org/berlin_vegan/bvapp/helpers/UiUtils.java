@@ -37,20 +37,17 @@ public class UiUtils {
         return dialog;
     }
 
-    public static MaterialDialog showMaterialDialogCheckboxes(Context context, String title, CharSequence content,
-                                                              String[] checkBoxItems, int selected,
-                                                              MaterialDialog.ListCallbackSingleChoice checkCallBack) {
+
+    public static MaterialDialog showMaterialDialogCustomView(Context context, String title, View customView, GastroLocationFilterCallback filterCallback) {
         MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .title(title)
-                .content(content)
-                .items(checkBoxItems)
-                .itemsCallbackSingleChoice(selected, checkCallBack)
+                .customView(customView, true)
                 .contentColorRes(R.color.material_dialog_content)
                 .titleColorRes(R.color.material_dialog_title)
                 .backgroundColorRes(R.color.material_dialog_background)
                 .positiveText(android.R.string.ok)
                 .positiveColorRes(R.color.material_dialog_buttons)
-                .build();
+                .callback(filterCallback).build();
         dialog.show();
         return dialog;
     }
@@ -65,6 +62,7 @@ public class UiUtils {
         }
         return distanceStr;
     }
+
     private static MaterialDialog showMaterialDialog(Context context, String title, SpannableStringBuilder content) {
         MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .title(title)
