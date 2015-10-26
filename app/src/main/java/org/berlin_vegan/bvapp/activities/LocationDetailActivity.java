@@ -15,61 +15,61 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import org.berlin_vegan.bvapp.R;
-import org.berlin_vegan.bvapp.data.GastroLocation;
-import org.berlin_vegan.bvapp.fragments.GastroActionsFragment;
-import org.berlin_vegan.bvapp.fragments.GastroDescriptionFragment;
-import org.berlin_vegan.bvapp.fragments.GastroDetailsFragment;
-import org.berlin_vegan.bvapp.fragments.GastroHeadFragment;
-import org.berlin_vegan.bvapp.fragments.GastroMapFragment;
+import org.berlin_vegan.bvapp.data.Location;
+import org.berlin_vegan.bvapp.fragments.LocationActionsFragment;
+import org.berlin_vegan.bvapp.fragments.LocationDescriptionFragment;
+import org.berlin_vegan.bvapp.fragments.LocationDetailsFragment;
+import org.berlin_vegan.bvapp.fragments.LocationHeadFragment;
+import org.berlin_vegan.bvapp.fragments.LocationMapFragment;
 import org.berlin_vegan.bvapp.helpers.DividerFragment;
 import org.berlin_vegan.bvapp.helpers.UiUtils;
 
 /**
  * Activity for the detail view of a gastro location.
  */
-public class GastroActivity extends BaseActivity {
+public class LocationDetailActivity extends BaseActivity {
 
-    public static final String EXTRA_GASTRO_LOCATION = "GASTRO_LOCATION";
+    public static final String EXTRA_LOCATION = "LOCATION";
 
-    private GastroLocation mGastroLocation;
+    private Location mGastroLocation;
     private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gastro_activity);
+        setContentView(R.layout.location_detail_activity);
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
-                mGastroLocation = (GastroLocation) extras.getSerializable(EXTRA_GASTRO_LOCATION);
+                mGastroLocation = (Location)extras.getSerializable(EXTRA_LOCATION);
             }
         } else {
-            mGastroLocation = (GastroLocation) savedInstanceState.getSerializable(EXTRA_GASTRO_LOCATION);
+            mGastroLocation = (Location) savedInstanceState.getSerializable(EXTRA_LOCATION);
         }
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linear_layout);
 
-        final GastroHeadFragment gastroHeadFragment = new GastroHeadFragment();
+        final LocationHeadFragment gastroHeadFragment = new LocationHeadFragment();
         getSupportFragmentManager().beginTransaction().add(linearLayout.getId(), gastroHeadFragment).commit();
 
-        final GastroActionsFragment gastroActionsFragment = new GastroActionsFragment();
-        getSupportFragmentManager().beginTransaction().add(linearLayout.getId(), gastroActionsFragment).commit();
+        final LocationActionsFragment locationActionsFragment = new LocationActionsFragment();
+        getSupportFragmentManager().beginTransaction().add(linearLayout.getId(), locationActionsFragment).commit();
 
         DividerFragment dividerFragment = new DividerFragment();
         getSupportFragmentManager().beginTransaction().add(linearLayout.getId(), dividerFragment).commit();
 
 
-        GastroDescriptionFragment gastroDescriptionFragment = new GastroDescriptionFragment();
+        LocationDescriptionFragment gastroDescriptionFragment = new LocationDescriptionFragment();
         getSupportFragmentManager().beginTransaction().add(linearLayout.getId(), gastroDescriptionFragment).commit();
 
         dividerFragment = new DividerFragment();
         getSupportFragmentManager().beginTransaction().add(linearLayout.getId(), dividerFragment).commit();
 
-        GastroDetailsFragment gastroDetailsFragment = new GastroDetailsFragment();
-        getSupportFragmentManager().beginTransaction().add(linearLayout.getId(), gastroDetailsFragment).commit();
+        LocationDetailsFragment locationDetailsFragment = new LocationDetailsFragment();
+        getSupportFragmentManager().beginTransaction().add(linearLayout.getId(), locationDetailsFragment).commit();
 
     }
 
@@ -97,7 +97,7 @@ public class GastroActivity extends BaseActivity {
         final int transparent = getResources().getColor(android.R.color.transparent);
         toolbar.setBackgroundColor(transparent);
 
-        GastroMapFragment mapFragment = (GastroMapFragment) getSupportFragmentManager()
+        LocationMapFragment mapFragment = (LocationMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.backdrop);
         mapFragment.setLocation(mGastroLocation);
 
@@ -131,7 +131,7 @@ public class GastroActivity extends BaseActivity {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putSerializable(EXTRA_GASTRO_LOCATION, mGastroLocation);
+        savedInstanceState.putSerializable(EXTRA_LOCATION, mGastroLocation);
         super.onSaveInstanceState(savedInstanceState);
     }
 

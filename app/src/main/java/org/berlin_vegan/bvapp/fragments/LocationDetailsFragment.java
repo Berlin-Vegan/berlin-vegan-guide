@@ -22,8 +22,9 @@ import android.widget.TextView;
 
 import org.berlin_vegan.bvapp.BuildConfig;
 import org.berlin_vegan.bvapp.R;
-import org.berlin_vegan.bvapp.activities.GastroActivity;
+import org.berlin_vegan.bvapp.activities.LocationDetailActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
+import org.berlin_vegan.bvapp.data.Location;
 import org.berlin_vegan.bvapp.data.OpeningHoursInterval;
 import org.berlin_vegan.bvapp.helpers.DateUtil;
 
@@ -35,16 +36,16 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Holds content for the details tab in {@link org.berlin_vegan.bvapp.activities.GastroActivity}.
+ * Holds content for the details tab in {@link LocationDetailActivity}.
  */
-public class GastroDetailsFragment extends GastroBaseFragment {
+public class LocationDetailsFragment extends LocationBaseFragment {
 
-    private GastroLocation mGastroLocation;
+    private Location location;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.gastro_details_fragment, container, false);
-        mGastroLocation = initGastroLocation(savedInstanceState);
+        View v = inflater.inflate(R.layout.location_details_fragment, container, false);
+        location = initLocation(savedInstanceState);
 
         addOpeningHours(v);
         addAddress(v);
@@ -64,9 +65,9 @@ public class GastroDetailsFragment extends GastroBaseFragment {
         icon.setColorFilter(getResources().getColor(R.color.theme_primary));
 
         final String text;
-        final String street = mGastroLocation.getStreet();
-        final int cityCode = mGastroLocation.getCityCode();
-        final String city = mGastroLocation.getCity();
+        final String street = location.getStreet();
+        final int cityCode = location.getCityCode();
+        final String city = location.getCity();
         if (!street.isEmpty()) {
             text = "<a href=\"http://maps.google.com/maps?q="
                     // google maps
@@ -91,7 +92,7 @@ public class GastroDetailsFragment extends GastroBaseFragment {
 
         final LinearLayout content = (LinearLayout) item.findViewById(R.id.content);
 
-        final List<OpeningHoursInterval> openingHours = mGastroLocation.getCondensedOpeningHours();
+        final List<OpeningHoursInterval> openingHours = location.getCondensedOpeningHours();
 
         final HashMap<Integer, String> dayTranslation = new HashMap<>();
         dayTranslation.put(0, getString(R.string.gastro_details_opening_hours_content_monday));
@@ -118,7 +119,7 @@ public class GastroDetailsFragment extends GastroBaseFragment {
             }
             final boolean todayInInterval = openingHoursInterval.isDateInInterval(Calendar.getInstance().getTime());
             if (todayInInterval) {
-                key.setTypeface(key.getTypeface(),Typeface.BOLD);
+                key.setTypeface(key.getTypeface(), Typeface.BOLD);
             }
             key.setText(text);
             dateLayout.addView(key);
@@ -132,7 +133,7 @@ public class GastroDetailsFragment extends GastroBaseFragment {
                 text = openingHoursInterval.getOpeningHours() + " " + getString(R.string.gastro_details_opening_hours_content_clock);
             }
             if (todayInInterval) {
-                value.setTypeface(value.getTypeface(),Typeface.BOLD);
+                value.setTypeface(value.getTypeface(), Typeface.BOLD);
             }
             value.setText(text);
 
@@ -159,7 +160,7 @@ public class GastroDetailsFragment extends GastroBaseFragment {
         icon.setColorFilter(getResources().getColor(R.color.theme_primary));
 
         final String text;
-        final String telephone = mGastroLocation.getTelephone();
+        final String telephone = location.getTelephone();
         if (!telephone.isEmpty()) {
             text = "<a href=\"tel:"
                     + telephone + "\">"
@@ -181,10 +182,10 @@ public class GastroDetailsFragment extends GastroBaseFragment {
         icon.setColorFilter(getResources().getColor(R.color.theme_primary));
 
         final String text;
-        final String website = mGastroLocation.getWebsite();
+        final String website = location.getWebsite();
         if (!website.isEmpty()) {
-            final String websiteWithProtocolPrefix = mGastroLocation.getWebsiteWithProtocolPrefix();
-            final String websiteFormatted = mGastroLocation.getWebsiteFormatted();
+            final String websiteWithProtocolPrefix = location.getWebsiteWithProtocolPrefix();
+            final String websiteFormatted = location.getWebsiteFormatted();
             text = "<a href="
                     + websiteWithProtocolPrefix + ">"
                     + websiteFormatted + "</a>";
@@ -207,18 +208,22 @@ public class GastroDetailsFragment extends GastroBaseFragment {
         final LinearLayout content = (LinearLayout) item.findViewById(R.id.content);
 
         final List<List<String>> dates = new ArrayList<>();
-        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_vegan), getVeganContentString(mGastroLocation.getVegan())));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_organic), getMiscellaneousContentString(mGastroLocation.getOrganic())));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_gluten_free), getMiscellaneousContentString(mGastroLocation.getGlutenFree())));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_wlan), getMiscellaneousContentString(mGastroLocation.getWlan())));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_handicapped_accessible), getMiscellaneousContentString(mGastroLocation.getHandicappedAccessible())));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_handicapped_accessible_wc), getMiscellaneousContentString(mGastroLocation.getHandicappedAccessibleWc())));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_child_chair), getMiscellaneousContentString(mGastroLocation.getChildChair())));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_dog), getMiscellaneousContentString(mGastroLocation.getDog())));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_seats_indoor), getMiscellaneousContentString(mGastroLocation.getSeatsIndoor())));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_seats_outdoor), getMiscellaneousContentString(mGastroLocation.getSeatsOutdoor())));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_delivery), getMiscellaneousContentString(mGastroLocation.getDelivery())));
-        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_catering), getMiscellaneousContentString(mGastroLocation.getCatering())));
+        dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_vegan), getVeganContentString(location.getVegan())));
+        if (location instanceof GastroLocation) {
+            GastroLocation gastroLocation = (GastroLocation) location;
+            dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_organic), getMiscellaneousContentString(gastroLocation.getOrganic())));
+            dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_gluten_free), getMiscellaneousContentString(gastroLocation.getGlutenFree())));
+            dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_wlan), getMiscellaneousContentString(gastroLocation.getWlan())));
+            dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_handicapped_accessible), getMiscellaneousContentString(gastroLocation.getHandicappedAccessible())));
+            dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_handicapped_accessible_wc), getMiscellaneousContentString(gastroLocation.getHandicappedAccessibleWc())));
+            dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_child_chair), getMiscellaneousContentString(gastroLocation.getChildChair())));
+            dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_dog), getMiscellaneousContentString(gastroLocation.getDog())));
+            dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_seats_indoor), getMiscellaneousContentString(gastroLocation.getSeatsIndoor())));
+            dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_seats_outdoor), getMiscellaneousContentString(gastroLocation.getSeatsOutdoor())));
+            dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_delivery), getMiscellaneousContentString(gastroLocation.getDelivery())));
+            dates.add(Arrays.asList(getString(R.string.gastro_details_miscellaneous_content_catering), getMiscellaneousContentString(gastroLocation.getCatering())));
+        }
+
 
         for (List<String> date : dates) {
             final LinearLayout dateLayout = new LinearLayout(v.getContext());
@@ -242,14 +247,17 @@ public class GastroDetailsFragment extends GastroBaseFragment {
         }
     }
 
-    private String getMiscellaneousContentString(int i) {
+    private String getMiscellaneousContentString(Integer i) {
+        if (i == null || (i != 0 && i != 1)) {
+            return getString(R.string.gastro_details_miscellaneous_content_unknown);
+        }
         if (i == 1) {
             return getString(R.string.gastro_details_miscellaneous_content_yes);
-        } else if (i == 0) {
+        } else {
             return getString(R.string.gastro_details_miscellaneous_content_no);
         }
-        return getString(R.string.gastro_details_miscellaneous_content_unknown);
     }
+
 
     private String getVeganContentString(int i) {
         if (i == GastroLocation.OMNIVORE) {
@@ -283,7 +291,7 @@ public class GastroDetailsFragment extends GastroBaseFragment {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putSerializable(GastroActivity.EXTRA_GASTRO_LOCATION, mGastroLocation);
+        savedInstanceState.putSerializable(LocationDetailActivity.EXTRA_LOCATION, location);
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -335,8 +343,8 @@ public class GastroDetailsFragment extends GastroBaseFragment {
 
         private String getMessageSubject() {
             return getString(R.string.error) + ": "
-                    + mGastroLocation.getName() + ", "
-                    + mGastroLocation.getStreet();
+                    + location.getName() + ", "
+                    + location.getStreet();
         }
 
         private String getMessageBody() {

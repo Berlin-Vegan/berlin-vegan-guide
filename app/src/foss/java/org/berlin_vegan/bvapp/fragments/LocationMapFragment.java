@@ -12,26 +12,26 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import org.berlin_vegan.bvapp.R;
-import org.berlin_vegan.bvapp.data.GastroLocation;
+import org.berlin_vegan.bvapp.data.Location;
 
 /**
  * alternative implementation for google maps (play services), at the moment it use google static maps
  * but should use OSM Maps like mapsforge or similar
  */
-public class GastroMapFragment extends Fragment {
-    private GastroLocation mLocation;
+public class LocationMapFragment extends Fragment {
+    private Location mLocation;
 
-    public GastroMapFragment() {
+    public LocationMapFragment() {
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // gastro_map_fragment.xml contains just an ImageView
-        return inflater.inflate(R.layout.gastro_map_fragment, container, false);
+        // location_map_fragment.xmlml contains just an ImageView
+        return inflater.inflate(R.layout.location_map_fragment, container, false);
     }
 
-    public void setLocation(GastroLocation location) {
+    public void setLocation(Location location) {
         this.mLocation = location;
         final View view = getView();
         if (view != null) {

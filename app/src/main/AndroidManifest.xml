@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.MainListActivity"
+            android:name=".activities.LocationListActivity"
 
             android:configChanges="orientation"
             android:launchMode="singleTop"
@@ -30,15 +30,15 @@
             <!-- Parent activity meta-data to support API level 4+ -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.berlin_vegan.bvapp.activities.MainListActivity" />
+                android:value=".activities.LocationListActivity" />
         </activity>
         <activity
-            android:name=".activities.GastroActivity"
+            android:name=".activities.LocationDetailActivity"
             android:configChanges="orientation|screenSize|keyboardHidden">
             <!-- Parent activity meta-data to support API level 4+ -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.berlin_vegan.bvapp.activities.MainListActivity" />
+                android:value=".activities.LocationListActivity" />
         </activity>
     </application>
 

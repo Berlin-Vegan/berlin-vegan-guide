@@ -3,6 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainListActivity">
 
+<!--begin todo, only temp items, will be moved to navbar-->
+    <item
+        android:id="@+id/action_show_gastro"
+        android:orderInCategory="100"
+        android:title="Gastro"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_show_favorite"
+        android:orderInCategory="100"
+        android:title="Favorite"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_show_shopping"
+        android:orderInCategory="100"
+        android:title="Shopping"
+        app:showAsAction="never" />
+<!--end-->
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

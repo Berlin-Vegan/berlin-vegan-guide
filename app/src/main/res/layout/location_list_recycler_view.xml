@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
-        tools:showIn="@layout/main_list_activity" />
+        tools:showIn="@layout/location_list_activity" />
 
     <!-- TODO fast scroll -->
 

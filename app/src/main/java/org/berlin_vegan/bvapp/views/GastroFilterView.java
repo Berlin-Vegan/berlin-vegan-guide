@@ -7,9 +7,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.berlin_vegan.bvapp.R;
-import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.GastroLocationFilter;
-import org.berlin_vegan.bvapp.data.GastroLocations;
+import org.berlin_vegan.bvapp.data.Location;
+import org.berlin_vegan.bvapp.data.Locations;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import butterknife.OnClick;
  */
 public class GastroFilterView extends LinearLayout {
 
-    private GastroLocations gastroLocations;
+    private Locations locations;
 
     @Bind(R.id.vegan_checkbox) CheckBox veganCheckbox;
     @Bind(R.id.vegetarian_checkbox) CheckBox vegetarianCheckbox;
@@ -62,8 +62,8 @@ public class GastroFilterView extends LinearLayout {
         ButterKnife.bind(this);
     }
 
-    public void init(GastroLocations gastroLocations, GastroLocationFilter filter) {
-        this.gastroLocations = gastroLocations;
+    public void init(Locations locations, GastroLocationFilter filter) {
+        this.locations = locations;
         veganCheckbox.setChecked(filter.isVegan());
         vegetarianCheckbox.setChecked(filter.isVegetarian());
         omnivoreCheckbox.setChecked(filter.isOmnivore());
@@ -110,7 +110,7 @@ public class GastroFilterView extends LinearLayout {
     }
     // todo optimize, we need only size
     private void updateResult(GastroLocationFilter filter) {
-        final List<GastroLocation> result = this.gastroLocations.getFilterResult(filter);
+        final List<Location> result = this.locations.getFilterResult(filter);
         resultTextView.setText(getContext().getString(R.string.gastro_filter_result, result.size()));
     }
 }

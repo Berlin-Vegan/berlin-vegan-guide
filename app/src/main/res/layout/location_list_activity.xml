@@ -2,17 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainListActivity">
+    tools:context=".LocationListActivity">
 
     <include layout="@layout/toolbar" />
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/main_list_activity_swipe_refresh_layout"
+        android:id="@+id/location_list_activity_swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar">
 
-        <include layout="@layout/main_list_recycler_view" />
+        <include layout="@layout/location_list_recycler_view" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

@@ -13,7 +13,7 @@ public class DividerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.gastro_divider_fragment, container, false);
+        View v = inflater.inflate(R.layout.divider_fragment, container, false);
         return v;
     }
 }

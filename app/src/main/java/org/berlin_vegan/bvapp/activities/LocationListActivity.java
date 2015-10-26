@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Criteria;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,15 +26,16 @@ import com.google.gson.reflect.TypeToken;
 
 import org.berlin_vegan.bvapp.MainApplication;
 import org.berlin_vegan.bvapp.R;
-import org.berlin_vegan.bvapp.adapters.GastroLocationAdapter;
+import org.berlin_vegan.bvapp.adapters.LocationAdapter;
 import org.berlin_vegan.bvapp.data.GastroLocation;
-import org.berlin_vegan.bvapp.data.GastroLocationFilter;
-import org.berlin_vegan.bvapp.data.GastroLocations;
+import org.berlin_vegan.bvapp.data.Location;
+import org.berlin_vegan.bvapp.data.Locations;
 import org.berlin_vegan.bvapp.data.Preferences;
+import org.berlin_vegan.bvapp.data.ShoppingLocation;
 import org.berlin_vegan.bvapp.helpers.DividerItemDecoration;
 import org.berlin_vegan.bvapp.helpers.GastroLocationFilterCallback;
 import org.berlin_vegan.bvapp.helpers.UiUtils;
-import org.berlin_vegan.bvapp.listeners.GastroLocationListener;
+import org.berlin_vegan.bvapp.listeners.CustomLocationListener;
 import org.berlin_vegan.bvapp.views.GastroFilterView;
 
 import java.io.Closeable;
@@ -54,24 +54,31 @@ import java.util.List;
 /**
  * Entry point of the program.
  */
-public class MainListActivity extends BaseActivity {
+public class LocationListActivity extends BaseActivity {
 
-    private static final String TAG = "MainListActivity";
+    private static final String TAG = "LocationListActivity";
 
+    private static final String JSON_BASE_URL = "http://www.berlin-vegan.de/app/data/";
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
-    private static final String HTTP_GASTRO_LOCATIONS_JSON =
-            "http://www.berlin-vegan.de/app/data/" + GASTRO_LOCATIONS_JSON;
+    private static final String SHOPPING_LOCATIONS_JSON = "ShoppingLocations.json";
+
+    private static final String HTTP_GASTRO_LOCATIONS_JSON = JSON_BASE_URL + GASTRO_LOCATIONS_JSON;
+    private static final String HTTP_SHOPPING_LOCATIONS_JSON = JSON_BASE_URL + SHOPPING_LOCATIONS_JSON;
+
+    enum LOCATION_VIEW_MODE {GASTRO, SHOPPING, FAVORITE}
 
     private Context mContext;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private GastroLocationAdapter mGastroLocationAdapter;
+    private LocationAdapter mLocationAdapter;
     private LocationManager mLocationManager;
-    private GastroLocationListener mGastroLocationListener;
-    private Location mLocationFound;
+    private CustomLocationListener mLocationListener;
+    // the GPS/Network Location
+    private android.location.Location mGpsLocationFound;
     private Dialog mProgressDialog;
     private SharedPreferences mSharedPreferences;
-    private GastroLocations mGastroLocations;
+    private Locations mLocations;
+    private LOCATION_VIEW_MODE mViewMode = LOCATION_VIEW_MODE.GASTRO;
 
     private final GastroLocationFilterCallback mButtonCallback = new GastroLocationFilterCallback(this);
 
@@ -81,13 +88,13 @@ public class MainListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_list_activity);
-        setTitle(getString(R.string.app_name) + " " + getString(R.string.guide));
+        setContentView(R.layout.location_list_activity);
+        setTitle(getString(R.string.app_name));
 
         mContext = this;
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.main_list_activity_swipe_refresh_layout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.location_list_activity_swipe_refresh_layout);
         if (mSwipeRefreshLayout != null) {
             setupSwipeRefresh();
         }
@@ -96,12 +103,12 @@ public class MainListActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         // start a thread to retrieve the json from the server and to wait for the geo location
-        RetrieveGastroLocations retrieveGastroLocations = new RetrieveGastroLocations(this);
-        retrieveGastroLocations.execute();
+        RetrieveLocations retrieveLocations = new RetrieveLocations(this);
+        retrieveLocations.execute();
 
-        mGastroLocationAdapter = new GastroLocationAdapter(this);
-        mGastroLocations = new GastroLocations(this);
-        mGastroLocationListener = new GastroLocationListener(this, mGastroLocations);
+        mLocationAdapter = new LocationAdapter(this);
+        mLocations = new Locations(this);
+        mLocationListener = new CustomLocationListener(this, mLocations);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.main_list_recycler_view);
         if (mRecyclerView != null) {
@@ -112,17 +119,17 @@ public class MainListActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        requestLocationUpdates();
-        if (mGastroLocations.isFavoritesCurrentlyShown()) {
+        requestGpsLocationUpdates();
+        if (mViewMode == LOCATION_VIEW_MODE.FAVORITE) {
             // update the list, because the user may have added or removed a favorite in {@code GastroActivity}
-            mGastroLocations.showFavorites();
+            mLocations.showFavorites();
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        removeLocationUpdates();
+        removeGpsLocationUpdates();
     }
 
     @Override
@@ -135,7 +142,7 @@ public class MainListActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main_list_activity, menu);
+        getMenuInflater().inflate(R.menu.menu_location_list_activity, menu);
         return true;
     }
 
@@ -145,9 +152,18 @@ public class MainListActivity extends BaseActivity {
         MenuInflater inflater = getMenuInflater();
         menu.clear();
 
-        inflater.inflate(R.menu.menu_main_list_activity, menu);
+        inflater.inflate(R.menu.menu_location_list_activity, menu);
         MenuItem menuItem = menu.findItem(R.id.menu_search);
-        initializeSearch(menuItem);
+        if (mViewMode == LOCATION_VIEW_MODE.GASTRO || mViewMode == LOCATION_VIEW_MODE.SHOPPING) {
+            initializeSearch(menuItem);
+        } else {
+            menuItem.setVisible(false); // hide for favorite
+        }
+
+        menuItem = menu.findItem(R.id.action_filter);
+        if (mViewMode == LOCATION_VIEW_MODE.FAVORITE || mViewMode == LOCATION_VIEW_MODE.SHOPPING) { // at the moment no filter for shopping and favorite
+            menuItem.setVisible(false);
+        }
         return true;
     }
 
@@ -156,8 +172,8 @@ public class MainListActivity extends BaseActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (mGastroLocations != null) {
-                    mGastroLocations.processQueryFilter(query);
+                if (mLocations != null) {
+                    mLocations.processQueryFilter(query);
                     return true;
                 }
                 return false;
@@ -177,8 +193,8 @@ public class MainListActivity extends BaseActivity {
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
-                if (mGastroLocations != null) {
-                    mGastroLocations.resetQueryFilter();
+                if (mLocations != null) {
+                    mLocations.resetQueryFilter();
                 }
                 return true;
             }
@@ -189,9 +205,9 @@ public class MainListActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_filter:
-                final GastroFilterView gastroFilterView = new GastroFilterView(MainListActivity.this);
-                gastroFilterView.init(getGastroLocations(), Preferences.getGastroFilter(this));
-                UiUtils.showMaterialDialogCustomView(MainListActivity.this,
+                final GastroFilterView gastroFilterView = new GastroFilterView(LocationListActivity.this);
+                gastroFilterView.init(getLocations(), Preferences.getGastroFilter(this));
+                UiUtils.showMaterialDialogCustomView(LocationListActivity.this,
                         getString(R.string.gastro_filter_title_dialog),
                         gastroFilterView,
                         mButtonCallback);
@@ -205,10 +221,32 @@ public class MainListActivity extends BaseActivity {
                     UiUtils.showMaterialAboutDialog(mContext, getResources().getString(R.string.action_about));
                 }
                 break;
+            case R.id.action_show_favorite:
+                applyViewMode(LOCATION_VIEW_MODE.FAVORITE);
+                break;
+            case R.id.action_show_gastro:
+                applyViewMode(LOCATION_VIEW_MODE.GASTRO);
+                break;
+            case R.id.action_show_shopping:
+                applyViewMode(LOCATION_VIEW_MODE.SHOPPING);
+                break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void applyViewMode(LOCATION_VIEW_MODE viewMode) {
+        mViewMode = viewMode;
+        if (viewMode == LOCATION_VIEW_MODE.FAVORITE) {
+            mLocations.showFavorites();
+        } else if (viewMode == LOCATION_VIEW_MODE.SHOPPING) {
+            mLocations.showShoppingLocations();
+        } else {
+            mLocations.showGastroLocations();
+        }
+        mRecyclerView.scrollToPosition(0);
+        invalidateOptionsMenu();
     }
 
     // --------------------------------------------------------------------
@@ -217,7 +255,7 @@ public class MainListActivity extends BaseActivity {
     private void setupRecyclerView(final LinearLayoutManager linearLayoutManager) {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setAdapter(mGastroLocationAdapter);
+        mRecyclerView.setAdapter(mLocationAdapter);
         RecyclerView.ItemDecoration itemDecoration =
                 new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
         mRecyclerView.addItemDecoration(itemDecoration);
@@ -240,15 +278,15 @@ public class MainListActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 // very important for the runnable further below
-                mLocationFound = null;
-                removeLocationUpdates();
-                requestLocationUpdates();
+                mGpsLocationFound = null;
+                removeGpsLocationUpdates();
+                requestGpsLocationUpdates();
                 // runnable to determine when the first GPS fix was received.
                 final Runnable waitForGpsFix = new Runnable() {
                     @Override
                     public void run() {
                         waitForGpsFix();
-                        mGastroLocations.updateLocationAdapter(mLocationFound);
+                        mLocations.updateLocationAdapter(mGpsLocationFound);
                     }
                 };
                 Thread t = new Thread(waitForGpsFix);
@@ -260,30 +298,30 @@ public class MainListActivity extends BaseActivity {
     // --------------------------------------------------------------------
     // location handling
 
-    private void requestLocationUpdates() {
+    private void requestGpsLocationUpdates() {
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        mLocationManager.requestSingleUpdate(criteria, mGastroLocationListener, null);
+        mLocationManager.requestSingleUpdate(criteria, mLocationListener, null);
     }
 
-    public void removeLocationUpdates() {
+    public void removeGpsLocationUpdates() {
         if (mLocationManager != null)
-            mLocationManager.removeUpdates(mGastroLocationListener);
+            mLocationManager.removeUpdates(mLocationListener);
     }
 
     private void waitForGpsFix() {
         final long startTimeMillis = System.currentTimeMillis();
         final int waitTimeMillis = 20 * 1000;
-        while (mLocationFound == null) {
+        while (mGpsLocationFound == null) {
             // wait for first GPS fix (do nothing)
             if ((System.currentTimeMillis() - startTimeMillis) > waitTimeMillis) {
-                if (!MainListActivity.this.isFinishing()) {
-                    MainListActivity.this.runOnUiThread(new Runnable() {
+                if (!LocationListActivity.this.isFinishing()) {
+                    LocationListActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            UiUtils.showMaterialDialog(MainListActivity.this, getString(R.string.error),
+                            UiUtils.showMaterialDialog(LocationListActivity.this, getString(R.string.error),
                                     getString(R.string.no_gps_data));
                         }
                     });
@@ -291,7 +329,7 @@ public class MainListActivity extends BaseActivity {
                 break;
             }
         }
-        MainListActivity.this.runOnUiThread(new Runnable() {
+        LocationListActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mProgressDialog != null) {
@@ -302,89 +340,152 @@ public class MainListActivity extends BaseActivity {
         });
     }
 
-    public GastroLocations getGastroLocations() {
-        return mGastroLocations;
+    public Locations getLocations() {
+        return mLocations;
     }
 
-    public GastroLocationAdapter getGastroLocationAdapter() {
-        return mGastroLocationAdapter;
+    public LocationAdapter getLocationAdapter() {
+        return mLocationAdapter;
     }
 
-    public void setLocationFound(Location locationFound) {
-        mLocationFound = locationFound;
+    public void setLocationFound(android.location.Location locationFound) {
+        mGpsLocationFound = locationFound;
     }
 
-    public static List<GastroLocation> createList(final InputStream inputStream) {
+    public static List<Location> createList(final InputStream inputStream, Type type) {
         final InputStreamReader reader = new InputStreamReader(inputStream, Charset.defaultCharset());
-        Type listType = new TypeToken<ArrayList<GastroLocation>>() {
-        }.getType();
-        return new Gson().fromJson(reader, listType);
+        return new Gson().fromJson(reader, type);
     }
 
-    private class RetrieveGastroLocations extends AsyncTask<Void, Void, Void> {
+    private class RetrieveLocations extends AsyncTask<Void, Void, Void> {
         public static final int TIMEOUT_MILLIS = 5 * 1000;
-        private final MainListActivity mMainListActivity;
+        private final LocationListActivity mLocationListActivity;
+        private final Type gastroTokenType = new TypeToken<ArrayList<GastroLocation>>() {
+        }.getType();
+        private final Type shoppingTokenType = new TypeToken<ArrayList<ShoppingLocation>>() {
+        }.getType();
 
-        public RetrieveGastroLocations(MainListActivity mainListActivity) {
-            mMainListActivity = mainListActivity;
+        public RetrieveLocations(LocationListActivity locationListActivity) {
+            mLocationListActivity = locationListActivity;
         }
 
         @Override
         protected void onPreExecute() {
-            MainListActivity.this.runOnUiThread(new Runnable() {
+            LocationListActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (!mSwipeRefreshLayout.isRefreshing()) {
-                        mProgressDialog = UiUtils.showMaterialProgressDialog(mMainListActivity, getString(R.string.please_wait),
+                        mProgressDialog = UiUtils.showMaterialProgressDialog(mLocationListActivity, getString(R.string.please_wait),
                                 getString(R.string.retrieving_data));
                     }
                 }
             });
         }
 
+
+        @Override
+        protected void onPostExecute(Void param) {
+            applyViewMode(LOCATION_VIEW_MODE.GASTRO); // todo, gastro is default ?
+            mLocations.updateLocationAdapter();
+        }
+
+        // todo remove duplicated code
         @Override
         protected Void doInBackground(Void... params) {
-            List<GastroLocation> gastroLocations = getGastroLocationsFromServer();
+            List<Location> gastroLocations = getGastroLocationsFromServer();
             if (gastroLocations == null) { // not modified, timeout or parsing problem, so use cached version if available
-                gastroLocations = getGastroLocationsFromCache();
+                gastroLocations = getLocationsFromCache(GASTRO_LOCATIONS_JSON, gastroTokenType);
             }
             if (gastroLocations == null) { // use included json file as fall back
-                gastroLocations = getGastroLocationsFromBundle();
+                gastroLocations = getLocationsFromBundle(GASTRO_LOCATIONS_JSON, gastroTokenType);
             }
             Log.d(TAG, "read " + gastroLocations.size() + " entries");
-            mGastroLocations.set(gastroLocations);
-            // filter the locations with current filter
-            final GastroLocationFilter filter = Preferences.getGastroFilter(mMainListActivity);
-            mGastroLocations.showFiltersResult(filter);
+
+            List<Location> shoppingLocations = getShoppingLocationsFromServer();
+            if (shoppingLocations == null) { // not modified, timeout or parsing problem, so use cached version if available
+                shoppingLocations = getLocationsFromCache(SHOPPING_LOCATIONS_JSON, shoppingTokenType);
+            }
+            if (shoppingLocations == null) { // use included json file as fall back
+                shoppingLocations = getLocationsFromBundle(SHOPPING_LOCATIONS_JSON, gastroTokenType);
+            }
+            Log.d(TAG, "read " + shoppingLocations.size() + " entries");
+
+            gastroLocations.addAll(shoppingLocations); // merge both lists
+
+            mLocations.set(gastroLocations);
             waitForGpsFix();
             return null;
         }
 
+        // todo merge with getGastroLocationsFromServer, remove code duplication
         @Nullable
-        private List<GastroLocation> getGastroLocationsFromServer() {
+        private List<Location> getShoppingLocationsFromServer() {
             FileOutputStream fileOutputStream = null;
             InputStream inputStream = null;
-            List<GastroLocation> gastroLocations = null;
+            List<Location> locations = null;
+            try {
+                // fetch json file from server
+                final URL url = new URL(HTTP_SHOPPING_LOCATIONS_JSON);
+                final HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setConnectTimeout(TIMEOUT_MILLIS);
+                urlConnection.setReadTimeout(TIMEOUT_MILLIS);
+                if (Preferences.getShoppingLastModified(mLocationListActivity) != 0) {
+                    urlConnection.setIfModifiedSince(Preferences.getShoppingLastModified(mLocationListActivity));
+                }
+                if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_NOT_MODIFIED) { // modified, try to parse and if successfully store a cached version
+                    inputStream = urlConnection.getInputStream();
+                    locations = createList(inputStream, shoppingTokenType);
+                    final long lastModified = urlConnection.getLastModified();
+                    if (lastModified != 0) { //valid timestamp, store local cache version
+                        fileOutputStream = mLocationListActivity.openFileOutput(SHOPPING_LOCATIONS_JSON, Context.MODE_PRIVATE);
+                        final String gastroStr = new Gson().toJson(locations);
+                        if (!TextUtils.isEmpty(gastroStr)) {
+                            fileOutputStream.write(gastroStr.getBytes());
+                            fileOutputStream.close();
+                            Preferences.saveShoppingLastModified(mLocationListActivity, lastModified);
+                        }
+                    }
+                    Log.i(TAG, "retrieving shopping database from server successful");
+                }
+            } catch (IOException e) {
+                Log.e(TAG, "fetching json file from server failed", e);
+            } catch (RuntimeException e) {
+                // is thrown if a JsonParseException occurs
+                Log.e(TAG, "parsing the json file failed", e);
+                locations = null;
+            } finally {
+                closeStream(inputStream);
+                closeStream(fileOutputStream);
+            }
+            return locations;
+        }
+
+        // todo merge with getShoppingLocationsFromServer, remove code duplication
+        @Nullable
+        private List<Location> getGastroLocationsFromServer() {
+            FileOutputStream fileOutputStream = null;
+            InputStream inputStream = null;
+            List<Location> gastroLocations = null;
             try {
                 // fetch json file from server
                 final URL url = new URL(HTTP_GASTRO_LOCATIONS_JSON);
                 final HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setConnectTimeout(TIMEOUT_MILLIS);
                 urlConnection.setReadTimeout(TIMEOUT_MILLIS);
-                if (Preferences.getGastroLastModified(mMainListActivity) != 0) {
-                    urlConnection.setIfModifiedSince(Preferences.getGastroLastModified(mMainListActivity));
+                if (Preferences.getGastroLastModified(mLocationListActivity) != 0) {
+                    urlConnection.setIfModifiedSince(Preferences.getGastroLastModified(mLocationListActivity));
                 }
                 if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_NOT_MODIFIED) { // modified, try to parse and if successfully store a cached version
                     inputStream = urlConnection.getInputStream();
-                    gastroLocations = createList(inputStream);
+                    gastroLocations = createList(inputStream, gastroTokenType);
                     final long lastModified = urlConnection.getLastModified();
                     if (lastModified != 0) { //valid timestamp, store local cache version
-                        fileOutputStream = mMainListActivity.openFileOutput(GASTRO_LOCATIONS_JSON, Context.MODE_PRIVATE);
+                        fileOutputStream = mLocationListActivity.openFileOutput(GASTRO_LOCATIONS_JSON, Context.MODE_PRIVATE);
                         final String gastroStr = new Gson().toJson(gastroLocations);
                         if (!TextUtils.isEmpty(gastroStr)) {
                             fileOutputStream.write(gastroStr.getBytes());
                             fileOutputStream.close();
-                            Preferences.saveGastroLastModified(mMainListActivity, lastModified);
+                            Preferences.saveGastroLastModified(mLocationListActivity, lastModified);
                         }
                     }
                     Log.i(TAG, "retrieving gastro database from server successful");
@@ -403,35 +504,30 @@ public class MainListActivity extends BaseActivity {
         }
 
         @Nullable
-        private List<GastroLocation> getGastroLocationsFromCache() {
-            List<GastroLocation> gastroLocations;
+        private List<Location> getLocationsFromCache(String fileName, Type tokenType) {
+            List<Location> locations;
             FileInputStream fileInputStream = null;
             try { // try cached version
-                fileInputStream = mMainListActivity.openFileInput(GASTRO_LOCATIONS_JSON);
-                gastroLocations = createList(fileInputStream);
-                Log.i(TAG, "use cached version of gastro database file");
+                fileInputStream = mLocationListActivity.openFileInput(fileName);
+                locations = createList(fileInputStream, tokenType);
+                Log.i(TAG, "use cached version of database file");
             } catch (RuntimeException | IOException e) {
                 Log.e(TAG, "parsing the cached json file failed", e);
-                gastroLocations = null;
+                locations = null;
             } finally {
                 closeStream(fileInputStream);
             }
-            return gastroLocations;
+            return locations;
         }
 
-        private List<GastroLocation> getGastroLocationsFromBundle() {
-            List<GastroLocation> gastroLocations;
+        private List<Location> getLocationsFromBundle(String locationsJson, Type tokenType) {
+            List<Location> locations;
             InputStream inputStream;
-            inputStream = MainApplication.class.getResourceAsStream(GASTRO_LOCATIONS_JSON);
-            gastroLocations = createList(inputStream);
+            inputStream = MainApplication.class.getResourceAsStream(locationsJson);
+            locations = createList(inputStream, tokenType);
             closeStream(inputStream);
-            Log.i(TAG, "fall back: use bundled copy of gastro database file");
-            return gastroLocations;
-        }
-
-        @Override
-        protected void onPostExecute(Void param) {
-            mGastroLocations.updateLocationAdapter();
+            Log.i(TAG, "fall back: use bundled copy of database file");
+            return locations;
         }
 
         private void closeStream(Closeable closeable) {

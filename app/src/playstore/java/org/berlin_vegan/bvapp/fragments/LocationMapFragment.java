@@ -10,10 +10,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.berlin_vegan.bvapp.data.GastroLocation;
+import org.berlin_vegan.bvapp.data.Location;
 
-public class GastroMapFragment extends SupportMapFragment implements OnMapReadyCallback {
-    private GastroLocation mLocation;
+public class LocationMapFragment extends SupportMapFragment implements OnMapReadyCallback {
+    private Location mLocation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class GastroMapFragment extends SupportMapFragment implements OnMapReadyC
                 .position(latLng)).showInfoWindow();
     }
 
-    public void setLocation(GastroLocation location) {
+    public void setLocation(Location location) {
         mLocation = location;
     }
 }

@@ -140,7 +140,14 @@ public class GastroLocationFilter {
         this.handicappedAccessible = handicappedAccessible;
     }
 
-    public boolean matchToFilter(GastroLocation gastro) {
+    public boolean matchToFilter(Location location) {
+        GastroLocation gastro;
+        if (location instanceof GastroLocation) {
+            gastro = (GastroLocation) location;
+        } else {
+            return false;
+        }
+
         boolean match = true;
         // check vegan state
         if (!matchVeganState(gastro)) {

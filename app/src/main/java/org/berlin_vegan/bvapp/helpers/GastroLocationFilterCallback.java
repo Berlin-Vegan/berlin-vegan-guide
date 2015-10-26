@@ -2,9 +2,9 @@ package org.berlin_vegan.bvapp.helpers;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import org.berlin_vegan.bvapp.activities.MainListActivity;
+import org.berlin_vegan.bvapp.activities.LocationListActivity;
 import org.berlin_vegan.bvapp.data.GastroLocationFilter;
-import org.berlin_vegan.bvapp.data.GastroLocations;
+import org.berlin_vegan.bvapp.data.Locations;
 import org.berlin_vegan.bvapp.data.Preferences;
 import org.berlin_vegan.bvapp.views.GastroFilterView;
 
@@ -12,19 +12,19 @@ import org.berlin_vegan.bvapp.views.GastroFilterView;
  * Processes the selection from {@code GastroFilterView}
  */
 public class GastroLocationFilterCallback extends MaterialDialog.ButtonCallback {
-    private final MainListActivity mMainListActivity;
+    private final LocationListActivity mLocationListActivity;
 
-    public GastroLocationFilterCallback(MainListActivity mainListActivity) {
-        mMainListActivity = mainListActivity;
+    public GastroLocationFilterCallback(LocationListActivity locationListActivity) {
+        mLocationListActivity = locationListActivity;
     }
     @Override
     public void onPositive(MaterialDialog dialog) {
         final GastroFilterView filterView = (GastroFilterView) dialog.getCustomView();
-        final GastroLocations gastroLocations = mMainListActivity.getGastroLocations();
+        final Locations locations = mLocationListActivity.getLocations();
         if (filterView != null) {
             final GastroLocationFilter filter = filterView.getCurrentFilter();
-            gastroLocations.showFiltersResult(filter);
-            Preferences.saveGastroFilter(mMainListActivity, filter);
+            locations.showFiltersResult(filter);
+            Preferences.saveGastroFilter(mLocationListActivity, filter);
         }
     }
 }

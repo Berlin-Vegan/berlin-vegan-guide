@@ -10,23 +10,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.berlin_vegan.bvapp.R;
-import org.berlin_vegan.bvapp.activities.GastroActivity;
-import org.berlin_vegan.bvapp.data.GastroLocation;
+import org.berlin_vegan.bvapp.activities.LocationDetailActivity;
+import org.berlin_vegan.bvapp.data.Location;
 import org.berlin_vegan.bvapp.views.ExpandableTextView;
 
 /**
- * Holds content for the description tab in {@link org.berlin_vegan.bvapp.activities.GastroActivity}.
+ * Holds content for the description tab in {@link LocationDetailActivity}.
  */
-public class GastroDescriptionFragment extends GastroBaseFragment {
+public class LocationDescriptionFragment extends LocationBaseFragment {
 
-    private GastroLocation mGastroLocation;
+    private Location mLocation;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.gastro_description_fragment, container, false);
-        mGastroLocation = initGastroLocation(savedInstanceState);
+        View v = inflater.inflate(R.layout.location_description_fragment, container, false);
+        mLocation = initLocation(savedInstanceState);
 
         ExpandableTextView vDescription = (ExpandableTextView) v.findViewById(R.id.text_view_description);
-        String description = mGastroLocation.getCommentWithoutSoftHyphens();
+        String description = mLocation.getCommentWithoutSoftHyphens();
         // remove all occurrences of '<br/>' at the end of the description so we have no space between
         // the description and the {@link DividerFragment}
         final String lineBreak = "<br/>";
@@ -46,7 +46,7 @@ public class GastroDescriptionFragment extends GastroBaseFragment {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putSerializable(GastroActivity.EXTRA_GASTRO_LOCATION, mGastroLocation);
+        savedInstanceState.putSerializable(LocationDetailActivity.EXTRA_LOCATION, mLocation);
         super.onSaveInstanceState(savedInstanceState);
     }
 }

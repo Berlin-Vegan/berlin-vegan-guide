@@ -1,12 +1,16 @@
 package org.berlin_vegan.bvapp;
 
-import org.berlin_vegan.bvapp.activities.MainListActivity;
+import com.google.gson.reflect.TypeToken;
+
+import org.berlin_vegan.bvapp.activities.LocationListActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
+import org.berlin_vegan.bvapp.data.Location;
 import org.berlin_vegan.bvapp.data.OpeningHoursInterval;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -46,12 +50,13 @@ public class GastroLocationTest {
     @Test
     public void testParseLocationsWithGSON() throws Exception {
         final InputStream inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
-        final List<GastroLocation> locationList = MainListActivity.createList(inputStream);
+        final List<Location> locationList = LocationListActivity.createList(inputStream, new TypeToken<ArrayList<GastroLocation>>() {
+        }.getType());
         final int numLocations = locationList.size();
 
         assertEquals(276, numLocations);
 
-        final GastroLocation location = locationList.get(0);
+        final GastroLocation location = (GastroLocation)locationList.get(0);
         final String name = location.getName();
         final int numPictures = location.getPictures().size();
 
@@ -63,7 +68,6 @@ public class GastroLocationTest {
     public void testCondensedOpeningHours() throws Exception {
         final List<OpeningHoursInterval> openingHours = mLocation.getCondensedOpeningHours();
         assertEquals(5, openingHours.size());
-
     }
 
     @Test
@@ -101,7 +105,5 @@ public class GastroLocationTest {
         location.setOtMon("0 - 24");
         Date date = new GregorianCalendar(2015, 7, 10, 20, 32).getTime();// monday 20:32, 10 August 2015
         assertTrue(location.isOpen(date));
-
-
     }
 }

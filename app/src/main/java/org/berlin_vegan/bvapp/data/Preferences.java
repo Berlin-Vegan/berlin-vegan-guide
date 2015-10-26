@@ -15,6 +15,8 @@ public class Preferences {
     private static final String KEY_UNITS = "key_units";
     private static final String KEY_GASTRO_FILTER = "key_gastro_filter";
     private static final String KEY_GASTRO_LAST_MODIFIED = "key_gastro_last_modified";
+    private static final String KEY_SHOPPING_LAST_MODIFIED = "key_shopping_last_modified";
+
     static final String KEY_FAVORITES = "key_favorites";
 
     public static boolean isMetricUnit(Context context) {
@@ -73,6 +75,22 @@ public class Preferences {
     public static void saveGastroLastModified(Context context, long lastModified) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putLong(Preferences.KEY_GASTRO_LAST_MODIFIED, lastModified);
+        editor.apply();
+    }
+    /**
+     * return last modified date of the shopping location database, in milliseconds
+     *
+     * @param context
+     * @return date in milliseconds or 0 if not set
+     */
+    public static long getShoppingLastModified(Context context) {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getLong(Preferences.KEY_SHOPPING_LAST_MODIFIED, 0);
+    }
+
+    public static void saveShoppingLastModified(Context context, long lastModified) {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putLong(Preferences.KEY_SHOPPING_LAST_MODIFIED, lastModified);
         editor.apply();
     }
 }
