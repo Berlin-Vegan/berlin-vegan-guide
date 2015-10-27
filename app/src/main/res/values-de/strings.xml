@@ -27,6 +27,7 @@
 
     <string name="gastro_list_closed">derzeit geschlossen</string>
     <string name="gastro_list_closed_soon">schließt um\n%1$s Uhr!</string>
+    <string name="gastro_list_empty_favorites">Keine Favoriten vorhanden.\nDu kannst einen Ort in der Detailansicht als Favorit markieren.</string>
 
     <string name="gastro_details_contact_address">Keine Adresse</string>
     <string name="gastro_details_contact_telephone">Keine Telefonnummer</string>
@@ -80,5 +81,6 @@
     <string name="gastro_filter_type_ice_cafe">Eiscafe</string>
     <string name="gastro_filter_type_cafe">Cafe</string>
     <string name="gastro_filter_options">Optionen</string>
+
 
 </resources>

@@ -40,6 +40,7 @@ import org.berlin_vegan.bvapp.helpers.GastroLocationFilterCallback;
 import org.berlin_vegan.bvapp.helpers.UiUtils;
 import org.berlin_vegan.bvapp.listeners.CustomLocationListener;
 import org.berlin_vegan.bvapp.views.GastroFilterView;
+import org.berlin_vegan.bvapp.views.RecycleViewWithEmptySupport;
 
 import java.io.Closeable;
 import java.io.FileInputStream;
@@ -67,11 +68,10 @@ public class LocationListActivity extends BaseActivity {
 
     private static final String HTTP_GASTRO_LOCATIONS_JSON = JSON_BASE_URL + GASTRO_LOCATIONS_JSON;
     private static final String HTTP_SHOPPING_LOCATIONS_JSON = JSON_BASE_URL + SHOPPING_LOCATIONS_JSON;
-
     enum LOCATION_VIEW_MODE {GASTRO, SHOPPING, FAVORITE}
 
     private Context mContext;
-    private RecyclerView mRecyclerView;
+    private RecycleViewWithEmptySupport mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LocationAdapter mLocationAdapter;
     private LocationManager mLocationManager;
@@ -117,7 +117,7 @@ public class LocationListActivity extends BaseActivity {
         mLocations = new Locations(this);
         mLocationListener = new CustomLocationListener(this, mLocations);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.main_list_recycler_view);
+        mRecyclerView = (RecycleViewWithEmptySupport) findViewById(R.id.location_list_recycler_view);
         if (mRecyclerView != null) {
             setupRecyclerView(linearLayoutManager);
         }
@@ -308,6 +308,7 @@ public class LocationListActivity extends BaseActivity {
                 mSwipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
             }
         });
+        mRecyclerView.setEmptyView(findViewById(R.id.location_list_no_favorites_textview));
         // TODO: fast scroll
     }
 

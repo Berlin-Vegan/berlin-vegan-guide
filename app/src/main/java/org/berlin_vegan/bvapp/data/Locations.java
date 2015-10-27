@@ -19,7 +19,7 @@ public class Locations {
     //needed for UI thread updateLocationAdapter
     private final LocationListActivity mLocationListActivity;
 
-    private android.location.Location mLocationFound;
+    private android.location.Location mGpsLocationFound;
     /**
      * holds all locations. used to create the filtered lists
      */
@@ -45,7 +45,7 @@ public class Locations {
     }
 
     private void sortByDistance() {
-        if (mLocationFound == null) {
+        if (mGpsLocationFound == null) {
             return;
         }
         android.location.Location locationFromJson = new android.location.Location("DummyProvider");
@@ -57,7 +57,7 @@ public class Locations {
             Location location = mShown.get(i);
             locationFromJson.setLatitude(location.getLatCoord());
             locationFromJson.setLongitude(location.getLongCoord());
-            distanceInMeters = locationFromJson.distanceTo(mLocationFound);
+            distanceInMeters = locationFromJson.distanceTo(mGpsLocationFound);
             distanceInKiloMeters = distanceInMeters / 1000;
             distanceInMiles = distanceInKiloMeters * (float) 0.621371192;
 
@@ -180,8 +180,8 @@ public class Locations {
         });
     }
 
-    public void updateLocationAdapter(android.location.Location locationFound) {
-        mLocationFound = locationFound;
+    public void updateLocationAdapter(android.location.Location location) {
+        mGpsLocationFound = location;
         updateLocationAdapter();
     }
 
