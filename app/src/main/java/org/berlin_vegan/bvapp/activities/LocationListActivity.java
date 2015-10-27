@@ -10,7 +10,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -82,6 +85,10 @@ public class LocationListActivity extends BaseActivity {
 
     private final GastroLocationFilterCallback mButtonCallback = new GastroLocationFilterCallback(this);
 
+    //NavDrawer
+    private DrawerLayout mDrawer;
+    private NavigationView nvDrawer;
+
     // --------------------------------------------------------------------
     // life cycle
 
@@ -114,6 +121,55 @@ public class LocationListActivity extends BaseActivity {
         if (mRecyclerView != null) {
             setupRecyclerView(linearLayoutManager);
         }
+
+        //NavDrawer
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //find our drawer view
+        nvDrawer = (NavigationView) findViewById(R.id.nvView);
+        //setup drawer view
+        setupDrawerContent(nvDrawer);
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
+    }
+
+    public void selectDrawerItem(MenuItem menuItem){
+        switch (menuItem.getItemId()) {
+            case R.id.nav_gastro:
+                applyViewMode(LOCATION_VIEW_MODE.GASTRO);
+                break;
+
+            case R.id.nav_shopping:
+                applyViewMode(LOCATION_VIEW_MODE.SHOPPING);
+                break;
+
+            case R.id.nav_fav:
+                applyViewMode(LOCATION_VIEW_MODE.FAVORITE);
+                break;
+
+            case R.id.nav_pref:
+                final Intent settings = new Intent(this, SettingsActivity.class);
+                startActivity(settings);
+                break;
+
+            case R.id.nav_about:
+                if (mContext != null) {
+                    UiUtils.showMaterialAboutDialog(mContext, getResources().getString(R.string.action_about));
+                }
+
+            default:
+                break;
+        }
+
+        mDrawer.closeDrawers();
     }
 
     @Override
@@ -212,28 +268,15 @@ public class LocationListActivity extends BaseActivity {
                         gastroFilterView,
                         mButtonCallback);
                 break;
-            case R.id.action_settings:
-                final Intent settings = new Intent(this, SettingsActivity.class);
-                startActivity(settings);
-                break;
-            case R.id.action_about:
-                if (mContext != null) {
-                    UiUtils.showMaterialAboutDialog(mContext, getResources().getString(R.string.action_about));
-                }
-                break;
-            case R.id.action_show_favorite:
-                applyViewMode(LOCATION_VIEW_MODE.FAVORITE);
-                break;
-            case R.id.action_show_gastro:
-                applyViewMode(LOCATION_VIEW_MODE.GASTRO);
-                break;
-            case R.id.action_show_shopping:
-                applyViewMode(LOCATION_VIEW_MODE.SHOPPING);
-                break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle saveInstanceState){
+        super.onPostCreate(saveInstanceState);
     }
 
     private void applyViewMode(LOCATION_VIEW_MODE viewMode) {
