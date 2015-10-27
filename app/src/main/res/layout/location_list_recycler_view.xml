@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
+    <org.berlin_vegan.bvapp.views.RecycleViewWithEmptySupport
 
-        android:id="@+id/main_list_recycler_view"
+        android:id="@+id/location_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
         tools:showIn="@layout/location_list_activity" />
 
     <!-- TODO fast scroll -->
-
-</RelativeLayout>
+    <TextView
+        android:id="@+id/location_list_no_favorites_textview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:gravity="center"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/text_size_large"
+        android:text="@string/gastro_list_empty_favorites"/>
+</FrameLayout>
