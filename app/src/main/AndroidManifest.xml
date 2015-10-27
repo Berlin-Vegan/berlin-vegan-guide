@@ -30,7 +30,7 @@
             <!-- Parent activity meta-data to support API level 4+ -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.LocationListActivity" />
+                android:value="org.berlin_vegan.bvapp.activities.LocationListActivity" />
         </activity>
         <activity
             android:name=".activities.LocationDetailActivity"
@@ -38,7 +38,7 @@
             <!-- Parent activity meta-data to support API level 4+ -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.LocationListActivity" />
+                android:value="org.berlin_vegan.bvapp.activities.LocationListActivity" />
         </activity>
     </application>
 
