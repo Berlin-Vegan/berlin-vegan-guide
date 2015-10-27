@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -456,7 +455,7 @@ public class LocationListActivity extends BaseActivity {
 
             gastroLocations.addAll(shoppingLocations); // merge both lists
 
-            mLocations.set(gastroLocations);
+            mLocations.set(gastroLocations); // todo fix NullPointer
             waitForGpsFix();
             return null;
         }
