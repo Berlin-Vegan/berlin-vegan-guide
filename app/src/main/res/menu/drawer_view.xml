@@ -5,13 +5,13 @@
         android:checkableBehavior="none">
         <item
             android:id="@+id/nav_gastro"
-            android:title="Gastro" />
+            android:title="@string/action_gastro" />
         <item
             android:id="@+id/nav_shopping"
-            android:title="Shopping" />
+            android:title="@string/action_shopping" />
         <item
             android:id="@+id/nav_fav"
-            android:title="Fav" />
+            android:title="@string/gastro_details_favorite" />
     </group>
 
     <group
@@ -19,10 +19,10 @@
         android:checkableBehavior="none">
         <item
             android:id="@+id/nav_pref"
-            android:title="Pref" />
+            android:title="@string/action_settings" />
         <item
             android:id="@+id/nav_about"
-            android:title="About" />
+            android:title="@string/action_about" />
     </group>
 
 </menu>
