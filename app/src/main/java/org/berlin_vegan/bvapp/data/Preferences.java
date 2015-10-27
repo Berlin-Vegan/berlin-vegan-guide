@@ -58,7 +58,9 @@ public class Preferences {
 
     public static Set<String> getFavorites(Context context) {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getStringSet(Preferences.KEY_FAVORITES, new HashSet<String>());
+        // returns a new cloned instance, because its not allowed to "work" on getStringSet result directly
+        // see https://stackoverflow.com/questions/14034803/misbehavior-when-trying-to-store-a-string-set-using-sharedpreferences/14034804#14034804
+        return new HashSet<>(prefs.getStringSet(Preferences.KEY_FAVORITES, new HashSet<String>()));
     }
 
     /**
