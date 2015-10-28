@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.location.Criteria;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -14,9 +15,11 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -67,6 +70,9 @@ public class LocationListActivity extends BaseActivity {
 
     private static final String HTTP_GASTRO_LOCATIONS_JSON = JSON_BASE_URL + GASTRO_LOCATIONS_JSON;
     private static final String HTTP_SHOPPING_LOCATIONS_JSON = JSON_BASE_URL + SHOPPING_LOCATIONS_JSON;
+    private ActionBarDrawerToggle drawerToggle;
+    private Toolbar mToolbar;
+
     enum LOCATION_VIEW_MODE {GASTRO, SHOPPING, FAVORITE}
 
     private Context mContext;
@@ -125,8 +131,10 @@ public class LocationListActivity extends BaseActivity {
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         //find our drawer view
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
-        //setup drawer view
         setupDrawerContent(nvDrawer);
+        mToolbar = (Toolbar)findViewById(R.id.toolbar);
+        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.gastro_details_miscellaneous_content_catering,  R.string.gastro_details_miscellaneous_content_catering);
+        mDrawer.setDrawerListener(drawerToggle);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -258,6 +266,9 @@ public class LocationListActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (drawerToggle.onOptionsItemSelected(item)) { // delegate the touch to ActionBarDrawerToggle
+            return true;
+        }
         switch (item.getItemId()) {
             case R.id.action_filter:
                 final GastroFilterView gastroFilterView = new GastroFilterView(LocationListActivity.this);
@@ -276,6 +287,13 @@ public class LocationListActivity extends BaseActivity {
     @Override
     protected void onPostCreate(Bundle saveInstanceState){
         super.onPostCreate(saveInstanceState);
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void applyViewMode(LOCATION_VIEW_MODE viewMode) {
