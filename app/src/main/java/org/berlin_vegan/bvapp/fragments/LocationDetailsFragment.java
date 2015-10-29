@@ -278,7 +278,9 @@ public class LocationDetailsFragment extends LocationBaseFragment {
         final RelativeLayout item = (RelativeLayout) v.findViewById(R.id.editing);
 
         final ImageView icon = (ImageView) item.findViewById(R.id.icon);
-        icon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_edit_white_24dp));
+        icon.setImageDrawable(getResources(
+
+        ).getDrawable(R.mipmap.ic_edit_white_24dp));
         icon.setColorFilter(getResources().getColor(R.color.theme_primary));
 
         final String text = getString(R.string.gastro_details_editing);

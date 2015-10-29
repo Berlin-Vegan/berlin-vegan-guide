@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * holds all information about a gastro location's picture from the JSON file.
  */
-public class GastroLocationPicture implements Serializable {
+class GastroLocationPicture implements Serializable {
     private String url;
     private int width;
     private int height;

@@ -10,7 +10,7 @@ import org.berlin_vegan.bvapp.data.Location;
 
 public class LocationBaseFragment extends Fragment {
 
-    public Location initLocation(@Nullable Bundle savedInstanceState) {
+    Location initLocation(@Nullable Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             Bundle extras = getActivity().getIntent().getExtras();
             if (extras != null) {

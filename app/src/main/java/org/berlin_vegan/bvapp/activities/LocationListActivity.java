@@ -195,10 +195,6 @@ public class LocationListActivity extends BaseActivity {
         removeGpsLocationUpdates();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     // --------------------------------------------------------------------
     // menu

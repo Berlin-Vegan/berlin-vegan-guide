@@ -11,7 +11,7 @@ public class RecycleViewWithEmptySupport extends RecyclerView {
     @Nullable
     View emptyView;
 
-    AdapterDataObserver observer = new AdapterDataObserver() {
+    final AdapterDataObserver observer = new AdapterDataObserver() {
         @Override
         public void onChanged() {
             super.onChanged();

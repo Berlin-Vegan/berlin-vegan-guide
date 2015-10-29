@@ -66,7 +66,6 @@ public class Preferences {
     /**
      * return last modified date of the gastro location database, in milliseconds
      *
-     * @param context
      * @return date in milliseconds or 0 if not set
      */
     public static long getGastroLastModified(Context context) {
@@ -82,7 +81,6 @@ public class Preferences {
     /**
      * return last modified date of the shopping location database, in milliseconds
      *
-     * @param context
      * @return date in milliseconds or 0 if not set
      */
     public static long getShoppingLastModified(Context context) {

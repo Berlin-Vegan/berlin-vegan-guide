@@ -3,9 +3,7 @@ package org.berlin_vegan.bvapp.data;
 
 import org.berlin_vegan.bvapp.helpers.DateUtil;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * class to store opening hours in intervals, so days with same opening hours are condensed,
@@ -14,7 +12,7 @@ import java.util.GregorianCalendar;
 public class OpeningHoursInterval {
     public static final String CLOSED = "";
 
-    private static int sNoEndDay = -1;
+    private static final int sNoEndDay = -1;
     private int mStartDay = 0; // monday
     private int mEndDay = sNoEndDay;
     private String mOpeningHoursTimes = CLOSED;

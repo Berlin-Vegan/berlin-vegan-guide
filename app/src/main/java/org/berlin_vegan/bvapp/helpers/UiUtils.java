@@ -8,9 +8,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -53,7 +51,6 @@ public class UiUtils {
     }
 
     public static String getFormattedDistance(float distance, Context context) {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         String distanceStr = String.valueOf(distance) + " ";
         if (Preferences.isMetricUnit(context)) {
             distanceStr += context.getString(R.string.km_string);
