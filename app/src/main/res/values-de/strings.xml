@@ -2,6 +2,7 @@
     <string name="app_name">Berlin-Vegan</string>
     <string name="action_gastro">Gastronomie</string>
     <string name="action_shopping">Einkaufen</string>
+    <string name="actions_favorite">Favoriten</string>
     <string name="action_settings">Einstellungen</string>
     <string name="action_about">Über</string>
     <string name="action_filter">Filter</string>
@@ -28,6 +29,7 @@
     <string name="gastro_list_closed">derzeit geschlossen</string>
     <string name="gastro_list_closed_soon">schließt um\n%1$s Uhr!</string>
     <string name="gastro_list_empty_favorites">Keine Favoriten vorhanden.\nDu kannst einen Ort in der Detailansicht als Favorit markieren.</string>
+    <string name="gastro_list_empty_search">Keine Ergebnisse gefunden.</string>
 
     <string name="gastro_details_contact_address">Keine Adresse</string>
     <string name="gastro_details_contact_telephone">Keine Telefonnummer</string>

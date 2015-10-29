@@ -11,7 +11,7 @@
             android:title="@string/action_shopping" />
         <item
             android:id="@+id/nav_fav"
-            android:title="@string/gastro_details_favorite" />
+            android:title="@string/actions_favorite" />
     </group>
 
     <group

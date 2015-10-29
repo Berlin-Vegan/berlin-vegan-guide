@@ -42,7 +42,7 @@ import org.berlin_vegan.bvapp.helpers.GastroLocationFilterCallback;
 import org.berlin_vegan.bvapp.helpers.UiUtils;
 import org.berlin_vegan.bvapp.listeners.CustomLocationListener;
 import org.berlin_vegan.bvapp.views.GastroFilterView;
-import org.berlin_vegan.bvapp.views.RecycleViewWithEmptySupport;
+import org.berlin_vegan.bvapp.views.LocationRecycleView;
 
 import java.io.Closeable;
 import java.io.FileInputStream;
@@ -73,10 +73,8 @@ public class LocationListActivity extends BaseActivity {
     private ActionBarDrawerToggle drawerToggle;
     private Toolbar mToolbar;
 
-    enum LOCATION_VIEW_MODE {GASTRO, SHOPPING, FAVORITE}
-
     private Context mContext;
-    private RecycleViewWithEmptySupport mRecyclerView;
+    private LocationRecycleView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LocationAdapter mLocationAdapter;
     private LocationManager mLocationManager;
@@ -86,7 +84,7 @@ public class LocationListActivity extends BaseActivity {
     private Dialog mProgressDialog;
     private SharedPreferences mSharedPreferences;
     private Locations mLocations;
-    private LOCATION_VIEW_MODE mViewMode = LOCATION_VIEW_MODE.GASTRO;
+
 
     private final GastroLocationFilterCallback mButtonCallback = new GastroLocationFilterCallback(this);
 
@@ -111,8 +109,6 @@ public class LocationListActivity extends BaseActivity {
             setupSwipeRefresh();
         }
 
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         // start a thread to retrieve the json from the server and to wait for the geo location
         RetrieveLocations retrieveLocations = new RetrieveLocations(this);
@@ -122,9 +118,9 @@ public class LocationListActivity extends BaseActivity {
         mLocations = new Locations(this);
         mLocationListener = new CustomLocationListener(this, mLocations);
 
-        mRecyclerView = (RecycleViewWithEmptySupport) findViewById(R.id.location_list_recycler_view);
+        mRecyclerView = (LocationRecycleView) findViewById(R.id.location_list_recycler_view);
         if (mRecyclerView != null) {
-            setupRecyclerView(linearLayoutManager);
+            setupRecyclerView();
         }
 
         //NavDrawer
@@ -132,8 +128,8 @@ public class LocationListActivity extends BaseActivity {
         //find our drawer view
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
-        mToolbar = (Toolbar)findViewById(R.id.toolbar);
-        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.gastro_details_miscellaneous_content_catering,  R.string.gastro_details_miscellaneous_content_catering);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.gastro_details_miscellaneous_content_catering, R.string.gastro_details_miscellaneous_content_catering);
         mDrawer.setDrawerListener(drawerToggle);
     }
 
@@ -148,18 +144,18 @@ public class LocationListActivity extends BaseActivity {
                 });
     }
 
-    public void selectDrawerItem(MenuItem menuItem){
+    public void selectDrawerItem(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_gastro:
-                applyViewMode(LOCATION_VIEW_MODE.GASTRO);
+                applyShownDataType(LocationRecycleView.DATA_TYPE.GASTRO);
                 break;
 
             case R.id.nav_shopping:
-                applyViewMode(LOCATION_VIEW_MODE.SHOPPING);
+                applyShownDataType(LocationRecycleView.DATA_TYPE.SHOPPING);
                 break;
 
             case R.id.nav_fav:
-                applyViewMode(LOCATION_VIEW_MODE.FAVORITE);
+                applyShownDataType(LocationRecycleView.DATA_TYPE.FAVORITE);
                 break;
 
             case R.id.nav_pref:
@@ -183,7 +179,7 @@ public class LocationListActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         requestGpsLocationUpdates();
-        if (mViewMode == LOCATION_VIEW_MODE.FAVORITE) {
+        if (mRecyclerView.getDataType() == LocationRecycleView.DATA_TYPE.FAVORITE) {
             // update the list, because the user may have added or removed a favorite in {@code GastroActivity}
             mLocations.showFavorites();
         }
@@ -213,14 +209,14 @@ public class LocationListActivity extends BaseActivity {
 
         inflater.inflate(R.menu.menu_location_list_activity, menu);
         MenuItem menuItem = menu.findItem(R.id.menu_search);
-        if (mViewMode == LOCATION_VIEW_MODE.GASTRO || mViewMode == LOCATION_VIEW_MODE.SHOPPING) {
+        if (mRecyclerView.getDataType() == LocationRecycleView.DATA_TYPE.GASTRO || mRecyclerView.getDataType() == LocationRecycleView.DATA_TYPE.SHOPPING) {
             initializeSearch(menuItem);
         } else {
             menuItem.setVisible(false); // hide for favorite
         }
 
         menuItem = menu.findItem(R.id.action_filter);
-        if (mViewMode == LOCATION_VIEW_MODE.FAVORITE || mViewMode == LOCATION_VIEW_MODE.SHOPPING) { // at the moment no filter for shopping and favorite
+        if (mRecyclerView.getDataType() == LocationRecycleView.DATA_TYPE.FAVORITE || mRecyclerView.getDataType() == LocationRecycleView.DATA_TYPE.SHOPPING) { // at the moment no filter for shopping and favorite
             menuItem.setVisible(false);
         }
         return true;
@@ -247,11 +243,13 @@ public class LocationListActivity extends BaseActivity {
         MenuItemCompat.setOnActionExpandListener(searchViewItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                mRecyclerView.setSearchState(true);
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                mRecyclerView.setSearchState(false);
                 if (mLocations != null) {
                     mLocations.resetQueryFilter();
                 }
@@ -281,7 +279,7 @@ public class LocationListActivity extends BaseActivity {
     }
 
     @Override
-    protected void onPostCreate(Bundle saveInstanceState){
+    protected void onPostCreate(Bundle saveInstanceState) {
         super.onPostCreate(saveInstanceState);
         drawerToggle.syncState();
     }
@@ -292,11 +290,11 @@ public class LocationListActivity extends BaseActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private void applyViewMode(LOCATION_VIEW_MODE viewMode) {
-        mViewMode = viewMode;
-        if (viewMode == LOCATION_VIEW_MODE.FAVORITE) {
+    private void applyShownDataType(LocationRecycleView.DATA_TYPE dataType) {
+        mRecyclerView.setDataType(dataType);
+        if (dataType == LocationRecycleView.DATA_TYPE.FAVORITE) {
             mLocations.showFavorites();
-        } else if (viewMode == LOCATION_VIEW_MODE.SHOPPING) {
+        } else if (dataType == LocationRecycleView.DATA_TYPE.SHOPPING) {
             mLocations.showShoppingLocations();
         } else {
             mLocations.showGastroLocations();
@@ -308,20 +306,22 @@ public class LocationListActivity extends BaseActivity {
     // --------------------------------------------------------------------
     // setups
 
-    private void setupRecyclerView(final LinearLayoutManager linearLayoutManager) {
+    private void setupRecyclerView() {
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setAdapter(mLocationAdapter);
         RecyclerView.ItemDecoration itemDecoration =
                 new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
         mRecyclerView.addItemDecoration(itemDecoration);
+        mRecyclerView.setAdapter(mLocationAdapter);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 mSwipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
             }
         });
-        mRecyclerView.setEmptyView(findViewById(R.id.location_list_no_favorites_textview));
+        mRecyclerView.setEmptyViews(findViewById(R.id.location_list_empty_favorites_textview), findViewById(R.id.location_list_empty_search_textview));
         // TODO: fast scroll
     }
 
@@ -414,6 +414,7 @@ public class LocationListActivity extends BaseActivity {
         return new Gson().fromJson(reader, type);
     }
 
+
     private class RetrieveLocations extends AsyncTask<Void, Void, Void> {
         public static final int TIMEOUT_MILLIS = 5 * 1000;
         private final LocationListActivity mLocationListActivity;
@@ -442,7 +443,7 @@ public class LocationListActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(Void param) {
-            applyViewMode(LOCATION_VIEW_MODE.GASTRO); // todo, gastro is default ?
+            applyShownDataType(LocationRecycleView.DATA_TYPE.GASTRO); // todo, gastro is default ?
             mLocations.updateLocationAdapter();
         }
 
