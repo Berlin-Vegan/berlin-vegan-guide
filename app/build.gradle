@@ -10,7 +10,7 @@ android {
     def gitDescription = dirtyWorkingCopy ? "${gitHash}-dirty" : gitHash
 
     compileSdkVersion 23
-    buildToolsVersion "23.0.0"
+    buildToolsVersion "23.0.1"
 
     android {
         useLibrary 'org.apache.http.legacy'
@@ -58,9 +58,9 @@ android {
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:design:23.0.1'
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:recyclerview-v7:23.0.1'
+    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
 
     compile 'com.google.code.gson:gson:2.3'
     compile('com.afollestad.material-dialogs:core:0.8.0.1@aar') {
@@ -73,5 +73,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     // closed source
-    playstoreCompile 'com.google.android.gms:play-services-maps:7.8.0'
+    playstoreCompile 'com.google.android.gms:play-services-maps:8.1.0'
 }
