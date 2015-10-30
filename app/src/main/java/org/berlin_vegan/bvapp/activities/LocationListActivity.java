@@ -145,17 +145,21 @@ public class LocationListActivity extends BaseActivity {
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
+        switch (menuItem.getItemId())
+        {
             case R.id.nav_gastro:
                 applyShownDataType(LocationRecycleView.DATA_TYPE.GASTRO);
+                menuItem.setChecked(true);
                 break;
 
             case R.id.nav_shopping:
                 applyShownDataType(LocationRecycleView.DATA_TYPE.SHOPPING);
+                menuItem.setChecked(true);
                 break;
 
             case R.id.nav_fav:
                 applyShownDataType(LocationRecycleView.DATA_TYPE.FAVORITE);
+                menuItem.setChecked(true);
                 break;
 
             case R.id.nav_pref:
@@ -164,14 +168,14 @@ public class LocationListActivity extends BaseActivity {
                 break;
 
             case R.id.nav_about:
-                if (mContext != null) {
+                if (mContext != null)
+                {
                     UiUtils.showMaterialAboutDialog(mContext, getResources().getString(R.string.action_about));
                 }
 
             default:
                 break;
         }
-
         mDrawer.closeDrawers();
     }
 

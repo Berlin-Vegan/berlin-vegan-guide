@@ -2,7 +2,7 @@
 
     <group
         android:id="@+id/menu_top"
-        android:checkableBehavior="none">
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_gastro"
             android:title="@string/action_gastro" />
