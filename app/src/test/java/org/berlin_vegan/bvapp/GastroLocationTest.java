@@ -54,9 +54,9 @@ public class GastroLocationTest {
         }.getType());
         final int numLocations = locationList.size();
 
-        assertEquals(276, numLocations);
+        assertTrue(numLocations > 300);
 
-        final GastroLocation location = (GastroLocation)locationList.get(0);
+        final GastroLocation location = (GastroLocation)locationList.get(3);
         final String name = location.getName();
         final int numPictures = location.getPictures().size();
 
