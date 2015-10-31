@@ -16,7 +16,7 @@ android {
         useLibrary 'org.apache.http.legacy'
     }
     defaultConfig {
-        applicationId "org.berlin_vegan.bvapp_alpha"
+        applicationId "org.berlin_vegan.bvapp"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 15
@@ -46,6 +46,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
         }
     }
     productFlavors {
