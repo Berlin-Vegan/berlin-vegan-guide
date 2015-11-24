@@ -74,6 +74,23 @@ public class UiUtils {
         dialog.show();
         return dialog;
     }
+    public static MaterialDialog showInformAboutNewAppDialog(Context context, MaterialDialog.ButtonCallback callback) {
+        SpannableStringBuilder contentBody = new SpannableStringBuilder();
+        contentBody.append(context.getString(R.string.beta_phase_end_content));
+        MaterialDialog dialog = new MaterialDialog.Builder(context)
+                .title(R.string.beta_phase_end_title)
+                .content(contentBody)
+                .autoDismiss(true)
+                .contentColorRes(R.color.material_dialog_content)
+                .titleColorRes(R.color.material_dialog_title)
+                .backgroundColorRes(R.color.material_dialog_background)
+                .positiveText(R.string.beta_phase_end_new_app_button)
+                .positiveColorRes(R.color.material_dialog_buttons)
+                .negativeText(R.string.beta_phase_end_ignore).callback(callback)
+                .build();
+        dialog.show();
+        return dialog;
+    }
 
     private static SpannableStringBuilder createAboutContent(final Context context) {
         // get app version

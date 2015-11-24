@@ -83,6 +83,10 @@
     <string name="gastro_filter_type_ice_cafe">Eiscafe</string>
     <string name="gastro_filter_type_cafe">Cafe</string>
     <string name="gastro_filter_options">Optionen</string>
+    <string name="beta_phase_end_title">Betaphase beendet</string>
+    <string name="beta_phase_end_content">Die Betaphase der Berlin-Vegan App ist beendet und wir möchten dir ganz herzlich dafür danken. Diese App wird demnächst aus dem Playstore entfernt. Bitte installiere daher die stabile App, die im Playstore kostenlos und ohne Werbung zur Verfügung steht. Zukünftige Aktualisierungen erfolgen nur dort. DANKE!</string>
+    <string name="beta_phase_end_new_app_button">neue App</string>
+    <string name="beta_phase_end_ignore">Ignorieren</string>
 
 
 </resources>

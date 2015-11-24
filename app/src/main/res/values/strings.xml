@@ -82,6 +82,10 @@
     <string name="gastro_filter_type_ice_cafe">Ice cream shop</string>
     <string name="gastro_filter_type_cafe">Cafe</string>
     <string name="gastro_filter_options">Options</string>
+    <string name="beta_phase_end_title">Beta phase finished</string>
+    <string name="beta_phase_end_content">The beta test phase is finished. This app will be deleted from playstore in the next days. Please install the stable app, its free and without advertisement. THANKS!</string>
+    <string name="beta_phase_end_new_app_button">new App</string>
+    <string name="beta_phase_end_ignore">Ignore</string>
 
 
 </resources>

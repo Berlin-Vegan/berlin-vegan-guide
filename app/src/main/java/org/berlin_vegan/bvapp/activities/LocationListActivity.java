@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.location.Criteria;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -26,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -131,6 +133,7 @@ public class LocationListActivity extends BaseActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.gastro_details_miscellaneous_content_catering, R.string.gastro_details_miscellaneous_content_catering);
         mDrawer.setDrawerListener(drawerToggle);
+
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -397,8 +400,22 @@ public class LocationListActivity extends BaseActivity {
                     mProgressDialog.dismiss();
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
+                UiUtils.showInformAboutNewAppDialog(mContext, new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        final String appPackageName = "org.berlin_vegan.bvapp";
+                        try {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                        } catch (android.content.ActivityNotFoundException ignored) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                        }
+                    }
+                });
+
+
             }
         });
+
     }
 
     public Locations getLocations() {

@@ -16,7 +16,7 @@ android {
         useLibrary 'org.apache.http.legacy'
     }
     defaultConfig {
-        applicationId "org.berlin_vegan.bvapp"
+        applicationId "org.berlin_vegan.bvapp_alpha"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 22
