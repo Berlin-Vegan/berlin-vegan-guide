@@ -81,13 +81,14 @@ public class LocationListActivity extends BaseActivity {
     private CustomLocationListener mLocationListener;
     // the GPS/Network Location
     private android.location.Location mGpsLocationFound;
+    private boolean mGpsProviderAvailable=false;
     private Dialog mProgressDialog;
     private SharedPreferences mSharedPreferences;
+
+
     private Locations mLocations;
 
-
     private final GastroLocationFilterCallback mButtonCallback = new GastroLocationFilterCallback(this);
-
     //NavDrawer
     private DrawerLayout mDrawer;
     private NavigationView nvDrawer;
@@ -360,11 +361,17 @@ public class LocationListActivity extends BaseActivity {
     // location handling
 
     private void requestGpsLocationUpdates() {
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        mLocationManager.requestSingleUpdate(criteria, mLocationListener, null);
+        String provider = mLocationManager.getBestProvider(criteria, true);
+        if (provider != null) {
+            mGpsProviderAvailable = true;
+            mLocationManager.requestSingleUpdate(criteria, mLocationListener, null);
+        } else {
+            mGpsProviderAvailable = false;
+        }
     }
 
     public void removeGpsLocationUpdates() {
@@ -377,7 +384,7 @@ public class LocationListActivity extends BaseActivity {
         final int waitTimeMillis = 20 * 1000;
         while (mGpsLocationFound == null) {
             // wait for first GPS fix (do nothing)
-            if ((System.currentTimeMillis() - startTimeMillis) > waitTimeMillis) {
+            if (((System.currentTimeMillis() - startTimeMillis) > waitTimeMillis) || !mGpsProviderAvailable) {
                 if (!LocationListActivity.this.isFinishing()) {
                     LocationListActivity.this.runOnUiThread(new Runnable() {
                         @Override
