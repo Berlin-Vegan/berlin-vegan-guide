@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
@@ -49,6 +51,19 @@ public class LocationDetailActivity extends BaseActivity {
         }
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // -->> Disable scrolling in the Map fragment (for allowing undisturbed interaction with the map)
+        AppBarLayout mapAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mapAppBarLayout.getLayoutParams();
+        AppBarLayout.Behavior behavior = new AppBarLayout.Behavior();
+        behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+            @Override
+            public boolean canDrag(AppBarLayout appBarLayout) {
+                return false;
+            }
+        });
+        params.setBehavior(behavior);
+        // <<-- Disable scrolling in the Map fragment
 
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linear_layout);
 
