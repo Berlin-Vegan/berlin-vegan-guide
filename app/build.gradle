@@ -19,7 +19,7 @@ android {
         applicationId "org.berlin_vegan.bvapp"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 23
+        versionCode 24
         versionName gitTag ?: gitBranch
         if (versionName) {
             buildConfigField "String", "VERSION_GIT_DESCRIPTION", "\"${versionName}-${gitDescription}\""
