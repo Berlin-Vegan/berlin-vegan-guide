@@ -1,49 +1,62 @@
 package org.berlin_vegan.bvapp.fragments;
 
-
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-
-import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.data.Location;
 
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.ResourceProxyImpl;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.DirectedLocationOverlay;
+import org.osmdroid.views.overlay.Overlay;
+
 /**
- * alternative implementation for google maps (play services), at the moment it use google static maps
- * but should use OSM Maps like mapsforge or similar
+ * Alternative implementation --- using for OpenStreetMap instead of Google Maps (play services)
  */
 public class LocationMapFragment extends Fragment {
     private Location mLocation;
 
-    public LocationMapFragment() {
+    protected MapView mMapView;
+    protected ResourceProxy mResourceProxy;
+    protected Overlay mLocationOverlay;
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // location_map_fragment.xmlml contains just an ImageView
-        return inflater.inflate(R.layout.location_map_fragment, container, false);
+        mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
+        mMapView = new MapView(inflater.getContext(), mResourceProxy);
+
+        mMapView.getController().setInvertedTiles(false);
+
+        mLocationOverlay = new DirectedLocationOverlay(getContext());
+        mMapView.getOverlays().add(mLocationOverlay);
+        mMapView.setTileSource(TileSourceFactory.MAPNIK);
+        mMapView.setMultiTouchControls(true);
+
+        return mMapView;
     }
 
     public void setLocation(Location location) {
-        this.mLocation = location;
-        final View view = getView();
-        if (view != null) {
-            ImageView imageView = (ImageView) view.findViewById(R.id.image_view);
-            StringBuilder url = new StringBuilder();
-            url.append("https://maps.googleapis.com/maps/api/staticmap?zoom=17&size=600x500&maptype=roadmap");
-            url.append("&scale=2"); // high detail
-            url.append("&markers=color:green%7Clabel:G%7C");  // %7C is |
-            url.append(mLocation.getLatCoord()).append(",").append(mLocation.getLongCoord());
-            Picasso.with(getActivity())
-                    .load(url.toString())
-                    .into(imageView);
-        }
+
+        IMapController mapController = mMapView.getController();
+        mapController.setZoom(20);
+        GeoPoint startPoint = new GeoPoint(location.getLatCoord(), location.getLongCoord());
+        mapController.setCenter(startPoint);
+        ((DirectedLocationOverlay) mLocationOverlay).setLocation(startPoint);
+
+        mLocation = location;
     }
+
 }
