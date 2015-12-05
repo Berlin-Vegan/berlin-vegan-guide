@@ -33,7 +33,7 @@ android {
         }
     }
     applicationVariants.all { variant ->
-        if (variant.buildType.name == "release") {
+        if (variant.properties.get('flavorName') == "playstore"  && variant.buildType.name == "release") {
             // TODO: find a way to bail out at the beginning of the build process
             variant.assemble.doLast {
                 if (!project.hasProperty("sharedSecret")) {
