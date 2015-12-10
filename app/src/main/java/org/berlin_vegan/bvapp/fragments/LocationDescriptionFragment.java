@@ -20,6 +20,7 @@ import org.berlin_vegan.bvapp.views.ExpandableTextView;
 public class LocationDescriptionFragment extends LocationBaseFragment {
 
     private Location mLocation;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.location_description_fragment, container, false);

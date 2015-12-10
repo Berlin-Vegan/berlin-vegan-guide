@@ -26,8 +26,7 @@
                 android:layout_height="match_parent"
                 android:clickable="true"
                 app:layout_collapseMode="parallax"
-                class="org.berlin_vegan.bvapp.fragments.LocationMapFragment" >
-            </fragment>
+                class="org.berlin_vegan.bvapp.fragments.LocationMapFragment"></fragment>
 
             <include layout="@layout/toolbar" />
 
@@ -44,10 +43,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
-            android:orientation="vertical">
-        </LinearLayout>
+            android:orientation="vertical"></LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         style="@style/FabStyle"

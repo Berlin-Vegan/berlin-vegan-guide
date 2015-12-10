@@ -78,6 +78,7 @@ public class Preferences {
         editor.putLong(Preferences.KEY_GASTRO_LAST_MODIFIED, lastModified);
         editor.apply();
     }
+
     /**
      * return last modified date of the shopping location database, in milliseconds
      *

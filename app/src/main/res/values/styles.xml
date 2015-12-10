@@ -7,6 +7,7 @@
         <item name="colorAccent">@color/theme_primary_accent</item>
         <item name="android:textColorLink">@color/theme_primary_secondary_text</item>
     </style>
+
     <style name="FabStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -18,6 +19,7 @@
         <item name="android:tint">@color/theme_primary</item>
         <item name="rippleColor">@color/theme_primary_light</item>
     </style>
+
     <style name="TransparentText" parent="@android:style/TextAppearance">
         <item name="android:textColor">@android:color/transparent</item>
         <!--

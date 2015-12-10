@@ -44,7 +44,7 @@ public class LocationDetailActivity extends BaseActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
-                mGastroLocation = (Location)extras.getSerializable(EXTRA_LOCATION);
+                mGastroLocation = (Location) extras.getSerializable(EXTRA_LOCATION);
             }
         } else {
             mGastroLocation = (Location) savedInstanceState.getSerializable(EXTRA_LOCATION);

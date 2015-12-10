@@ -40,7 +40,7 @@
                 android:visibility="invisible"
                 android:src="@mipmap/ic_100provegan_black_18dp"
                 android:tint="@color/theme_primary"
-                tools:visibility="visible"/>
+                tools:visibility="visible" />
         </LinearLayout>
 
         <TextView
@@ -69,8 +69,7 @@
             android:singleLine="true"
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="@dimen/text_size_medium"
-            tools:text="Baker Street 1"
-            />
+            tools:text="Baker Street 1" />
 
         <TextView
             android:id="@+id/text_view_distance"

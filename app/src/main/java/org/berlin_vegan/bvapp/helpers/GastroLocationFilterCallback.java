@@ -17,6 +17,7 @@ public class GastroLocationFilterCallback extends MaterialDialog.ButtonCallback 
     public GastroLocationFilterCallback(LocationListActivity locationListActivity) {
         mLocationListActivity = locationListActivity;
     }
+
     @Override
     public void onPositive(MaterialDialog dialog) {
         final GastroFilterView filterView = (GastroFilterView) dialog.getCustomView();

@@ -38,6 +38,7 @@ public class LocationHeadFragment extends LocationBaseFragment {
         }
         return view;
     }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putSerializable(LocationDetailActivity.EXTRA_LOCATION, mLocation);

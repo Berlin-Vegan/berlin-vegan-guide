@@ -64,7 +64,7 @@
     <string name="gastro_details_miscellaneous_content_vegetarian_vegan_declared">vegetarian (vegan declared)</string>
     <string name="gastro_details_miscellaneous_content_completely_vegan">100% vegan</string>
     <string name="gastro_details_editing">Suggest changes</string>
-    <string name="gastro_details_opening_hours_content_clock"/>
+    <string name="gastro_details_opening_hours_content_clock" />
     <string name="gastro_details_dial">Call</string>
     <string name="gastro_details_favorite">Favorite</string>
     <string name="gastro_details_website">Website</string>

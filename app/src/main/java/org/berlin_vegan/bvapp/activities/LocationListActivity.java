@@ -81,7 +81,7 @@ public class LocationListActivity extends BaseActivity {
     private CustomLocationListener mLocationListener;
     // the GPS/Network Location
     private android.location.Location mGpsLocationFound;
-    private boolean mGpsProviderAvailable=false;
+    private boolean mGpsProviderAvailable = false;
     private Dialog mProgressDialog;
     private SharedPreferences mSharedPreferences;
 
@@ -146,8 +146,7 @@ public class LocationListActivity extends BaseActivity {
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
-        switch (menuItem.getItemId())
-        {
+        switch (menuItem.getItemId()) {
             case R.id.nav_gastro:
                 applyShownDataType(LocationRecycleView.DATA_TYPE.GASTRO);
                 menuItem.setChecked(true);
@@ -169,8 +168,7 @@ public class LocationListActivity extends BaseActivity {
                 break;
 
             case R.id.nav_about:
-                if (mContext != null)
-                {
+                if (mContext != null) {
                     UiUtils.showMaterialAboutDialog(mContext, getResources().getString(R.string.action_about));
                 }
 

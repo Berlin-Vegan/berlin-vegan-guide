@@ -21,7 +21,8 @@
         android:gravity="center"
         android:padding="@dimen/activity_horizontal_margin"
         android:textSize="@dimen/text_size_large"
-        android:text="@string/gastro_list_empty_favorites"/>
+        android:text="@string/gastro_list_empty_favorites" />
+
     <TextView
         android:id="@+id/location_list_empty_search_textview"
         android:layout_width="match_parent"
@@ -30,5 +31,5 @@
         android:padding="@dimen/activity_horizontal_margin"
         android:gravity="center_horizontal"
         android:textSize="@dimen/text_size_large"
-        android:text="@string/gastro_list_empty_search"/>
+        android:text="@string/gastro_list_empty_search" />
 </FrameLayout>

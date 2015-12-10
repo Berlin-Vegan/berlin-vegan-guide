@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.data.Location;
-
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -27,14 +26,13 @@ import java.util.ArrayList;
  * Alternative implementation --- using for OpenStreetMap instead of Google Maps (play services)
  */
 public class LocationMapFragment extends Fragment {
-    private Location mLocation;
-
     protected MapView mMapView;
     protected ResourceProxy mResourceProxy;
+
     protected ItemizedIconOverlay mLocationOverlay;
     protected ArrayList<OverlayItem> mOverlayItemList;
     protected OverlayItem mMarkerItem;
-
+    private Location mLocation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +63,8 @@ public class LocationMapFragment extends Fragment {
         GeoPoint gPoint = new GeoPoint(location.getLatCoord(), location.getLongCoord());
         mapController.setCenter(gPoint);
 
-        mMarkerItem      = new OverlayItem(location.getName(), location.getVegan().toString(), gPoint);
-        Drawable marker  = getResources().getDrawable(R.mipmap.ic_place_white_24dp);
+        mMarkerItem = new OverlayItem(location.getName(), location.getVegan().toString(), gPoint);
+        Drawable marker = getResources().getDrawable(R.mipmap.ic_place_white_24dp);
         marker.setColorFilter(getResources().getColor(R.color.theme_primary), PorterDuff.Mode.SRC_ATOP);
         mMarkerItem.setMarker(marker);
         mLocationOverlay.addItem(mMarkerItem);

@@ -52,6 +52,7 @@ public class OpeningHoursInterval {
     public void setOpeningHours(String openingHours) {
         this.mOpeningHoursTimes = openingHours;
     }
+
     public int getNumberOfDays() {
         if (mEndDay == sNoEndDay) {
             return 1;
@@ -61,6 +62,7 @@ public class OpeningHoursInterval {
 
     /**
      * checks if the date is in open times interval
+     *
      * @param date date to check
      * @return true if it is in interval
      */

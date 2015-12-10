@@ -20,8 +20,8 @@ import static org.berlin_vegan.bvapp.helpers.DateUtil.MINUTES_PER_HOUR;
  */
 public class OpeningHours {
 
-    int startMinute=0;
-    int endMinute=0;
+    int startMinute = 0;
+    int endMinute = 0;
 
     public OpeningHours(String openingHours) {
         if (openingHours.contains("-")) {
@@ -34,7 +34,7 @@ public class OpeningHours {
                 if (startMinute != 0 && endMinute == 0) {
                     endMinute = MINUTES_PER_DAY;
                 }
-            }else if (startMinute != 0) {
+            } else if (startMinute != 0) {
                 endMinute = MINUTES_PER_DAY;
             }
         }
@@ -55,6 +55,7 @@ public class OpeningHours {
     public int getStartMinute() {
         return startMinute;
     }
+
     public int getEndMinute() {
         return endMinute;
     }

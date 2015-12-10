@@ -9,12 +9,13 @@ import java.util.List;
 
 public class DateUtil {
 
-    public static final List<String> FIXED_HOLIDAYS = Arrays.asList( "1.1", "1.5", "3.10", "25.12", "26.12");
-    public static final List<String> DYNAMIC_HOLIDAYS = Arrays.asList( "25.3.2016", "28.3.2016", "5.5.2016", "16.5.2016", "14.4.2017","17.4.2017","25.5.2017","05.6.2017");
+    public static final List<String> FIXED_HOLIDAYS = Arrays.asList("1.1", "1.5", "3.10", "25.12", "26.12");
+    public static final List<String> DYNAMIC_HOLIDAYS = Arrays.asList("25.3.2016", "28.3.2016", "5.5.2016", "16.5.2016", "14.4.2017", "17.4.2017", "25.5.2017", "05.6.2017");
     public static final int ONE_MINUTE_IN_MILLISECONDS = 60000;
     public static final int HOURS_PER_DAY = 24;
     public static final int MINUTES_PER_HOUR = 60;
     public static final int MINUTES_PER_DAY = HOURS_PER_DAY * MINUTES_PER_HOUR;
+
     /**
      * return the current day of week, starting with monday
      */
@@ -33,7 +34,7 @@ public class DateUtil {
         final Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(date);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
-        final int month = calendar.get(Calendar.MONTH) +1;
+        final int month = calendar.get(Calendar.MONTH) + 1;
         final int year = calendar.get(Calendar.YEAR);
 
         String dateStr = String.valueOf(day) + "." + String.valueOf(month);
@@ -44,7 +45,8 @@ public class DateUtil {
     public static int inMinutes(int hours, int minutes) {
         return (hours * 60) + minutes;
     }
-    public static Date addMinutesToDate(Date date,int minutes){
+
+    public static Date addMinutesToDate(Date date, int minutes) {
         final long currentTime = date.getTime();
         return new Date(currentTime + (minutes * ONE_MINUTE_IN_MILLISECONDS));
     }
@@ -54,7 +56,6 @@ public class DateUtil {
      * some example
      * minutes = 120 -> 2:00
      * minutes = 570 -> 9:30
-     *
      */
     static public String formatTimeFromMinutes(int minutes) {
         if (minutes == 0) {

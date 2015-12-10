@@ -57,12 +57,12 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
             viewHolder.vClosed.setText(mLocationListActivity.getString(R.string.gastro_list_closed));
             viewHolder.vClosed.setTextColor(mLocationListActivity.getResources().getColor(R.color.disabled));
             viewHolder.vDistance.setTextColor(mLocationListActivity.getResources().getColor(R.color.disabled));
-        }else if (!location.isOpen(currentTimePlus30Minutes)) {
+        } else if (!location.isOpen(currentTimePlus30Minutes)) {
             final String formattedClosingTime = location.getFormattedClosingTime(currentTime);
             viewHolder.vClosed.setText(mLocationListActivity.getString(R.string.gastro_list_closed_soon, formattedClosingTime));
             viewHolder.vClosed.setTextColor(mLocationListActivity.getResources().getColor(R.color.text_attention));
             viewHolder.vDistance.setTextColor(mLocationListActivity.getResources().getColor(R.color.theme_primary));
-        }else {
+        } else {
             viewHolder.vClosed.setText(""); // clear
             viewHolder.vDistance.setTextColor(mLocationListActivity.getResources().getColor(R.color.theme_primary));
         }

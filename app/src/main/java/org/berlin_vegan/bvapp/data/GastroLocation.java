@@ -11,7 +11,7 @@ import java.util.List;
  * a {@link java.util.Comparator} for this member to sort the {@link android.support.v7.widget.RecyclerView} in
  * {@link LocationDetailActivity}.
  */
-public class GastroLocation extends Location implements  Serializable {
+public class GastroLocation extends Location implements Serializable {
     final public static String TYPE_RESTAURANT = "Restaurant";
     public static final String TYPE_FAST_FOOD = "Imbiss";
     public static final String TYPE_ICE_CAFE = "Eiscafe";
