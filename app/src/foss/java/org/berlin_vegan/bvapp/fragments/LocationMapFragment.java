@@ -1,11 +1,14 @@
 package org.berlin_vegan.bvapp.fragments;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.data.Location;
 
 import org.osmdroid.ResourceProxy;
@@ -14,8 +17,11 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.ResourceProxyImpl;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.DirectedLocationOverlay;
-import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
+
+import java.util.ArrayList;
+
 
 /**
  * Alternative implementation --- using for OpenStreetMap instead of Google Maps (play services)
@@ -25,7 +31,9 @@ public class LocationMapFragment extends Fragment {
 
     protected MapView mMapView;
     protected ResourceProxy mResourceProxy;
-    protected Overlay mLocationOverlay;
+    protected ItemizedIconOverlay mLocationOverlay;
+    protected ArrayList<OverlayItem> mOverlayItemList;
+    protected OverlayItem mMarkerItem;
 
 
     @Override
@@ -40,10 +48,12 @@ public class LocationMapFragment extends Fragment {
 
         mMapView.getController().setInvertedTiles(false);
 
-        mLocationOverlay = new DirectedLocationOverlay(getContext());
-        mMapView.getOverlays().add(mLocationOverlay);
         mMapView.setTileSource(TileSourceFactory.MAPNIK);
         mMapView.setMultiTouchControls(true);
+
+        mOverlayItemList = new ArrayList<OverlayItem>();
+        mLocationOverlay = new ItemizedIconOverlay(getContext(), mOverlayItemList, null);
+        mMapView.getOverlays().add(mLocationOverlay);
 
         return mMapView;
     }
@@ -51,10 +61,15 @@ public class LocationMapFragment extends Fragment {
     public void setLocation(Location location) {
 
         IMapController mapController = mMapView.getController();
-        mapController.setZoom(20);
-        GeoPoint startPoint = new GeoPoint(location.getLatCoord(), location.getLongCoord());
-        mapController.setCenter(startPoint);
-        ((DirectedLocationOverlay) mLocationOverlay).setLocation(startPoint);
+        mapController.setZoom(15);
+        GeoPoint gPoint = new GeoPoint(location.getLatCoord(), location.getLongCoord());
+        mapController.setCenter(gPoint);
+
+        mMarkerItem      = new OverlayItem(location.getName(), location.getVegan().toString(), gPoint);
+        Drawable marker  = getResources().getDrawable(R.mipmap.ic_place_white_24dp);
+        marker.setColorFilter(getResources().getColor(R.color.theme_primary), PorterDuff.Mode.SRC_ATOP);
+        mMarkerItem.setMarker(marker);
+        mLocationOverlay.addItem(mMarkerItem);
 
         mLocation = location;
     }
