@@ -26,9 +26,13 @@ git merge --ff-only origin/development
 ```
 TAG=0.1 && git tag -a ${TAG} -m ${TAG}
 ```
-* build the release:
+* either build the playstore release:
 ```
 ./gradlew assemblePlaystoreRelease -PsharedSecret=<acra_shared_secret>
+```
+* or build the foss release (we do not support acra in foss builds):
+```
+./gradlew assembleFossRelease
 ```
 * sign the release, e.g.
 ```
