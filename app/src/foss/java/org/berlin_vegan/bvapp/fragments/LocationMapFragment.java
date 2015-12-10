@@ -61,7 +61,7 @@ public class LocationMapFragment extends Fragment {
     public void setLocation(Location location) {
 
         IMapController mapController = mMapView.getController();
-        mapController.setZoom(20);
+        mapController.setZoom(15);
         GeoPoint gPoint = new GeoPoint(location.getLatCoord(), location.getLongCoord());
         mapController.setCenter(gPoint);
 
