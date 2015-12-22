@@ -48,6 +48,7 @@ public class LocationMapFragment extends Fragment {
 
         mMapView.setTileSource(TileSourceFactory.MAPNIK);
         mMapView.setMultiTouchControls(true);
+        mMapView.setTilesScaledToDpi(true);
 
         mOverlayItemList = new ArrayList<OverlayItem>();
         mLocationOverlay = new ItemizedIconOverlay(getContext(), mOverlayItemList, null);
