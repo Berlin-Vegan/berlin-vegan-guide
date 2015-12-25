@@ -2,7 +2,7 @@
     <string name="app_name">Berlin-Vegan</string>
     <string name="action_gastro">Gastronomie</string>
     <string name="action_shopping">Einkaufen</string>
-    <string name="actions_favorite">Favoriten</string>
+    <string name="action_favorites">Favoriten</string>
     <string name="action_settings">Einstellungen</string>
     <string name="action_about">Über</string>
     <string name="action_filter">Filter</string>
