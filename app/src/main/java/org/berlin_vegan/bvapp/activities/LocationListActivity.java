@@ -123,6 +123,7 @@ public class LocationListActivity extends BaseActivity {
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         //find our drawer view
         NavigationView nvDrawer = (NavigationView) findViewById(R.id.nvView);
+        nvDrawer.getMenu().getItem(0).setChecked(true);
         setupDrawerContent(nvDrawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.gastro_details_miscellaneous_content_catering, R.string.gastro_details_miscellaneous_content_catering);
