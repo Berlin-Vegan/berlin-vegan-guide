@@ -95,6 +95,16 @@ public class UiUtils {
         }, 0, licensesLink.length(), 0);
         aboutBody.append("\n\n");
         aboutBody.append(licensesLink);
+
+        SpannableString creditsLink = new SpannableString(context.getString(R.string.about_credits));
+        creditsLink.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                showCredits((Activity) context);
+            }
+        }, 0, creditsLink.length(), 0);
+        aboutBody.append("\n\n");
+        aboutBody.append(creditsLink);
         return aboutBody;
     }
 
@@ -107,6 +117,17 @@ public class UiUtils {
         }
         fragmentTransaction.addToBackStack(null);
         new OpenSourceLicensesDialog().show(fragmentTransaction, "dialog_licenses");
+    }
+
+    private static void showCredits(Activity activity) {
+        FragmentManager fragmentManager = activity.getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment prev = fragmentManager.findFragmentByTag("about_credits");
+        if (prev != null) {
+            fragmentTransaction.remove(prev);
+        }
+        fragmentTransaction.addToBackStack(null);
+        new CreditsDialog().show(fragmentTransaction, "about_credits");
     }
 
     public static MaterialDialog showMaterialAboutDialog(Context context, String title) {
@@ -142,6 +163,29 @@ public class UiUtils {
             webView.loadUrl("file:///android_asset/licenses.html");
             return new AlertDialogWrapper.Builder(getActivity())
                     .setTitle(R.string.about_licenses)
+                    .setView(webView)
+                    .setPositiveButton(android.R.string.ok,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.dismiss();
+                                }
+                            }
+                    )
+                    .create();
+        }
+    }
+
+    public static class CreditsDialog extends DialogFragment {
+
+        public CreditsDialog() {
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            WebView webView = new WebView(getActivity());
+            webView.loadUrl("file:///android_asset/credits.html");
+            return new AlertDialogWrapper.Builder(getActivity())
+                    .setTitle(R.string.about_credits)
                     .setView(webView)
                     .setPositiveButton(android.R.string.ok,
                             new DialogInterface.OnClickListener() {

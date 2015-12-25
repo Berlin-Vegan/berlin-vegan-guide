@@ -25,6 +25,7 @@
     <string name="about_version">&lt;b>%1$s&lt;/b>&lt;br>Version: %2$s</string>
     <string name="about_flavor">Flavor:  %1$s</string>
     <string name="about_licenses">Open Source Licenses</string>
+    <string name="about_credits">Credits</string>
 
     <string name="gastro_list_closed">closed at the moment</string>
     <string name="gastro_list_closed_soon">closes by\n%1$s clock!</string>
