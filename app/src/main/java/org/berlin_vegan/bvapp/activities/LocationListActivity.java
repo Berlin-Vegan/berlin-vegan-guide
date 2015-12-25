@@ -71,7 +71,6 @@ public class LocationListActivity extends BaseActivity {
     private static final String HTTP_GASTRO_LOCATIONS_JSON = JSON_BASE_URL + GASTRO_LOCATIONS_JSON;
     private static final String HTTP_SHOPPING_LOCATIONS_JSON = JSON_BASE_URL + SHOPPING_LOCATIONS_JSON;
     private ActionBarDrawerToggle drawerToggle;
-    private Toolbar mToolbar;
 
     private Context mContext;
     private LocationRecycleView mRecyclerView;
@@ -89,7 +88,6 @@ public class LocationListActivity extends BaseActivity {
     private final GastroLocationFilterCallback mButtonCallback = new GastroLocationFilterCallback(this);
     //NavDrawer
     private DrawerLayout mDrawer;
-    private NavigationView nvDrawer;
 
     // --------------------------------------------------------------------
     // life cycle
@@ -124,10 +122,10 @@ public class LocationListActivity extends BaseActivity {
         //NavDrawer
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         //find our drawer view
-        nvDrawer = (NavigationView) findViewById(R.id.nvView);
+        NavigationView nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.gastro_details_miscellaneous_content_catering, R.string.gastro_details_miscellaneous_content_catering);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.gastro_details_miscellaneous_content_catering, R.string.gastro_details_miscellaneous_content_catering);
         mDrawer.setDrawerListener(drawerToggle);
     }
 
