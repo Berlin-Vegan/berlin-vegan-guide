@@ -83,8 +83,6 @@ public class LocationListActivity extends BaseActivity {
     private android.location.Location mGpsLocationFound;
     private boolean mGpsProviderAvailable = false;
     private Dialog mProgressDialog;
-    private SharedPreferences mSharedPreferences;
-
 
     private Locations mLocations;
 
@@ -103,7 +101,6 @@ public class LocationListActivity extends BaseActivity {
         setTitle(getString(R.string.app_name));
 
         mContext = this;
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.location_list_activity_swipe_refresh_layout);
         if (mSwipeRefreshLayout != null) {
