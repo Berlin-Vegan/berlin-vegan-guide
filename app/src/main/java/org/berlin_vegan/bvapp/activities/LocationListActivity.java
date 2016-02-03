@@ -83,7 +83,8 @@ public class LocationListActivity extends BaseActivity {
     private boolean mGpsProviderAvailable = false;
     private Dialog mProgressDialog;
 
-    private Locations mLocations;
+    // HACK: static
+    private static Locations mLocations;
 
     private final GastroLocationFilterCallback mButtonCallback = new GastroLocationFilterCallback(this);
     //NavDrawer
@@ -407,7 +408,8 @@ public class LocationListActivity extends BaseActivity {
         });
     }
 
-    public Locations getLocations() {
+    // HACK: static
+    public static Locations getLocations() {
         return mLocations;
     }
 
