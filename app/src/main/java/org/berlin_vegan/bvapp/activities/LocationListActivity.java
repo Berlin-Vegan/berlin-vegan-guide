@@ -165,6 +165,11 @@ public class LocationListActivity extends BaseActivity {
                 startActivity(settings);
                 break;
 
+            case R.id.nav_mapview:
+                final Intent mapview = new Intent(this, LocationMapActivity.class);
+                startActivity(mapview);
+                break;
+
             case R.id.nav_about:
                 if (mContext != null) {
                     UiUtils.showMaterialAboutDialog(mContext, getResources().getString(R.string.action_about));
