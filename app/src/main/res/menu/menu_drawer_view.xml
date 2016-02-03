@@ -28,6 +28,11 @@
             android:id="@+id/nav_about"
             android:icon="@mipmap/ic_info_white_24dp"
             android:title="@string/action_about" />
+        <item
+            android:id="@+id/nav_mapview"
+            android:icon="@mipmap/ic_public_white_24dp"
+            android:title="@string/action_mapview" />
+
     </group>
 
 </menu>
