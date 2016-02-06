@@ -7,6 +7,7 @@
     <string name="action_about">Über</string>
     <string name="action_filter">Filter</string>
     <string name="action_menu_search">Suche</string>
+    <string name="action_rate_app">App bewerten</string>
 
     <string name="km_string">km</string>
     <string name="mi_string">mi</string>

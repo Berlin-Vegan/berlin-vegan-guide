@@ -3,13 +3,11 @@ package org.berlin_vegan.bvapp.activities;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.location.Criteria;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.MenuItemCompat;
@@ -158,6 +156,10 @@ public class LocationListActivity extends BaseActivity {
                 menuItem.setChecked(true);
                 break;
 
+            case R.id.nav_rate:
+                //set this to false in foss FDroid
+                UiUtils.rateApp(this,true);
+                break;
             case R.id.nav_pref:
                 final Intent settings = new Intent(this, SettingsActivity.class);
                 startActivity(settings);

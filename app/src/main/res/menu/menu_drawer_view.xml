@@ -21,6 +21,10 @@
         android:id="@+id/menu_bottom"
         android:checkableBehavior="none">
         <item
+            android:id="@+id/nav_rate"
+            android:icon="@mipmap/ic_heart_grey_24dp"
+            android:title="@string/action_rate_app" />
+        <item
             android:id="@+id/nav_pref"
             android:icon="@mipmap/ic_settings_white_24dp"
             android:title="@string/action_settings" />
