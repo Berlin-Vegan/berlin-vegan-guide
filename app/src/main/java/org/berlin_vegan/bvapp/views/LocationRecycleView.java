@@ -7,14 +7,19 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
+import org.berlin_vegan.bvapp.data.Locations;
+
 public class LocationRecycleView extends RecyclerView {
 
-    public enum DATA_TYPE {GASTRO, SHOPPING, FAVORITE;}
 
-    private DATA_TYPE mDataType = DATA_TYPE.GASTRO;
     private View mEmptySearch;
     private View mEmptyFavorite;
-    private boolean mSearchState = false;
+
+    private Locations mLocations;
+
+    public void setLocations(Locations locations) {
+        mLocations = locations;
+    }
 
 
     final AdapterDataObserver observer = new AdapterDataObserver() {
@@ -38,13 +43,7 @@ public class LocationRecycleView extends RecyclerView {
     };
 
 
-    public DATA_TYPE getDataType() {
-        return mDataType;
-    }
 
-    public void setDataType(DATA_TYPE type) {
-        mDataType = type;
-    }
 
     public LocationRecycleView(Context context) {
         super(context);
@@ -65,9 +64,9 @@ public class LocationRecycleView extends RecyclerView {
         mEmptyFavorite.setVisibility(GONE);
 
         if (empty) {
-            if (mDataType == DATA_TYPE.FAVORITE) {
+            if (mLocations.getDataType() == Locations.DATA_TYPE.FAVORITE) {
                 mEmptyFavorite.setVisibility(VISIBLE);
-            } else if (mSearchState) {
+            } else if (mLocations.getSearchState()) {
                 mEmptySearch.setVisibility(VISIBLE);
             }
         } else {
@@ -92,8 +91,6 @@ public class LocationRecycleView extends RecyclerView {
         this.mEmptySearch = emptySearch;
     }
 
-    public void setSearchState(boolean enabled) {
-        mSearchState = enabled;
-    }
+
 
 }

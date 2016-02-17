@@ -16,6 +16,27 @@ import java.util.Set;
  */
 public class Locations {
 
+    public enum DATA_TYPE {GASTRO, SHOPPING, FAVORITE;}
+
+    private DATA_TYPE mDataType = DATA_TYPE.GASTRO;
+
+    public DATA_TYPE getDataType() {
+        return mDataType;
+    }
+
+    public void setDataType(DATA_TYPE type) {
+        mDataType = type;
+    }
+
+    private boolean mSearchState = false;
+
+    public void setSearchState(boolean enabled) {
+        mSearchState = enabled;
+    }
+    public boolean getSearchState() {
+        return mSearchState;
+    }
+
     //needed for UI thread updateLocationAdapter
     private final LocationListActivity mLocationListActivity;
 

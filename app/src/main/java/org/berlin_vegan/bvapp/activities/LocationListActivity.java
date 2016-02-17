@@ -114,7 +114,7 @@ public class LocationListActivity extends BaseActivity {
 
         mRecyclerView = (LocationRecycleView) findViewById(R.id.location_list_recycler_view);
         if (mRecyclerView != null) {
-            setupRecyclerView();
+            setupRecyclerView(mLocations);
         }
 
         //NavDrawer
@@ -142,17 +142,17 @@ public class LocationListActivity extends BaseActivity {
     public void selectDrawerItem(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_gastro:
-                applyShownDataType(LocationRecycleView.DATA_TYPE.GASTRO);
+                applyShownDataType(Locations.DATA_TYPE.GASTRO);
                 menuItem.setChecked(true);
                 break;
 
             case R.id.nav_shopping:
-                applyShownDataType(LocationRecycleView.DATA_TYPE.SHOPPING);
+                applyShownDataType(Locations.DATA_TYPE.SHOPPING);
                 menuItem.setChecked(true);
                 break;
 
             case R.id.nav_fav:
-                applyShownDataType(LocationRecycleView.DATA_TYPE.FAVORITE);
+                applyShownDataType(Locations.DATA_TYPE.FAVORITE);
                 menuItem.setChecked(true);
                 break;
 
@@ -180,7 +180,7 @@ public class LocationListActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         requestGpsLocationUpdates();
-        if (mRecyclerView.getDataType() == LocationRecycleView.DATA_TYPE.FAVORITE) {
+        if (mLocations.getDataType() == Locations.DATA_TYPE.FAVORITE) {
             // update the list, because the user may have added or removed a favorite in {@code GastroActivity}
             mLocations.showFavorites();
         }
@@ -210,14 +210,14 @@ public class LocationListActivity extends BaseActivity {
 
         inflater.inflate(R.menu.menu_location_list_activity, menu);
         MenuItem menuItem = menu.findItem(R.id.menu_search);
-        if (mRecyclerView.getDataType() == LocationRecycleView.DATA_TYPE.GASTRO || mRecyclerView.getDataType() == LocationRecycleView.DATA_TYPE.SHOPPING) {
+        if (mLocations.getDataType() == Locations.DATA_TYPE.GASTRO || mLocations.getDataType() == Locations.DATA_TYPE.SHOPPING) {
             initializeSearch(menuItem);
         } else {
             menuItem.setVisible(false); // hide for favorite
         }
 
         menuItem = menu.findItem(R.id.action_filter);
-        if (mRecyclerView.getDataType() == LocationRecycleView.DATA_TYPE.FAVORITE || mRecyclerView.getDataType() == LocationRecycleView.DATA_TYPE.SHOPPING) { // at the moment no filter for shopping and favorite
+        if (mLocations.getDataType() == Locations.DATA_TYPE.FAVORITE || mLocations.getDataType() == Locations.DATA_TYPE.SHOPPING) { // at the moment no filter for shopping and favorite
             menuItem.setVisible(false);
         }
         return true;
@@ -244,14 +244,14 @@ public class LocationListActivity extends BaseActivity {
         MenuItemCompat.setOnActionExpandListener(searchViewItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem menuItem) {
-                mRecyclerView.setSearchState(true);
+                mLocations.setSearchState(true);
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
-                mRecyclerView.setSearchState(false);
                 if (mLocations != null) {
+                    mLocations.setSearchState(false);
                     mLocations.resetQueryFilter();
                 }
                 return true;
@@ -291,11 +291,11 @@ public class LocationListActivity extends BaseActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private void applyShownDataType(LocationRecycleView.DATA_TYPE dataType) {
-        mRecyclerView.setDataType(dataType);
-        if (dataType == LocationRecycleView.DATA_TYPE.FAVORITE) {
+    private void applyShownDataType(Locations.DATA_TYPE dataType) {
+        mLocations.setDataType(dataType);
+        if (dataType == Locations.DATA_TYPE.FAVORITE) {
             mLocations.showFavorites();
-        } else if (dataType == LocationRecycleView.DATA_TYPE.SHOPPING) {
+        } else if (dataType == Locations.DATA_TYPE.SHOPPING) {
             mLocations.showShoppingLocations();
         } else {
             mLocations.showGastroLocations();
@@ -307,7 +307,8 @@ public class LocationListActivity extends BaseActivity {
     // --------------------------------------------------------------------
     // setups
 
-    private void setupRecyclerView() {
+    private void setupRecyclerView(Locations locations) {
+        mRecyclerView.setLocations(locations);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setHasFixedSize(true);
@@ -450,7 +451,7 @@ public class LocationListActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(Void param) {
-            applyShownDataType(LocationRecycleView.DATA_TYPE.GASTRO); // todo, gastro is default ?
+            applyShownDataType(Locations.DATA_TYPE.GASTRO); // todo, gastro is default ?
             mLocations.updateLocationAdapter();
         }
 
