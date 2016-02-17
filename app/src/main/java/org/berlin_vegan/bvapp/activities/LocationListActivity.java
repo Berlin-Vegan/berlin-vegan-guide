@@ -114,7 +114,7 @@ public class LocationListActivity extends BaseActivity {
 
         mRecyclerView = (LocationRecycleView) findViewById(R.id.location_list_recycler_view);
         if (mRecyclerView != null) {
-            setupRecyclerView(mLocations);
+            setupRecyclerView(mRecyclerView, mSwipeRefreshLayout, mLocations);
         }
 
         //NavDrawer
@@ -307,23 +307,23 @@ public class LocationListActivity extends BaseActivity {
     // --------------------------------------------------------------------
     // setups
 
-    private void setupRecyclerView(Locations locations) {
-        mRecyclerView.setLocations(locations);
+    private void setupRecyclerView(LocationRecycleView recyclerView, final SwipeRefreshLayout swipeRefreshLayout, Locations locations) {
+        recyclerView.setLocations(locations);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
         RecyclerView.ItemDecoration itemDecoration =
                 new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
-        mRecyclerView.addItemDecoration(itemDecoration);
-        mRecyclerView.setAdapter(mLocationAdapter);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.addItemDecoration(itemDecoration);
+        recyclerView.setAdapter(mLocationAdapter);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                mSwipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
+                swipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
             }
         });
-        mRecyclerView.setEmptyViews(findViewById(R.id.location_list_empty_favorites_textview), findViewById(R.id.location_list_empty_search_textview));
+        recyclerView.setEmptyViews(findViewById(R.id.location_list_empty_favorites_textview), findViewById(R.id.location_list_empty_search_textview));
         // TODO: fast scroll
     }
 
