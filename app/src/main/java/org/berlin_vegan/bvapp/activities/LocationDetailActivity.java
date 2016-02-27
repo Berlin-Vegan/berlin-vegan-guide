@@ -18,10 +18,10 @@ import android.widget.LinearLayout;
 
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.data.Location;
-import org.berlin_vegan.bvapp.fragments.LocationActionsFragment;
-import org.berlin_vegan.bvapp.fragments.LocationDescriptionFragment;
-import org.berlin_vegan.bvapp.fragments.LocationDetailsFragment;
-import org.berlin_vegan.bvapp.fragments.LocationHeadFragment;
+import org.berlin_vegan.bvapp.fragments.LocationDetails.LocationActionsFragment;
+import org.berlin_vegan.bvapp.fragments.LocationDetails.LocationDescriptionFragment;
+import org.berlin_vegan.bvapp.fragments.LocationDetails.LocationDetailsFragment;
+import org.berlin_vegan.bvapp.fragments.LocationDetails.LocationHeadFragment;
 import org.berlin_vegan.bvapp.fragments.LocationMapFragment;
 import org.berlin_vegan.bvapp.helpers.DividerFragment;
 import org.berlin_vegan.bvapp.helpers.UiUtils;

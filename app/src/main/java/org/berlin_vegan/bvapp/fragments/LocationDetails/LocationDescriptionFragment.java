@@ -1,4 +1,4 @@
-package org.berlin_vegan.bvapp.fragments;
+package org.berlin_vegan.bvapp.fragments.LocationDetails;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
