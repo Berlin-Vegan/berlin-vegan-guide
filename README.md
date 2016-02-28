@@ -28,9 +28,9 @@ TAG=0.1 && git tag -a ${TAG} -m ${TAG}
 ```
 * either build the playstore release:
 ```
-./gradlew assemblePlaystoreRelease -PsharedSecret=<acra_shared_secret>
+./gradlew assemblePlaystoreRelease
 ```
-* or build the foss release (we do not support acra in foss builds):
+* or build the foss release:
 ```
 ./gradlew assembleFossRelease
 ```
