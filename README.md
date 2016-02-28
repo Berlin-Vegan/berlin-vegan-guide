@@ -40,11 +40,11 @@ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.
 ```
 * give the app a better name, e.g.
 ```
-mv ./app/build/outputs/apk/app-playstore-release-unsigned.apk ./app/build/outputs/apk/org.berlin_vegan.app_alpha.apk
+mv ./app/build/outputs/apk/app-playstore-release-unsigned.apk ./app/build/outputs/apk/org.berlin_vegan.app.apk
 ```
 * install the release:
 ```
-adb install -r ./app/build/outputs/apk/org.berlin_vegan.app_alpha.apk
+adb install -r ./app/build/outputs/apk/org.berlin_vegan.app.apk
 ```
 * check is everything is fine and especially check the version string under 'About'
 * if everything is fine, push to upstream:
