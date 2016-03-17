@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Criteria;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,6 +24,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,6 +37,8 @@ import org.berlin_vegan.bvapp.data.Location;
 import org.berlin_vegan.bvapp.data.Locations;
 import org.berlin_vegan.bvapp.data.Preferences;
 import org.berlin_vegan.bvapp.data.ShoppingLocation;
+import org.berlin_vegan.bvapp.fragments.LocationDetails.LocationHeadFragment;
+import org.berlin_vegan.bvapp.fragments.LocationsOverview.LocationListFragment;
 import org.berlin_vegan.bvapp.helpers.DividerItemDecoration;
 import org.berlin_vegan.bvapp.helpers.GastroLocationFilterCallback;
 import org.berlin_vegan.bvapp.helpers.UiUtils;
@@ -71,9 +75,7 @@ public class LocationListActivity extends BaseActivity {
     private ActionBarDrawerToggle drawerToggle;
 
     private Context mContext;
-    private LocationRecycleView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private LocationAdapter mLocationAdapter;
     private LocationManager mLocationManager;
     private CustomLocationListener mLocationListener;
     // the GPS/Network Location
@@ -81,13 +83,14 @@ public class LocationListActivity extends BaseActivity {
     private boolean mGpsProviderAvailable = false;
     private Dialog mProgressDialog;
 
+    private LocationAdapter mLocationAdapter;
+
     // HACK: static
     private static Locations mLocations;
 
     private final GastroLocationFilterCallback mButtonCallback = new GastroLocationFilterCallback(this);
     //NavDrawer
     private DrawerLayout mDrawer;
-
     // --------------------------------------------------------------------
     // life cycle
 
@@ -105,18 +108,17 @@ public class LocationListActivity extends BaseActivity {
         }
 
 
+
+
         // start a thread to retrieve the json from the server and to wait for the geo location
         RetrieveLocations retrieveLocations = new RetrieveLocations(this);
         retrieveLocations.execute();
+
 
         mLocationAdapter = new LocationAdapter(this);
         mLocations = new Locations(this);
         mLocationListener = new CustomLocationListener(this, mLocations);
 
-        mRecyclerView = (LocationRecycleView) findViewById(R.id.location_list_recycler_view);
-        if (mRecyclerView != null) {
-            setupRecyclerView(mRecyclerView, mSwipeRefreshLayout, mLocations);
-        }
 
         //NavDrawer
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -127,6 +129,9 @@ public class LocationListActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.gastro_details_miscellaneous_content_catering, R.string.gastro_details_miscellaneous_content_catering);
         mDrawer.setDrawerListener(drawerToggle);
+
+        final LocationListFragment gastroHeadFragment = new LocationListFragment();
+        getSupportFragmentManager().beginTransaction().add(mSwipeRefreshLayout.getId(), gastroHeadFragment).commit();
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -159,7 +164,7 @@ public class LocationListActivity extends BaseActivity {
 
             case R.id.nav_rate:
                 //set this to false in foss FDroid
-                UiUtils.rateApp(this,true);
+                UiUtils.rateApp(this, true);
                 break;
             case R.id.nav_pref:
                 final Intent settings = new Intent(this, SettingsActivity.class);
@@ -306,32 +311,13 @@ public class LocationListActivity extends BaseActivity {
         } else {
             mLocations.showGastroLocations();
         }
-        mRecyclerView.scrollToPosition(0);
+        // mRecyclerView.scrollToPosition(0);
         invalidateOptionsMenu();
     }
 
     // --------------------------------------------------------------------
     // setups
 
-    private void setupRecyclerView(LocationRecycleView recyclerView, final SwipeRefreshLayout swipeRefreshLayout, Locations locations) {
-        recyclerView.setLocations(locations);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.ItemDecoration itemDecoration =
-                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
-        recyclerView.addItemDecoration(itemDecoration);
-        recyclerView.setAdapter(mLocationAdapter);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                swipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
-            }
-        });
-        recyclerView.setEmptyViews(findViewById(R.id.location_list_empty_favorites_textview), findViewById(R.id.location_list_empty_search_textview));
-        // TODO: fast scroll
-    }
 
     private void setupSwipeRefresh() {
         mSwipeRefreshLayout.setColorSchemeResources(
@@ -416,7 +402,12 @@ public class LocationListActivity extends BaseActivity {
         return mLocations;
     }
 
-    public LocationAdapter getLocationAdapter() {
+    public SwipeRefreshLayout getSwipeRefreshLayout() {
+        return mSwipeRefreshLayout;
+    }
+
+    public LocationAdapter getLocationAdapter()
+    {
         return mLocationAdapter;
     }
 
@@ -428,7 +419,6 @@ public class LocationListActivity extends BaseActivity {
         final InputStreamReader reader = new InputStreamReader(inputStream, Charset.defaultCharset());
         return new Gson().fromJson(reader, type);
     }
-
 
     private class RetrieveLocations extends AsyncTask<Void, Void, Void> {
         public static final int TIMEOUT_MILLIS = 5 * 1000;

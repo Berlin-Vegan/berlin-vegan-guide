@@ -60,14 +60,18 @@ public class LocationRecycleView extends RecyclerView {
     void checkIfEmpty() {
         final boolean empty = getAdapter().getItemCount() == 0;
         setVisibility(GONE);
-        mEmptySearch.setVisibility(GONE);
-        mEmptyFavorite.setVisibility(GONE);
+        if (mEmptySearch != null)
+        { mEmptySearch.setVisibility(GONE); }
+        if (mEmptyFavorite != null)
+        { mEmptyFavorite.setVisibility(GONE); }
 
         if (empty) {
             if (mLocations.getDataType() == Locations.DATA_TYPE.FAVORITE) {
-                mEmptyFavorite.setVisibility(VISIBLE);
+                if (mEmptyFavorite != null)
+                { mEmptyFavorite.setVisibility(VISIBLE); }
             } else if (mLocations.getSearchState()) {
-                mEmptySearch.setVisibility(VISIBLE);
+                if (mEmptySearch != null)
+                { mEmptySearch.setVisibility(VISIBLE); }
             }
         } else {
             setVisibility(VISIBLE);

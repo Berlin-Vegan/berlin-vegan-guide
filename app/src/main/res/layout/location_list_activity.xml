@@ -24,7 +24,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/toolbar">
 
-                <include layout="@layout/location_list_recycler_view" />
+
+
 
             </android.support.v4.widget.SwipeRefreshLayout>
         </RelativeLayout>

@@ -196,7 +196,7 @@ public class Locations {
         mLocationListActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mLocationListActivity.getLocationAdapter().notifyDataSetChanged();
+             mLocationListActivity.getLocationAdapter().notifyDataSetChanged();
             }
         });
     }
