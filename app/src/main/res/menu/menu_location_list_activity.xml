@@ -9,7 +9,11 @@
         android:orderInCategory="100"
         android:title="@string/action_filter"
         app:showAsAction="always" />
-
+    <item
+        android:id="@+id/menu_mapview"
+        android:icon="@mipmap/ic_public_white_24dp"
+        android:title="@string/action_mapview"
+        app:showAsAction="always" />
     <item
         android:id="@+id/menu_search"
         android:icon="@mipmap/ic_search_white_24dp"
