@@ -1,12 +1,12 @@
 package org.berlin_vegan.bvapp.activities;
 
 import android.app.Dialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Criteria;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,8 +15,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -24,7 +22,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -37,14 +34,12 @@ import org.berlin_vegan.bvapp.data.Location;
 import org.berlin_vegan.bvapp.data.Locations;
 import org.berlin_vegan.bvapp.data.Preferences;
 import org.berlin_vegan.bvapp.data.ShoppingLocation;
-import org.berlin_vegan.bvapp.fragments.LocationDetails.LocationHeadFragment;
 import org.berlin_vegan.bvapp.fragments.LocationsOverview.LocationListFragment;
-import org.berlin_vegan.bvapp.helpers.DividerItemDecoration;
+import org.berlin_vegan.bvapp.fragments.LocationsOverview.LocationMapOverviewFragment;
 import org.berlin_vegan.bvapp.helpers.GastroLocationFilterCallback;
 import org.berlin_vegan.bvapp.helpers.UiUtils;
 import org.berlin_vegan.bvapp.listeners.CustomLocationListener;
 import org.berlin_vegan.bvapp.views.GastroFilterView;
-import org.berlin_vegan.bvapp.views.LocationRecycleView;
 
 import java.io.Closeable;
 import java.io.FileInputStream;
@@ -84,6 +79,10 @@ public class LocationListActivity extends BaseActivity {
     private Dialog mProgressDialog;
 
     private LocationAdapter mLocationAdapter;
+
+
+    private LocationListFragment mLocationListFragment;
+    private LocationMapOverviewFragment mLocationMapOverviewFragment;
 
     // HACK: static
     private static Locations mLocations;
@@ -130,8 +129,10 @@ public class LocationListActivity extends BaseActivity {
         drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.gastro_details_miscellaneous_content_catering, R.string.gastro_details_miscellaneous_content_catering);
         mDrawer.setDrawerListener(drawerToggle);
 
-        final LocationListFragment gastroHeadFragment = new LocationListFragment();
-        getSupportFragmentManager().beginTransaction().add(mSwipeRefreshLayout.getId(), gastroHeadFragment).commit();
+        mLocationListFragment = new LocationListFragment();
+        mLocationMapOverviewFragment = new LocationMapOverviewFragment();
+
+        getSupportFragmentManager().beginTransaction().add(mSwipeRefreshLayout.getId(), mLocationListFragment).commit();
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -280,8 +281,9 @@ public class LocationListActivity extends BaseActivity {
                         mButtonCallback);
                 break;
             case R.id.menu_mapview:
-                final Intent mapview = new Intent(this, LocationMapActivity.class);
-                startActivity(mapview);
+                getSupportFragmentManager().beginTransaction().replace(mSwipeRefreshLayout.getId(),mLocationMapOverviewFragment).commit();
+                mSwipeRefreshLayout.clearAnimation();
+
                 break;
             default:
                 break;

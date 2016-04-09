@@ -33,13 +33,13 @@
                 android:value="org.berlin_vegan.bvapp.activities.LocationListActivity" />
         </activity>
         <activity
-            android:name=".activities.LocationMapActivity"
+            android:name=".fragments.LocationsOverview.LocationMapActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/action_mapview">
             <!-- Parent activity meta-data to support API level 4+ -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.berlin_vegan.bvapp.activities.LocationMapActivity" />
+                android:value=".fragments.LocationsOverview.LocationMapActivity" />
         </activity>
         <activity
             android:name=".activities.LocationDetailActivity"
