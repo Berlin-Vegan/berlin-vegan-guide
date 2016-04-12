@@ -1,7 +1,7 @@
 package org.berlin_vegan.bvapp.fragments.LocationsOverview;
 
 import org.berlin_vegan.bvapp.activities.LocationDetailActivity;
-import org.berlin_vegan.bvapp.activities.LocationListActivity;
+import org.berlin_vegan.bvapp.activities.LocationsOverviewActivity;
 import org.berlin_vegan.bvapp.data.Location;
 import org.berlin_vegan.bvapp.data.Locations;
 import org.osmdroid.ResourceProxy;
@@ -14,14 +14,11 @@ import org.osmdroid.views.MapView;
 
 import android.support.v4.app.Fragment;
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.berlin_vegan.bvapp.R;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener;
 import org.osmdroid.views.overlay.OverlayItem;
@@ -114,7 +111,7 @@ public class LocationMapOverviewFragment extends Fragment {
         GeoPoint gPoint = new GeoPoint(52.521918, 13.413215);
         mapController.setCenter(gPoint);
 
-        Locations locations = LocationListActivity.getLocations();
+        Locations locations = LocationsOverviewActivity.getLocations();
 
         for (int i = 0; i < locations.size(); i++)
         {

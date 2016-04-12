@@ -2,7 +2,7 @@ package org.berlin_vegan.bvapp.data;
 
 import android.content.Context;
 
-import org.berlin_vegan.bvapp.activities.LocationListActivity;
+import org.berlin_vegan.bvapp.activities.LocationsOverviewActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +38,7 @@ public class Locations {
     }
 
     //needed for UI thread updateLocationAdapter
-    private final LocationListActivity mLocationListActivity;
+    private final LocationsOverviewActivity mLocationListActivity;
 
     private android.location.Location mGpsLocationFound;
     /**
@@ -60,7 +60,7 @@ public class Locations {
     private List<Location> mShown = new ArrayList<>();
     private String mQueryFilter;
 
-    public Locations(LocationListActivity locationListactivity) {
+    public Locations(LocationsOverviewActivity locationListactivity) {
         mLocationListActivity = locationListactivity;
         sFavoriteIDs = Preferences.getFavorites(mLocationListActivity);
     }

@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.berlin_vegan.bvapp.R;
-import org.berlin_vegan.bvapp.activities.LocationListActivity;
+import org.berlin_vegan.bvapp.activities.LocationsOverviewActivity;
 import org.berlin_vegan.bvapp.adapters.LocationAdapter;
 import org.berlin_vegan.bvapp.data.Locations;
 import org.berlin_vegan.bvapp.helpers.DividerItemDecoration;
@@ -25,7 +25,7 @@ public class LocationListFragment extends Fragment {
     private LocationRecycleView mRecyclerView;
     private LocationAdapter mLocationAdapter;
     private Locations mLocations;
-    private LocationListActivity mParentActivity;
+    private LocationsOverviewActivity mParentActivity;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public LocationListFragment() {
@@ -37,7 +37,7 @@ public class LocationListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mParentActivity = (LocationListActivity) getActivity();
+        mParentActivity = (LocationsOverviewActivity) getActivity();
         mLocations = mParentActivity.getLocations();
         mSwipeRefreshLayout = mParentActivity.getSwipeRefreshLayout();
         mLocationAdapter = mParentActivity.getLocationAdapter();

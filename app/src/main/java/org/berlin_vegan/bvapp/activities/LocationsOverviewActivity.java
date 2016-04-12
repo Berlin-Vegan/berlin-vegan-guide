@@ -1,7 +1,6 @@
 package org.berlin_vegan.bvapp.activities;
 
 import android.app.Dialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -57,9 +56,9 @@ import java.util.List;
 /**
  * Entry point of the program.
  */
-public class LocationListActivity extends BaseActivity {
+public class LocationsOverviewActivity extends BaseActivity {
 
-    private static final String TAG = "LocationListActivity";
+    private static final String TAG = "LocationsOverviewActivity";
 
     private static final String JSON_BASE_URL = "http://www.berlin-vegan.de/app/data/";
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
@@ -273,9 +272,9 @@ public class LocationListActivity extends BaseActivity {
         }
         switch (item.getItemId()) {
             case R.id.action_filter:
-                final GastroFilterView gastroFilterView = new GastroFilterView(LocationListActivity.this);
+                final GastroFilterView gastroFilterView = new GastroFilterView(LocationsOverviewActivity.this);
                 gastroFilterView.init(getLocations(), Preferences.getGastroFilter(this));
-                UiUtils.showMaterialDialogCustomView(LocationListActivity.this,
+                UiUtils.showMaterialDialogCustomView(LocationsOverviewActivity.this,
                         getString(R.string.gastro_filter_title_dialog),
                         gastroFilterView,
                         mButtonCallback);
@@ -375,11 +374,11 @@ public class LocationListActivity extends BaseActivity {
         while (mGpsLocationFound == null) {
             // wait for first GPS fix (do nothing)
             if (((System.currentTimeMillis() - startTimeMillis) > waitTimeMillis) || !mGpsProviderAvailable) {
-                if (!LocationListActivity.this.isFinishing()) {
-                    LocationListActivity.this.runOnUiThread(new Runnable() {
+                if (!LocationsOverviewActivity.this.isFinishing()) {
+                    LocationsOverviewActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            UiUtils.showMaterialDialog(LocationListActivity.this, getString(R.string.error),
+                            UiUtils.showMaterialDialog(LocationsOverviewActivity.this, getString(R.string.error),
                                     getString(R.string.no_gps_data));
                         }
                     });
@@ -387,7 +386,7 @@ public class LocationListActivity extends BaseActivity {
                 break;
             }
         }
-        LocationListActivity.this.runOnUiThread(new Runnable() {
+        LocationsOverviewActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mProgressDialog != null) {
@@ -423,19 +422,19 @@ public class LocationListActivity extends BaseActivity {
 
     private class RetrieveLocations extends AsyncTask<Void, Void, Void> {
         public static final int TIMEOUT_MILLIS = 5 * 1000;
-        private final LocationListActivity mLocationListActivity;
+        private final LocationsOverviewActivity mLocationListActivity;
         private final Type gastroTokenType = new TypeToken<ArrayList<GastroLocation>>() {
         }.getType();
         private final Type shoppingTokenType = new TypeToken<ArrayList<ShoppingLocation>>() {
         }.getType();
 
-        public RetrieveLocations(LocationListActivity locationListActivity) {
+        public RetrieveLocations(LocationsOverviewActivity locationListActivity) {
             mLocationListActivity = locationListActivity;
         }
 
         @Override
         protected void onPreExecute() {
-            LocationListActivity.this.runOnUiThread(new Runnable() {
+            LocationsOverviewActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (!mSwipeRefreshLayout.isRefreshing()) {
