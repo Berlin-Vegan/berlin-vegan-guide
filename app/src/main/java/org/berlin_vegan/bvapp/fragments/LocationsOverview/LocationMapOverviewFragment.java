@@ -111,7 +111,7 @@ public class LocationMapOverviewFragment extends Fragment {
         GeoPoint gPoint = new GeoPoint(52.521918, 13.413215);
         mapController.setCenter(gPoint);
 
-        Locations locations = LocationsOverviewActivity.getLocations();
+        Locations locations = ((LocationsOverviewActivity) getActivity()).getLocations();
 
         for (int i = 0; i < locations.size(); i++)
         {

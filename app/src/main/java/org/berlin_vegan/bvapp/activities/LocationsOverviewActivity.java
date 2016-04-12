@@ -83,8 +83,7 @@ public class LocationsOverviewActivity extends BaseActivity {
     private LocationListFragment mLocationListFragment;
     private LocationMapOverviewFragment mLocationMapOverviewFragment;
 
-    // HACK: static
-    private static Locations mLocations;
+    private Locations mLocations;
 
     private final GastroLocationFilterCallback mButtonCallback = new GastroLocationFilterCallback(this);
     //NavDrawer
@@ -397,8 +396,7 @@ public class LocationsOverviewActivity extends BaseActivity {
         });
     }
 
-    // HACK: static
-    public static Locations getLocations() {
+    public Locations getLocations() {
         return mLocations;
     }
 
