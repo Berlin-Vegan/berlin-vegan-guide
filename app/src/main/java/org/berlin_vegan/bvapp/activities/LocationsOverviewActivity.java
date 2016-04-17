@@ -66,7 +66,7 @@ public class LocationsOverviewActivity extends BaseActivity {
 
     private static final String HTTP_GASTRO_LOCATIONS_JSON = JSON_BASE_URL + GASTRO_LOCATIONS_JSON;
     private static final String HTTP_SHOPPING_LOCATIONS_JSON = JSON_BASE_URL + SHOPPING_LOCATIONS_JSON;
-    private ActionBarDrawerToggle drawerToggle;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     private Context mContext;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -124,8 +124,8 @@ public class LocationsOverviewActivity extends BaseActivity {
         nvDrawer.getMenu().getItem(0).setChecked(true);
         setupDrawerContent(nvDrawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.gastro_details_miscellaneous_content_catering, R.string.gastro_details_miscellaneous_content_catering);
-        mDrawer.setDrawerListener(drawerToggle);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.gastro_details_miscellaneous_content_catering, R.string.gastro_details_miscellaneous_content_catering);
+        mDrawer.setDrawerListener(mDrawerToggle);
 
         mLocationListFragment = new LocationListFragment();
         mLocationMapOverviewFragment = new LocationMapOverviewFragment();
@@ -266,7 +266,7 @@ public class LocationsOverviewActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) { // delegate the touch to ActionBarDrawerToggle
+        if (mDrawerToggle.onOptionsItemSelected(item)) { // delegate the touch to ActionBarDrawerToggle
             return true;
         }
         switch (item.getItemId()) {
@@ -292,13 +292,13 @@ public class LocationsOverviewActivity extends BaseActivity {
     @Override
     protected void onPostCreate(Bundle saveInstanceState) {
         super.onPostCreate(saveInstanceState);
-        drawerToggle.syncState();
+        mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void applyShownDataType(Locations.DATA_TYPE dataType) {
