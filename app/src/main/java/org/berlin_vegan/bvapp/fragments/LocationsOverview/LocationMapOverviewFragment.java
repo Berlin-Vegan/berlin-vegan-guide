@@ -95,12 +95,6 @@ public class LocationMapOverviewFragment extends Fragment {
             Location location = locations.get(i);
             gPoint = new GeoPoint(location.getLatCoord(), location.getLongCoord());
             OverlayItem mMarkerItem = new LocationOverlayItem(location.getName(), location.getVegan().toString(), gPoint, location);
-
-//            // Change icon of marker
-//            Drawable marker = getResources().getDrawable(R.mipmap.ic_place_white_24dp);
-//            marker.setColorFilter(getResources().getColor(R.color.theme_primary), PorterDuff.Mode.SRC_ATOP);
-//            mMarkerItem.setMarker(marker);
-
             mLocationOverlay.addItem(mMarkerItem);
         }
 
