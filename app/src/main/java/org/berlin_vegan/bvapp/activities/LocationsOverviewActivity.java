@@ -198,10 +198,6 @@ public class LocationsOverviewActivity extends BaseActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        MenuInflater inflater = getMenuInflater();
-        menu.clear();
-
-        inflater.inflate(R.menu.menu_location_list_activity, menu);
         MenuItem menuItem = menu.findItem(R.id.menu_search);
         if (mLocations.getDataType() == Locations.DATA_TYPE.GASTRO || mLocations.getDataType() == Locations.DATA_TYPE.SHOPPING) {
             initializeSearch(menuItem);
