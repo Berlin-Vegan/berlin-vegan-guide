@@ -85,12 +85,12 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
     }
 
     public static class LocationViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-        private final LocationsOverviewActivity mLocationListActivity;
         final TextView vTitle;
         final TextView vClosed;
         final TextView vStreet;
         final TextView vDistance;
         final ImageView vVeganLabel;
+        private final LocationsOverviewActivity mLocationListActivity;
 
         public LocationViewHolder(View v, LocationsOverviewActivity locationListActivity) {
             super(v);

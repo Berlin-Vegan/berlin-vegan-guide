@@ -63,11 +63,10 @@ public class LocationsOverviewActivity extends BaseActivity {
     private static final String JSON_BASE_URL = "http://www.berlin-vegan.de/app/data/";
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
     private static final String SHOPPING_LOCATIONS_JSON = "ShoppingLocations.json";
-
     private static final String HTTP_GASTRO_LOCATIONS_JSON = JSON_BASE_URL + GASTRO_LOCATIONS_JSON;
     private static final String HTTP_SHOPPING_LOCATIONS_JSON = JSON_BASE_URL + SHOPPING_LOCATIONS_JSON;
+    private final GastroLocationFilterCallback mButtonCallback = new GastroLocationFilterCallback(this);
     private ActionBarDrawerToggle mDrawerToggle;
-
     private Context mContext;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LocationManager mLocationManager;
@@ -76,18 +75,18 @@ public class LocationsOverviewActivity extends BaseActivity {
     private android.location.Location mGpsLocationFound;
     private boolean mGpsProviderAvailable = false;
     private Dialog mProgressDialog;
-
     private LocationAdapter mLocationAdapter;
-
-
     private LocationListFragment mLocationListFragment;
     private LocationMapOverviewFragment mLocationMapOverviewFragment;
-
     private Locations mLocations;
-
-    private final GastroLocationFilterCallback mButtonCallback = new GastroLocationFilterCallback(this);
     //NavDrawer
     private DrawerLayout mDrawer;
+
+    public static List<Location> createList(final InputStream inputStream, Type type) {
+        final InputStreamReader reader = new InputStreamReader(inputStream, Charset.defaultCharset());
+        return new Gson().fromJson(reader, type);
+    }
+
     // --------------------------------------------------------------------
     // life cycle
 
@@ -104,18 +103,13 @@ public class LocationsOverviewActivity extends BaseActivity {
             setupSwipeRefresh();
         }
 
-
-
-
         // start a thread to retrieve the json from the server and to wait for the geo location
         RetrieveLocations retrieveLocations = new RetrieveLocations(this);
         retrieveLocations.execute();
 
-
         mLocationAdapter = new LocationAdapter(this);
         mLocations = new Locations(this);
         mLocationListener = new CustomLocationListener(this, mLocations);
-
 
         //NavDrawer
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -150,17 +144,14 @@ public class LocationsOverviewActivity extends BaseActivity {
                 applyShownDataType(Locations.DATA_TYPE.GASTRO);
                 menuItem.setChecked(true);
                 break;
-
             case R.id.nav_shopping:
                 applyShownDataType(Locations.DATA_TYPE.SHOPPING);
                 menuItem.setChecked(true);
                 break;
-
             case R.id.nav_fav:
                 applyShownDataType(Locations.DATA_TYPE.FAVORITE);
                 menuItem.setChecked(true);
                 break;
-
             case R.id.nav_rate:
                 //set this to false in foss FDroid
                 UiUtils.rateApp(this, true);
@@ -169,12 +160,10 @@ public class LocationsOverviewActivity extends BaseActivity {
                 final Intent settings = new Intent(this, SettingsActivity.class);
                 startActivity(settings);
                 break;
-
             case R.id.nav_about:
                 if (mContext != null) {
                     UiUtils.showMaterialAboutDialog(mContext, getResources().getString(R.string.action_about));
                 }
-
             default:
                 break;
         }
@@ -196,7 +185,6 @@ public class LocationsOverviewActivity extends BaseActivity {
         super.onPause();
         removeGpsLocationUpdates();
     }
-
 
     // --------------------------------------------------------------------
     // menu
@@ -279,7 +267,7 @@ public class LocationsOverviewActivity extends BaseActivity {
                         mButtonCallback);
                 break;
             case R.id.menu_mapview:
-                getSupportFragmentManager().beginTransaction().replace(mSwipeRefreshLayout.getId(),mLocationMapOverviewFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(mSwipeRefreshLayout.getId(), mLocationMapOverviewFragment).commit();
                 mSwipeRefreshLayout.clearAnimation();
 
                 break;
@@ -316,7 +304,6 @@ public class LocationsOverviewActivity extends BaseActivity {
 
     // --------------------------------------------------------------------
     // setups
-
 
     private void setupSwipeRefresh() {
         mSwipeRefreshLayout.setColorSchemeResources(
@@ -404,18 +391,12 @@ public class LocationsOverviewActivity extends BaseActivity {
         return mSwipeRefreshLayout;
     }
 
-    public LocationAdapter getLocationAdapter()
-    {
+    public LocationAdapter getLocationAdapter() {
         return mLocationAdapter;
     }
 
     public void setLocationFound(android.location.Location locationFound) {
         mGpsLocationFound = locationFound;
-    }
-
-    public static List<Location> createList(final InputStream inputStream, Type type) {
-        final InputStreamReader reader = new InputStreamReader(inputStream, Charset.defaultCharset());
-        return new Gson().fromJson(reader, type);
     }
 
     private class RetrieveLocations extends AsyncTask<Void, Void, Void> {

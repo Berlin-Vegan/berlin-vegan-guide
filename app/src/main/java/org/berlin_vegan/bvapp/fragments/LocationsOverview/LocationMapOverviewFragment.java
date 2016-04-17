@@ -1,5 +1,12 @@
 package org.berlin_vegan.bvapp.fragments.LocationsOverview;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import org.berlin_vegan.bvapp.activities.LocationDetailActivity;
 import org.berlin_vegan.bvapp.activities.LocationsOverviewActivity;
 import org.berlin_vegan.bvapp.data.Location;
@@ -11,14 +18,6 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.ResourceProxyImpl;
 import org.osmdroid.views.MapView;
-
-import android.support.v4.app.Fragment;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener;
 import org.osmdroid.views.overlay.OverlayItem;
@@ -41,34 +40,13 @@ public class LocationMapOverviewFragment extends Fragment {
         super();
     }
 
-    // inner class seems HACKy here ....
-    class LocationOverlayItem extends OverlayItem {
-        private Location mCorrespondingLocation;
-
-        public LocationOverlayItem(final String aTitle, final String aSnippet, final IGeoPoint aGeoPoint, Location correspondingLocation) {
-            super(aTitle, aSnippet, aGeoPoint);
-
-            mCorrespondingLocation = correspondingLocation;
-        }
-
-        public Location getCorrespondingLocation() {
-            return mCorrespondingLocation;
-        }
-    }
-
-
-
-    @Override public void onCreate(Bundle savedInstanceState) {
-
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         super.onCreateView(inflater, container, savedInstanceState);
 
         mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
@@ -113,11 +91,10 @@ public class LocationMapOverviewFragment extends Fragment {
 
         Locations locations = ((LocationsOverviewActivity) getActivity()).getLocations();
 
-        for (int i = 0; i < locations.size(); i++)
-        {
+        for (int i = 0; i < locations.size(); i++) {
             Location location = locations.get(i);
             gPoint = new GeoPoint(location.getLatCoord(), location.getLongCoord());
-            OverlayItem mMarkerItem = new LocationOverlayItem(location.getName(), location.getVegan().toString(), gPoint,location);
+            OverlayItem mMarkerItem = new LocationOverlayItem(location.getName(), location.getVegan().toString(), gPoint, location);
 
 //            // Change icon of marker
 //            Drawable marker = getResources().getDrawable(R.mipmap.ic_place_white_24dp);
@@ -125,11 +102,23 @@ public class LocationMapOverviewFragment extends Fragment {
 //            mMarkerItem.setMarker(marker);
 
             mLocationOverlay.addItem(mMarkerItem);
-
         }
 
         return mMapView;
-
     }
 
+    // inner class seems HACKy here ....
+    class LocationOverlayItem extends OverlayItem {
+        private Location mCorrespondingLocation;
+
+        public LocationOverlayItem(final String aTitle, final String aSnippet, final IGeoPoint aGeoPoint, Location correspondingLocation) {
+            super(aTitle, aSnippet, aGeoPoint);
+
+            mCorrespondingLocation = correspondingLocation;
+        }
+
+        public Location getCorrespondingLocation() {
+            return mCorrespondingLocation;
+        }
+    }
 }

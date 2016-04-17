@@ -12,12 +12,11 @@ import java.util.Set;
 
 
 public class Preferences {
+    static final String KEY_FAVORITES = "key_favorites";
     private static final String KEY_UNITS = "key_units";
     private static final String KEY_GASTRO_FILTER = "key_gastro_filter";
     private static final String KEY_GASTRO_LAST_MODIFIED = "key_gastro_last_modified";
     private static final String KEY_SHOPPING_LAST_MODIFIED = "key_shopping_last_modified";
-
-    static final String KEY_FAVORITES = "key_favorites";
 
     public static boolean isMetricUnit(Context context) {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

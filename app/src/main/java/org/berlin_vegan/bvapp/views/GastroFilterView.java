@@ -23,8 +23,6 @@ import butterknife.OnClick;
  */
 public class GastroFilterView extends LinearLayout {
 
-    private Locations locations;
-
     @Bind(R.id.vegan_checkbox)
     CheckBox veganCheckbox;
     @Bind(R.id.vegetarian_checkbox)
@@ -57,6 +55,7 @@ public class GastroFilterView extends LinearLayout {
     CheckBox cateringCheckbox;
     @Bind(R.id.result_textview)
     TextView resultTextView;
+    private Locations locations;
 
     public GastroFilterView(Context context) {
         super(context);

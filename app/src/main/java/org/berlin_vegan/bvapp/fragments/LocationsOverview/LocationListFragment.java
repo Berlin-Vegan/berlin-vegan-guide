@@ -54,8 +54,6 @@ public class LocationListFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
 
-
-
         return mRecyclerView;
     }
 

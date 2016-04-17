@@ -16,12 +16,6 @@ public class LocationRecycleView extends RecyclerView {
     private View mEmptyFavorite;
 
     private Locations mLocations;
-
-    public void setLocations(Locations locations) {
-        mLocations = locations;
-    }
-
-
     final AdapterDataObserver observer = new AdapterDataObserver() {
         @Override
         public void onChanged() {
@@ -43,11 +37,10 @@ public class LocationRecycleView extends RecyclerView {
     };
 
 
-
-
     public LocationRecycleView(Context context) {
         super(context);
     }
+
 
     public LocationRecycleView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -57,21 +50,29 @@ public class LocationRecycleView extends RecyclerView {
         super(context, attrs, defStyle);
     }
 
+    public void setLocations(Locations locations) {
+        mLocations = locations;
+    }
+
     void checkIfEmpty() {
         final boolean empty = getAdapter().getItemCount() == 0;
         setVisibility(GONE);
-        if (mEmptySearch != null)
-        { mEmptySearch.setVisibility(GONE); }
-        if (mEmptyFavorite != null)
-        { mEmptyFavorite.setVisibility(GONE); }
+        if (mEmptySearch != null) {
+            mEmptySearch.setVisibility(GONE);
+        }
+        if (mEmptyFavorite != null) {
+            mEmptyFavorite.setVisibility(GONE);
+        }
 
         if (empty) {
             if (mLocations.getDataType() == Locations.DATA_TYPE.FAVORITE) {
-                if (mEmptyFavorite != null)
-                { mEmptyFavorite.setVisibility(VISIBLE); }
+                if (mEmptyFavorite != null) {
+                    mEmptyFavorite.setVisibility(VISIBLE);
+                }
             } else if (mLocations.getSearchState()) {
-                if (mEmptySearch != null)
-                { mEmptySearch.setVisibility(VISIBLE); }
+                if (mEmptySearch != null) {
+                    mEmptySearch.setVisibility(VISIBLE);
+                }
             }
         } else {
             setVisibility(VISIBLE);
@@ -94,7 +95,6 @@ public class LocationRecycleView extends RecyclerView {
         this.mEmptyFavorite = emptyFavorite;
         this.mEmptySearch = emptySearch;
     }
-
 
 
 }
