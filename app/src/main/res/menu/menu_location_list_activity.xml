@@ -11,8 +11,13 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_mapview"
-        android:icon="@mipmap/ic_public_white_24dp"
+        android:icon="@mipmap/ic_map_white_24dp"
         android:title="@string/action_mapview"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_listview"
+        android:icon="@mipmap/ic_list_white_24dp"
+        android:title="@string/action_listview"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_search"

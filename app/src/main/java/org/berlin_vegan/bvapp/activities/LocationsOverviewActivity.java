@@ -19,8 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -68,6 +68,8 @@ public class LocationsOverviewActivity extends BaseActivity {
     private final GastroLocationFilterCallback mButtonCallback = new GastroLocationFilterCallback(this);
     private ActionBarDrawerToggle mDrawerToggle;
     private Context mContext;
+    // holds the map overview
+    private FrameLayout mFrameLayout;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LocationManager mLocationManager;
     private CustomLocationListener mLocationListener;
@@ -81,6 +83,11 @@ public class LocationsOverviewActivity extends BaseActivity {
     private Locations mLocations;
     //NavDrawer
     private DrawerLayout mDrawer;
+    // menu items
+    private MenuItem mFilterItem;
+    private MenuItem mMapViewItem;
+    private MenuItem mListViewItem;
+    private MenuItem mSearchItem;
 
     public static List<Location> createList(final InputStream inputStream, Type type) {
         final InputStreamReader reader = new InputStreamReader(inputStream, Charset.defaultCharset());
@@ -98,6 +105,7 @@ public class LocationsOverviewActivity extends BaseActivity {
 
         mContext = this;
 
+        mFrameLayout = (FrameLayout) findViewById(R.id.fragment_container);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.location_list_activity_swipe_refresh_layout);
         if (mSwipeRefreshLayout != null) {
             setupSwipeRefresh();
@@ -192,6 +200,12 @@ public class LocationsOverviewActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_location_list_activity, menu);
+        // set defaults for start: are changed when pressing 'map overview' resp. 'list view' in menu
+        mFilterItem = menu.findItem(R.id.action_filter);
+        mMapViewItem = menu.findItem(R.id.menu_mapview);
+        mListViewItem = menu.findItem(R.id.menu_listview);
+        mListViewItem.setVisible(false);
+        mSearchItem = menu.findItem(R.id.menu_search);
         return true;
     }
 
@@ -263,9 +277,31 @@ public class LocationsOverviewActivity extends BaseActivity {
                         mButtonCallback);
                 break;
             case R.id.menu_mapview:
-                getSupportFragmentManager().beginTransaction().replace(mSwipeRefreshLayout.getId(), mLocationMapOverviewFragment).commit();
-                mSwipeRefreshLayout.clearAnimation();
-
+                // for now, we want only have the map overview of what was displayed before in the list, meaning the map overview of gastro locations, shopping or favorites.
+                // we are currently not able to e.g. search dynamically in the overview, so we remove all menu items and the navigation drawer for consistency reasons.
+                mDrawerToggle.setDrawerIndicatorEnabled(false);
+                mFilterItem.setVisible(false);
+                mMapViewItem.setVisible(false);
+                mListViewItem.setVisible(true);
+                mSearchItem.setVisible(false);
+                // dismiss the search. we do not support a dynamic map overview currently
+                mSearchItem.collapseActionView();
+                getSupportFragmentManager().beginTransaction().hide(mLocationListFragment).commit();
+                // use replace rather than add: if a user manages to press the menu entry twice, the app won't crash, but just do nothing
+                getSupportFragmentManager().beginTransaction().replace(mFrameLayout.getId(), mLocationMapOverviewFragment).commit();
+                break;
+            case R.id.menu_listview:
+                // restore menu: see comment in 'case R.id.menu_mapview'
+                mDrawerToggle.setDrawerIndicatorEnabled(true);
+                mFilterItem.setVisible(true);
+                mMapViewItem.setVisible(true);
+                mListViewItem.setVisible(false);
+                mSearchItem.setVisible(true);
+                // the menu differs if we are displaying gastro locations, shooping or favorites, so re-build it
+                invalidateOptionsMenu();
+                // do not hide, but remove and add (replace) it again by clicking on 'menu_mapview'. if we use hide/show the displayed locations are empty.
+                getSupportFragmentManager().beginTransaction().remove(mLocationMapOverviewFragment).commit();
+                getSupportFragmentManager().beginTransaction().show(mLocationListFragment).commit();
                 break;
             default:
                 break;
