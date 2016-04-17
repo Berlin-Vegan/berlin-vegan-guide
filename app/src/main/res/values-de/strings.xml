@@ -4,6 +4,8 @@
     <string name="action_shopping">Einkaufen</string>
     <string name="action_favorites">Favoriten</string>
     <string name="action_settings">Einstellungen</string>
+    <string name="action_mapview">Kartenübersicht</string>
+    <string name="action_listview">Listenansicht</string>
     <string name="action_about">Über</string>
     <string name="action_filter">Filter</string>
     <string name="action_menu_search">Suche</string>

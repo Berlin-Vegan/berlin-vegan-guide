@@ -2,7 +2,7 @@ package org.berlin_vegan.bvapp;
 
 import com.google.gson.reflect.TypeToken;
 
-import org.berlin_vegan.bvapp.activities.LocationListActivity;
+import org.berlin_vegan.bvapp.activities.LocationsOverviewActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.Location;
 import org.berlin_vegan.bvapp.data.OpeningHoursInterval;
@@ -50,7 +50,7 @@ public class GastroLocationTest {
     @Test
     public void testParseLocationsWithGSON() throws Exception {
         final InputStream inputStream = getClass().getResourceAsStream(GASTRO_LOCATIONS_JSON);
-        final List<Location> locationList = LocationListActivity.createList(inputStream, new TypeToken<ArrayList<GastroLocation>>() {
+        final List<Location> locationList = LocationsOverviewActivity.createList(inputStream, new TypeToken<ArrayList<GastroLocation>>() {
         }.getType());
         final int numLocations = locationList.size();
 

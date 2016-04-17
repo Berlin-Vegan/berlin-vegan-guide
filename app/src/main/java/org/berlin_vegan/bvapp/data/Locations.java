@@ -2,7 +2,7 @@ package org.berlin_vegan.bvapp.data;
 
 import android.content.Context;
 
-import org.berlin_vegan.bvapp.activities.LocationListActivity;
+import org.berlin_vegan.bvapp.activities.LocationsOverviewActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,9 +16,15 @@ import java.util.Set;
  */
 public class Locations {
 
+    private static Set<String> sFavoriteIDs = new HashSet<>();
     //needed for UI thread updateLocationAdapter
-    private final LocationListActivity mLocationListActivity;
-
+    private final LocationsOverviewActivity mLocationListActivity;
+    /**
+     * holds favorite locations
+     */
+    private final List<Location> mFavorites = new ArrayList<>();
+    private DATA_TYPE mDataType = DATA_TYPE.GASTRO;
+    private boolean mSearchState = false;
     private android.location.Location mGpsLocationFound;
     /**
      * holds all locations. used to create the filtered lists
@@ -29,19 +35,47 @@ public class Locations {
      */
     private List<Location> mFiltered = new ArrayList<>();
     /**
-     * holds favorite locations
-     */
-    private final List<Location> mFavorites = new ArrayList<>();
-    private static Set<String> sFavoriteIDs = new HashSet<>();
-    /**
      * holds the locations, that are presented to the user in {@code MainListActivity}
      */
     private List<Location> mShown = new ArrayList<>();
     private String mQueryFilter;
 
-    public Locations(LocationListActivity locationListactivity) {
+    public Locations(LocationsOverviewActivity locationListactivity) {
         mLocationListActivity = locationListactivity;
         sFavoriteIDs = Preferences.getFavorites(mLocationListActivity);
+    }
+
+    // --------------------------------------------------------------------
+    // favorites
+
+    public static boolean containsFavorite(String id) {
+        return sFavoriteIDs.contains(id);
+    }
+
+    public static void addFavorite(Context context, String id) {
+        sFavoriteIDs.add(id);
+        Preferences.saveFavorites(context, sFavoriteIDs);
+    }
+
+    public static void removeFavorite(Context context, String id) {
+        sFavoriteIDs.remove(id);
+        Preferences.saveFavorites(context, sFavoriteIDs);
+    }
+
+    public DATA_TYPE getDataType() {
+        return mDataType;
+    }
+
+    public void setDataType(DATA_TYPE type) {
+        mDataType = type;
+    }
+
+    public boolean getSearchState() {
+        return mSearchState;
+    }
+
+    public void setSearchState(boolean enabled) {
+        mSearchState = enabled;
     }
 
     private void sortByDistance() {
@@ -73,7 +107,6 @@ public class Locations {
         Collections.sort(mShown);
     }
 
-
     public void showFiltersResult(GastroLocationFilter filter) {
         if (mAll != null && !mAll.isEmpty()) {
             mFiltered.clear();
@@ -81,23 +114,6 @@ public class Locations {
             mShown = new ArrayList<>(mFiltered);
             updateLocationAdapter();
         }
-    }
-
-    // --------------------------------------------------------------------
-    // favorites
-
-    public static boolean containsFavorite(String id) {
-        return sFavoriteIDs.contains(id);
-    }
-
-    public static void addFavorite(Context context, String id) {
-        sFavoriteIDs.add(id);
-        Preferences.saveFavorites(context, sFavoriteIDs);
-    }
-
-    public static void removeFavorite(Context context, String id) {
-        sFavoriteIDs.remove(id);
-        Preferences.saveFavorites(context, sFavoriteIDs);
     }
 
     public void showFavorites() {
@@ -129,7 +145,6 @@ public class Locations {
         mFiltered = new ArrayList<>(mShown); // no filtering at the moment, so show && filtered are equal
         updateLocationAdapter();
     }
-
 
     // --------------------------------------------------------------------
     // query
@@ -208,7 +223,6 @@ public class Locations {
         return mShown.get(i);
     }
 
-
     /**
      * returns the locations if the gastroFilter is applied
      */
@@ -223,4 +237,5 @@ public class Locations {
     }
 
 
+    public enum DATA_TYPE {GASTRO, SHOPPING, FAVORITE;}
 }

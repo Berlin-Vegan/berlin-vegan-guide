@@ -155,6 +155,23 @@ public class UiUtils {
         return dialog;
     }
 
+    public static void rateApp(Context cnt, boolean googlePlay) {//true if Google Play, false if other
+        try {
+            if (googlePlay)
+                cnt.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="
+                        + cnt.getPackageName())));
+
+        } catch (ActivityNotFoundException exc) {
+            try {
+                //open browser if no play store installed
+                cnt.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                        "http://play.google.com/store/apps/details?id=" + cnt.getPackageName())));
+            } catch (ActivityNotFoundException exc1) {
+                //put some logic here for FDroid or Play Store
+            }
+        }
+    }
+
     public static class OpenSourceLicensesDialog extends DialogFragment {
 
         public OpenSourceLicensesDialog() {
@@ -198,22 +215,6 @@ public class UiUtils {
                             }
                     )
                     .create();
-        }
-    }
-    public static void rateApp(Context cnt,boolean googlePlay) {//true if Google Play, false if other
-        try {
-                if(googlePlay)
-                cnt.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="
-                        +cnt.getPackageName())));
-
-        } catch (ActivityNotFoundException exc) {
-            try {
-                //open browser if no play store installed
-                cnt.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                        "http://play.google.com/store/apps/details?id=" +cnt.getPackageName())));
-            } catch (ActivityNotFoundException exc1) {
-                //put some logic here for FDroid or Play Store
-            }
         }
     }
 }

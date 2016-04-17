@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.activities.LocationDetailActivity;
-import org.berlin_vegan.bvapp.activities.LocationListActivity;
+import org.berlin_vegan.bvapp.activities.LocationsOverviewActivity;
 import org.berlin_vegan.bvapp.data.GastroLocation;
 import org.berlin_vegan.bvapp.data.Location;
 import org.berlin_vegan.bvapp.helpers.DateUtil;
@@ -23,13 +23,13 @@ import java.util.GregorianCalendar;
 import static android.view.View.OnClickListener;
 
 /**
- * Fills the {@code RecyclerView} of {@link LocationListActivity} with its content.
+ * Fills the {@code RecyclerView} of {@link LocationsOverviewActivity} with its content.
  */
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.LocationViewHolder> {
 
-    private final LocationListActivity mLocationListActivity;
+    private final LocationsOverviewActivity mLocationListActivity;
 
-    public LocationAdapter(LocationListActivity locationListActivity) {
+    public LocationAdapter(LocationsOverviewActivity locationListActivity) {
         mLocationListActivity = locationListActivity;
     }
 
@@ -85,14 +85,14 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
     }
 
     public static class LocationViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-        private final LocationListActivity mLocationListActivity;
         final TextView vTitle;
         final TextView vClosed;
         final TextView vStreet;
         final TextView vDistance;
         final ImageView vVeganLabel;
+        private final LocationsOverviewActivity mLocationListActivity;
 
-        public LocationViewHolder(View v, LocationListActivity locationListActivity) {
+        public LocationViewHolder(View v, LocationsOverviewActivity locationListActivity) {
             super(v);
             v.setOnClickListener(this);
             mLocationListActivity = locationListActivity;

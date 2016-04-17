@@ -26,11 +26,6 @@ import java.util.List;
 public class ExpandableTextView extends TextView {
     private static final int DEFAULT_COLLAPSED_LINES = 3;
     private static final String ELLIPSIS = " ...";
-
-    public interface EllipsizeListener {
-        void ellipsizeStateChanged(boolean ellipsized);
-    }
-
     private final List<EllipsizeListener> ellipsizeListeners = new ArrayList<>();
     private boolean isEllipsized;
     private boolean isStale;
@@ -81,15 +76,15 @@ public class ExpandableTextView extends TextView {
         return isEllipsized;
     }
 
+    public int getMaxLines() {
+        return maxLines;
+    }
+
     @Override
     public void setMaxLines(int maxLines) {
         super.setMaxLines(maxLines);
         this.maxLines = maxLines;
         isStale = true;
-    }
-
-    public int getMaxLines() {
-        return maxLines;
     }
 
     @Override
@@ -167,5 +162,9 @@ public class ExpandableTextView extends TextView {
     @Override
     public void setEllipsize(TruncateAt where) {
         // Ellipsize settings are not respected
+    }
+
+    public interface EllipsizeListener {
+        void ellipsizeStateChanged(boolean ellipsized);
     }
 }

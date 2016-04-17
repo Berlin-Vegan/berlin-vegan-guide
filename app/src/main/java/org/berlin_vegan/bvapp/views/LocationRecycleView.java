@@ -7,16 +7,15 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
+import org.berlin_vegan.bvapp.data.Locations;
+
 public class LocationRecycleView extends RecyclerView {
 
-    public enum DATA_TYPE {GASTRO, SHOPPING, FAVORITE;}
 
-    private DATA_TYPE mDataType = DATA_TYPE.GASTRO;
     private View mEmptySearch;
     private View mEmptyFavorite;
-    private boolean mSearchState = false;
 
-
+    private Locations mLocations;
     final AdapterDataObserver observer = new AdapterDataObserver() {
         @Override
         public void onChanged() {
@@ -38,17 +37,10 @@ public class LocationRecycleView extends RecyclerView {
     };
 
 
-    public DATA_TYPE getDataType() {
-        return mDataType;
-    }
-
-    public void setDataType(DATA_TYPE type) {
-        mDataType = type;
-    }
-
     public LocationRecycleView(Context context) {
         super(context);
     }
+
 
     public LocationRecycleView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -58,17 +50,29 @@ public class LocationRecycleView extends RecyclerView {
         super(context, attrs, defStyle);
     }
 
+    public void setLocations(Locations locations) {
+        mLocations = locations;
+    }
+
     void checkIfEmpty() {
         final boolean empty = getAdapter().getItemCount() == 0;
         setVisibility(GONE);
-        mEmptySearch.setVisibility(GONE);
-        mEmptyFavorite.setVisibility(GONE);
+        if (mEmptySearch != null) {
+            mEmptySearch.setVisibility(GONE);
+        }
+        if (mEmptyFavorite != null) {
+            mEmptyFavorite.setVisibility(GONE);
+        }
 
         if (empty) {
-            if (mDataType == DATA_TYPE.FAVORITE) {
-                mEmptyFavorite.setVisibility(VISIBLE);
-            } else if (mSearchState) {
-                mEmptySearch.setVisibility(VISIBLE);
+            if (mLocations.getDataType() == Locations.DATA_TYPE.FAVORITE) {
+                if (mEmptyFavorite != null) {
+                    mEmptyFavorite.setVisibility(VISIBLE);
+                }
+            } else if (mLocations.getSearchState()) {
+                if (mEmptySearch != null) {
+                    mEmptySearch.setVisibility(VISIBLE);
+                }
             }
         } else {
             setVisibility(VISIBLE);
@@ -92,8 +96,5 @@ public class LocationRecycleView extends RecyclerView {
         this.mEmptySearch = emptySearch;
     }
 
-    public void setSearchState(boolean enabled) {
-        mSearchState = enabled;
-    }
 
 }

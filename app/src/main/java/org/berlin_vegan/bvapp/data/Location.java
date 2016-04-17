@@ -136,6 +136,10 @@ public class Location implements Comparable<Location>, Serializable {
         return website.trim();
     }
 
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
     public String getWebsiteWithProtocolPrefix() {
         final String http = "http://";
         final String https = "https://";
@@ -169,10 +173,6 @@ public class Location implements Comparable<Location>, Serializable {
         }
 
         return out.trim();
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
     }
 
     public String getOtMon() {
@@ -344,6 +344,10 @@ public class Location implements Comparable<Location>, Serializable {
         return comment.trim();
     }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public String getCommentWithoutSoftHyphens() {
         // unfortunately soft hyphen (&shy;) is only partially working with fromHtml(): the word gets
         // split at the correct place, but the hyphen (dash) is not shown. this might be very annoying
@@ -351,10 +355,6 @@ public class Location implements Comparable<Location>, Serializable {
         // all.
         // a web view solves the hyphen problem, but does not integrate into our current layout very well
         return getComment().replace("&shy;", "").trim();
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     public List<String> getTags() {

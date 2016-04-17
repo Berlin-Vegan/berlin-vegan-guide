@@ -6,17 +6,17 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import android.util.Log;
 
-import org.berlin_vegan.bvapp.activities.LocationListActivity;
+import org.berlin_vegan.bvapp.activities.LocationsOverviewActivity;
 import org.berlin_vegan.bvapp.data.Locations;
 
 public class CustomLocationListener implements LocationListener {
 
     private static final String TAG = "CustomLocationListener";
 
-    private final LocationListActivity mLocationListActivity;
+    private final LocationsOverviewActivity mLocationListActivity;
     private final Locations mLocations;
 
-    public CustomLocationListener(LocationListActivity locationListActivity, Locations locations) {
+    public CustomLocationListener(LocationsOverviewActivity locationListActivity, Locations locations) {
         mLocationListActivity = locationListActivity;
         mLocations = locations;
     }
