@@ -58,7 +58,7 @@ import java.util.List;
  */
 public class LocationsOverviewActivity extends BaseActivity {
 
-    private static final String TAG = "LocationsOverviewActivity";
+    private static final String TAG = "LocOverviewActivity";
 
     private static final String JSON_BASE_URL = "http://www.berlin-vegan.de/app/data/";
     private static final String GASTRO_LOCATIONS_JSON = "GastroLocations.json";
