@@ -1,12 +1,15 @@
 package org.berlin_vegan.bvapp.fragments.LocationsOverview;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.activities.LocationDetailActivity;
 import org.berlin_vegan.bvapp.activities.LocationsOverviewActivity;
 import org.berlin_vegan.bvapp.data.Location;
@@ -94,6 +97,9 @@ public class LocationMapOverviewFragment extends Fragment {
             Location location = locations.get(i);
             gPoint = new GeoPoint(location.getLatCoord(), location.getLongCoord());
             LocationOverlayItem mMarkerItem = new LocationOverlayItem(location.getName(), location.getVegan().toString(), gPoint, location);
+            Drawable marker = getResources().getDrawable(R.mipmap.ic_place_white_24dp);
+            marker.setColorFilter(getResources().getColor(R.color.theme_primary), PorterDuff.Mode.SRC_ATOP);
+            mMarkerItem.setMarker(marker);
             mLocationOverlay.addItem(mMarkerItem);
         }
 
