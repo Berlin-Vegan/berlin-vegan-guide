@@ -1,8 +1,0 @@
-<resources>
-    <!-- DISCLAIMER: The Google Maps API Key below is for debugging purposes.
-    DO NOT copy-paste it for release versions as it may stop working at any moment with no further notice
-    -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-        AIzaSyCgrlQqfBBaLq7nLnOEP-7VYJ80SupROTw
-    </string>
-</resources>
