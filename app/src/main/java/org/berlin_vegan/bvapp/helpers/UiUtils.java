@@ -25,11 +25,22 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import org.berlin_vegan.bvapp.BuildConfig;
 import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.data.Preferences;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
 
 /**
  * Helper class, which creates all dialogs.
  */
 public class UiUtils {
+
+    public static final OnlineTileSourceBase GOOGLE_MAPS_TILE = new XYTileSource("Google Maps",
+            10, 18, 512, ".png", new String[]{"http://mt3.google.com/vt/v=w2.97"}) {
+        @Override
+        public String getTileURLString(MapTile aTile) {
+            return getBaseUrl() + "&x=" + aTile.getX() + "&y=" + aTile.getY() + "&z=" + aTile.getZoomLevel();
+        }
+    };
 
     public static MaterialDialog showMaterialDialog(Context context, String title, String content) {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(content);

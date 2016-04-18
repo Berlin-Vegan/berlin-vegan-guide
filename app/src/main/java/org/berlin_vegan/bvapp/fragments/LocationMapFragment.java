@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.berlin_vegan.bvapp.data.Location;
+import org.berlin_vegan.bvapp.helpers.UiUtils;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IMapController;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.ResourceProxyImpl;
 import org.osmdroid.views.MapView;
@@ -42,9 +42,8 @@ public class LocationMapFragment extends Fragment {
 
         mMapView.getController().setInvertedTiles(false);
 
-        mMapView.setTileSource(TileSourceFactory.MAPNIK);
+        mMapView.setTileSource(UiUtils.GOOGLE_MAPS_TILE);
         mMapView.setMultiTouchControls(true);
-        mMapView.setTilesScaledToDpi(true);
 
         mOverlayItemList = new ArrayList<>();
         mLocationOverlay = new ItemizedIconOverlay<>(getContext(), mOverlayItemList, null);
@@ -55,7 +54,7 @@ public class LocationMapFragment extends Fragment {
 
     public void setLocation(Location location) {
         IMapController mapController = mMapView.getController();
-        mapController.setZoom(17);
+        mapController.setZoom(16);
         GeoPoint gPoint = new GeoPoint(location.getLatCoord(), location.getLongCoord());
         mapController.setCenter(gPoint);
 
