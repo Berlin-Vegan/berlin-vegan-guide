@@ -33,7 +33,7 @@ public class LocationMapOverviewFragment extends Fragment {
     protected MapView mMapView;
     protected ResourceProxy mResourceProxy;
 
-    protected ItemizedIconOverlay mLocationOverlay;
+    protected ItemizedIconOverlay<LocationOverlayItem> mLocationOverlay;
     protected ArrayList<LocationOverlayItem> mOverlayItemList;
 
     public LocationMapOverviewFragment() {
@@ -58,7 +58,7 @@ public class LocationMapOverviewFragment extends Fragment {
         mMapView.setMultiTouchControls(true);
         mMapView.setTilesScaledToDpi(true);
 
-        mOverlayItemList = new ArrayList<LocationOverlayItem>();
+        mOverlayItemList = new ArrayList<>();
 
         // inner class seems HACKy here ....
         OnItemGestureListener<LocationOverlayItem> myOnItemGestureListener
@@ -79,7 +79,7 @@ public class LocationMapOverviewFragment extends Fragment {
             }
         };
 
-        mLocationOverlay = new ItemizedIconOverlay(getContext(), mOverlayItemList, myOnItemGestureListener);
+        mLocationOverlay = new ItemizedIconOverlay<>(getContext(), mOverlayItemList, myOnItemGestureListener);
         mMapView.getOverlays().add(mLocationOverlay);
 
         IMapController mapController = mMapView.getController();
@@ -94,7 +94,7 @@ public class LocationMapOverviewFragment extends Fragment {
         for (int i = 0; i < locations.size(); i++) {
             Location location = locations.get(i);
             gPoint = new GeoPoint(location.getLatCoord(), location.getLongCoord());
-            OverlayItem mMarkerItem = new LocationOverlayItem(location.getName(), location.getVegan().toString(), gPoint, location);
+            LocationOverlayItem mMarkerItem = new LocationOverlayItem(location.getName(), location.getVegan().toString(), gPoint, location);
             mLocationOverlay.addItem(mMarkerItem);
         }
 
