@@ -1,11 +1,13 @@
 package org.berlin_vegan.bvapp.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.data.Location;
 import org.berlin_vegan.bvapp.helpers.UiUtils;
 import org.osmdroid.ResourceProxy;
@@ -59,6 +61,8 @@ public class LocationMapFragment extends Fragment {
         mapController.setCenter(gPoint);
 
         mMarkerItem = new OverlayItem(location.getName(), location.getVegan().toString(), gPoint);
+        Drawable marker = getResources().getDrawable(R.mipmap.ic_map_pin_red);
+        mMarkerItem.setMarker(marker);
         mLocationOverlay.addItem(mMarkerItem);
     }
 }
