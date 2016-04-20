@@ -279,6 +279,7 @@ public class LocationsOverviewActivity extends BaseActivity {
             case R.id.menu_mapview:
                 // for now, we want only have the map overview of what was displayed before in the list, meaning the map overview of gastro locations, shopping or favorites.
                 // we are currently not able to e.g. search dynamically in the overview, so we remove all menu items and the navigation drawer for consistency reasons.
+                mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 mDrawerToggle.setDrawerIndicatorEnabled(false);
                 mFilterItem.setVisible(false);
                 mMapViewItem.setVisible(false);
@@ -292,6 +293,7 @@ public class LocationsOverviewActivity extends BaseActivity {
                 break;
             case R.id.menu_listview:
                 // restore menu: see comment in 'case R.id.menu_mapview'
+                mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                 mDrawerToggle.setDrawerIndicatorEnabled(true);
                 mFilterItem.setVisible(true);
                 mMapViewItem.setVisible(true);

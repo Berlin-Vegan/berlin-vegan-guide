@@ -17,4 +17,9 @@ allprojects {
         jcenter()
         maven { url "https://jitpack.io" } // for https://github.com/afollestad/material-dialogs
     }
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
 }
