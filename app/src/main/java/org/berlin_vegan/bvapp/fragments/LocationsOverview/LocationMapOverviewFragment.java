@@ -1,20 +1,22 @@
 package org.berlin_vegan.bvapp.fragments.LocationsOverview;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.berlin_vegan.bvapp.R;
 import org.berlin_vegan.bvapp.activities.LocationDetailActivity;
 import org.berlin_vegan.bvapp.activities.LocationsOverviewActivity;
 import org.berlin_vegan.bvapp.data.Location;
 import org.berlin_vegan.bvapp.data.Locations;
+import org.berlin_vegan.bvapp.helpers.UiUtils;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.ResourceProxyImpl;
 import org.osmdroid.views.MapView;
@@ -54,9 +56,8 @@ public class LocationMapOverviewFragment extends Fragment {
 
         mMapView.getController().setInvertedTiles(false);
 
-        mMapView.setTileSource(TileSourceFactory.MAPNIK);
+        mMapView.setTileSource(UiUtils.GOOGLE_MAPS_TILE);
         mMapView.setMultiTouchControls(true);
-        mMapView.setTilesScaledToDpi(true);
 
         mOverlayItemList = new ArrayList<>();
 
@@ -95,6 +96,8 @@ public class LocationMapOverviewFragment extends Fragment {
             Location location = locations.get(i);
             gPoint = new GeoPoint(location.getLatCoord(), location.getLongCoord());
             LocationOverlayItem mMarkerItem = new LocationOverlayItem(location.getName(), location.getVegan().toString(), gPoint, location);
+            Drawable marker = getResources().getDrawable(R.mipmap.ic_map_pin_red);
+            mMarkerItem.setMarker(marker);
             mLocationOverlay.addItem(mMarkerItem);
         }
 
