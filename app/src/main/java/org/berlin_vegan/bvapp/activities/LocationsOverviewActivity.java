@@ -132,7 +132,7 @@ public class LocationsOverviewActivity extends BaseActivity {
         mLocationListFragment = new LocationListFragment();
         mLocationMapOverviewFragment = new LocationMapOverviewFragment();
 
-        getSupportFragmentManager().beginTransaction().add(mSwipeRefreshLayout.getId(), mLocationListFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(mFrameLayout.getId(), mLocationListFragment).commit();
         getSupportFragmentManager().addOnBackStackChangedListener(new LocationsOverviewBackStackChangedListener());
     }
 
@@ -599,6 +599,7 @@ public class LocationsOverviewActivity extends BaseActivity {
                 // we are currently not able to e.g. search dynamically in the overview, so we remove all menu items and the navigation drawer for consistency reasons.
                 mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 mDrawerToggle.setDrawerIndicatorEnabled(false);
+                mSwipeRefreshLayout.setEnabled(false);
                 mFilterItem.setVisible(false);
                 mMapViewItem.setVisible(false);
                 mSearchItem.setVisible(false);
@@ -608,6 +609,7 @@ public class LocationsOverviewActivity extends BaseActivity {
                 // restore menu: see comment above
                 mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                 mDrawerToggle.setDrawerIndicatorEnabled(true);
+                mSwipeRefreshLayout.setEnabled(true);
                 // the menu differs if we are displaying gastro locations, shooping or favorites, so re-build it
                 invalidateOptionsMenu();
             }
