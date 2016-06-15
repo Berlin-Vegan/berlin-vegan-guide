@@ -87,7 +87,6 @@ public class LocationsOverviewActivity extends BaseActivity {
     // menu items
     private MenuItem mFilterItem;
     private MenuItem mMapViewItem;
-    private MenuItem mListViewItem;
     private MenuItem mSearchItem;
 
     public static List<Location> createList(final InputStream inputStream, Type type) {
@@ -205,8 +204,6 @@ public class LocationsOverviewActivity extends BaseActivity {
         // set defaults for start: are changed when pressing 'map overview' resp. 'list view' in menu
         mFilterItem = menu.findItem(R.id.action_filter);
         mMapViewItem = menu.findItem(R.id.menu_mapview);
-        mListViewItem = menu.findItem(R.id.menu_listview);
-        mListViewItem.setVisible(false);
         mSearchItem = menu.findItem(R.id.menu_search);
         return true;
     }
@@ -281,14 +278,6 @@ public class LocationsOverviewActivity extends BaseActivity {
             case R.id.menu_mapview:
                 // use replace rather than add: if a user manages to press the menu entry twice, the app won't crash, but just do nothing
                 getSupportFragmentManager().beginTransaction().replace(mFrameLayout.getId(), mLocationMapOverviewFragment).addToBackStack(null).commit();
-                break;
-            case R.id.menu_listview:
-                mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                mDrawerToggle.setDrawerIndicatorEnabled(true);
-                // the menu differs if we are displaying gastro locations, shooping or favorites, so re-build it
-                invalidateOptionsMenu();
-                // do not hide, but remove and add (replace) it again by clicking on 'menu_mapview'. if we use hide/show the displayed locations are empty.
-                getSupportFragmentManager().beginTransaction().remove(mLocationMapOverviewFragment).commit();
                 break;
             default:
                 break;
@@ -612,7 +601,6 @@ public class LocationsOverviewActivity extends BaseActivity {
                 mDrawerToggle.setDrawerIndicatorEnabled(false);
                 mFilterItem.setVisible(false);
                 mMapViewItem.setVisible(false);
-                mListViewItem.setVisible(false);
                 mSearchItem.setVisible(false);
                 // dismiss the search. we do not support a dynamic map overview currently
                 mSearchItem.collapseActionView();
