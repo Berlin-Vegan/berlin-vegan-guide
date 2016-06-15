@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -133,6 +134,7 @@ public class LocationsOverviewActivity extends BaseActivity {
         mLocationMapOverviewFragment = new LocationMapOverviewFragment();
 
         getSupportFragmentManager().beginTransaction().add(mSwipeRefreshLayout.getId(), mLocationListFragment).commit();
+        getSupportFragmentManager().addOnBackStackChangedListener(new LocationsOverviewBackStackChangedListener());
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -277,33 +279,16 @@ public class LocationsOverviewActivity extends BaseActivity {
                         mButtonCallback);
                 break;
             case R.id.menu_mapview:
-                // for now, we want only have the map overview of what was displayed before in the list, meaning the map overview of gastro locations, shopping or favorites.
-                // we are currently not able to e.g. search dynamically in the overview, so we remove all menu items and the navigation drawer for consistency reasons.
-                mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-                mDrawerToggle.setDrawerIndicatorEnabled(false);
-                mFilterItem.setVisible(false);
-                mMapViewItem.setVisible(false);
-                mListViewItem.setVisible(true);
-                mSearchItem.setVisible(false);
-                // dismiss the search. we do not support a dynamic map overview currently
-                mSearchItem.collapseActionView();
-                getSupportFragmentManager().beginTransaction().hide(mLocationListFragment).commit();
                 // use replace rather than add: if a user manages to press the menu entry twice, the app won't crash, but just do nothing
-                getSupportFragmentManager().beginTransaction().replace(mFrameLayout.getId(), mLocationMapOverviewFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(mFrameLayout.getId(), mLocationMapOverviewFragment).addToBackStack(null).commit();
                 break;
             case R.id.menu_listview:
-                // restore menu: see comment in 'case R.id.menu_mapview'
                 mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                 mDrawerToggle.setDrawerIndicatorEnabled(true);
-                mFilterItem.setVisible(true);
-                mMapViewItem.setVisible(true);
-                mListViewItem.setVisible(false);
-                mSearchItem.setVisible(true);
                 // the menu differs if we are displaying gastro locations, shooping or favorites, so re-build it
                 invalidateOptionsMenu();
                 // do not hide, but remove and add (replace) it again by clicking on 'menu_mapview'. if we use hide/show the displayed locations are empty.
                 getSupportFragmentManager().beginTransaction().remove(mLocationMapOverviewFragment).commit();
-                getSupportFragmentManager().beginTransaction().show(mLocationListFragment).commit();
                 break;
             default:
                 break;
@@ -617,4 +602,27 @@ public class LocationsOverviewActivity extends BaseActivity {
         }
     }
 
+    private class LocationsOverviewBackStackChangedListener implements FragmentManager.OnBackStackChangedListener {
+        @Override
+        public void onBackStackChanged() {
+            if (mLocationMapOverviewFragment.isVisible()) {
+                // for now, we want only have the map overview of what was displayed before in the list, meaning the map overview of gastro locations, shopping or favorites.
+                // we are currently not able to e.g. search dynamically in the overview, so we remove all menu items and the navigation drawer for consistency reasons.
+                mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                mDrawerToggle.setDrawerIndicatorEnabled(false);
+                mFilterItem.setVisible(false);
+                mMapViewItem.setVisible(false);
+                mListViewItem.setVisible(false);
+                mSearchItem.setVisible(false);
+                // dismiss the search. we do not support a dynamic map overview currently
+                mSearchItem.collapseActionView();
+            } else {
+                // restore menu: see comment above
+                mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                mDrawerToggle.setDrawerIndicatorEnabled(true);
+                // the menu differs if we are displaying gastro locations, shooping or favorites, so re-build it
+                invalidateOptionsMenu();
+            }
+        }
+    }
 }
