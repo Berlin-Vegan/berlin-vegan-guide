@@ -39,11 +39,9 @@ import org.berlin_vegan.bvapp.activities.LocationsOverviewActivity;
 import org.berlin_vegan.bvapp.data.Location;
 import org.berlin_vegan.bvapp.data.Locations;
 import org.berlin_vegan.bvapp.helpers.UiUtils;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.ResourceProxyImpl;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener;
@@ -58,7 +56,6 @@ import java.util.ArrayList;
 public class LocationMapOverviewFragment extends Fragment {
 
     protected MapView mMapView;
-    protected ResourceProxy mResourceProxy;
 
     protected ItemizedIconOverlay<LocationOverlayItem> mLocationOverlay;
     protected ArrayList<LocationOverlayItem> mOverlayItemList;
@@ -76,10 +73,8 @@ public class LocationMapOverviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
-        mMapView = new MapView(inflater.getContext(), mResourceProxy);
 
-        mMapView.getController().setInvertedTiles(false);
+        mMapView = new MapView(inflater.getContext());
 
         mMapView.setTileSource(UiUtils.GOOGLE_MAPS_TILE);
         mMapView.setMultiTouchControls(true);
