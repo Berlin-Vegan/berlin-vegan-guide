@@ -38,7 +38,7 @@ import org.berlin_vegan.bvapp.data.Locations;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -48,37 +48,37 @@ import butterknife.OnClick;
  */
 public class GastroFilterView extends LinearLayout {
 
-    @Bind(R.id.vegan_checkbox)
+    @BindView(R.id.vegan_checkbox)
     CheckBox veganCheckbox;
-    @Bind(R.id.vegetarian_checkbox)
+    @BindView(R.id.vegetarian_checkbox)
     CheckBox vegetarianCheckbox;
-    @Bind(R.id.omnivor_checkbox)
+    @BindView(R.id.omnivor_checkbox)
     CheckBox omnivoreCheckbox;
-    @Bind(R.id.restaurant_checkbox)
+    @BindView(R.id.restaurant_checkbox)
     CheckBox restaurantCheckbox;
-    @Bind(R.id.fast_food_checkbox)
+    @BindView(R.id.fast_food_checkbox)
     CheckBox fastFoodCheckbox;
-    @Bind(R.id.ice_cafe_checkbox)
+    @BindView(R.id.ice_cafe_checkbox)
     CheckBox iceCafeCheckbox;
-    @Bind(R.id.cafe_checkbox)
+    @BindView(R.id.cafe_checkbox)
     CheckBox cafeCheckbox;
-    @Bind(R.id.organic_checkbox)
+    @BindView(R.id.organic_checkbox)
     CheckBox organicCheckbox;
-    @Bind(R.id.gluten_free_checkbox)
+    @BindView(R.id.gluten_free_checkbox)
     CheckBox glutenFreeCheckbox;
-    @Bind(R.id.hc_accessible_checkbox)
+    @BindView(R.id.hc_accessible_checkbox)
     CheckBox hc_accessibleCheckbox;
-    @Bind(R.id.child_chair_checkbox)
+    @BindView(R.id.child_chair_checkbox)
     CheckBox childChairCheckbox;
-    @Bind(R.id.dog_checkbox)
+    @BindView(R.id.dog_checkbox)
     CheckBox dogCheckbox;
-    @Bind(R.id.wlan_checkbox)
+    @BindView(R.id.wlan_checkbox)
     CheckBox wlanCheckbox;
-    @Bind(R.id.delivery_checkbox)
+    @BindView(R.id.delivery_checkbox)
     CheckBox deliveryCheckbox;
-    @Bind(R.id.catering_checkbox)
+    @BindView(R.id.catering_checkbox)
     CheckBox cateringCheckbox;
-    @Bind(R.id.result_textview)
+    @BindView(R.id.result_textview)
     TextView resultTextView;
     private Locations locations;
 
