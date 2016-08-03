@@ -122,8 +122,6 @@ public class UiUtils {
         String title = context.getString(R.string.app_name) + " " + context.getString(R.string.guide);
         SpannableStringBuilder aboutBody = new SpannableStringBuilder();
         aboutBody.append(Html.fromHtml(context.getString(R.string.about_version, title, versionName)));
-        aboutBody.append("\n");
-        aboutBody.append(context.getString(R.string.about_flavor, BuildConfig.FLAVOR));
 
         SpannableString licensesLink = new SpannableString(context.getString(R.string.about_licenses));
         licensesLink.setSpan(new ClickableSpan() {
