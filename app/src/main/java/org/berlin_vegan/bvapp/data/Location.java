@@ -168,7 +168,7 @@ public class Location implements Comparable<Location>, Serializable {
     public String getWebsiteWithProtocolPrefix() {
         final String http = "http://";
         final String https = "https://";
-        if (!website.startsWith(http) || !website.startsWith(https)) {
+        if (!website.startsWith(http) && !website.startsWith(https)) {
             return http + website.trim();
         }
         return website.trim();
