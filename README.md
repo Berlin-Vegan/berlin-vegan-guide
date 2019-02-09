@@ -1,18 +1,18 @@
 # Berlin-Vegan Guide
 A vegan guide to Berlin/Germany. This app runs on Android 4.x and up.
 
-##master
+## master
 [![Build Status](https://travis-ci.org/Berlin-Vegan/berlin-vegan-guide.svg?branch=master)](https://travis-ci.org/Berlin-Vegan/berlin-vegan-guide)
 
-##development
+## development
 [![Build Status](https://travis-ci.org/Berlin-Vegan/berlin-vegan-guide.svg?branch=development)](https://travis-ci.org/Berlin-Vegan/berlin-vegan-guide)
-#build & install
+# build & install
 
 ```
 ./gradlew installDebug
 ```
 
-#test
+# test
 ```
 ./gradlew test
 ```
