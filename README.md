@@ -1,5 +1,10 @@
-# Berlin-Vegan Guide
-A vegan guide to Berlin/Germany. This app runs on Android 4.x and up.
+# Berlin-Vegan Guide **deprecated**
+
+
+**Note: This app version is outdated.
+Please find the source code of the current version [here](https://github.com/micuintus/harbour-Berlin-Vegan)**
+
+2.x series of the Berlin Vegan Guide.
 
 ## master
 [![Build Status](https://travis-ci.org/Berlin-Vegan/berlin-vegan-guide.svg?branch=master)](https://travis-ci.org/Berlin-Vegan/berlin-vegan-guide)
